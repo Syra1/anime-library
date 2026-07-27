@@ -1,0 +1,95 @@
+import json
+import urllib.request
+import urllib.error
+
+
+ANILIST_API_URL = "https://graphql.anilist.co"
+
+
+def rechercher_animes(recherche):
+
+    query = """
+    query ($search: String) {
+        Page(perPage: 10) {
+            media(
+                search: $search,
+                type: ANIME
+            ) {
+                id
+                title {
+                    romaji
+                    english
+                    native
+                }
+                status
+            }
+        }
+    }
+    """
+
+    donnees = json.dumps({
+        "query": query,
+        "variables": {
+            "search": recherche
+        }
+    }).encode("utf-8")
+
+
+    requete = urllib.request.Request(
+        ANILIST_API_URL,
+        data=donnees,
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "anime-library/1.0"
+        },
+        method="POST"
+    )
+
+
+    try:
+
+        with urllib.request.urlopen(
+            requete,
+            timeout=10
+        ) as response:
+
+            resultat = json.loads(
+                response.read()
+            )
+
+
+        if "errors" in resultat:
+            print("Erreur AniList :")
+            print(resultat["errors"])
+
+            return []
+
+
+        return resultat["data"]["Page"]["media"]
+
+
+    except urllib.error.HTTPError as error:
+
+        print(
+            f"Erreur HTTP AniList : {error.code}"
+        )
+
+        print(
+            error.read().decode("utf-8")
+        )
+
+        return []
+
+
+    except urllib.error.URLError as error:
+
+        print(
+            "Erreur de connexion à AniList :"
+        )
+
+        print(
+            error.reason
+        )
+
+        return []

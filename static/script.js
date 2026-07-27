@@ -1,6 +1,16 @@
+console.log("NOUVEAU SCRIPT 2 JS CHARGE !");
+
 let animes = [];
 
+let currentFilter = "all";
 
+
+// ============================================================
+// BIBLIOTHÈQUE
+// ============================================================
+
+
+// Charger les animés depuis notre API FastAPI
 async function loadAnimes() {
 
     try {
@@ -21,17 +31,18 @@ async function loadAnimes() {
 
         console.error(error);
 
-        document.getElementById("anime-list").innerHTML = `
+        document.getElementById(
+            "anime-list"
+        ).innerHTML = `
             <p>
                 Impossible de charger les animés.
             </p>
         `;
-
     }
-
 }
 
 
+// Afficher les animés de la bibliothèque
 function displayAnimes() {
 
     const searchInput =
@@ -44,23 +55,27 @@ function displayAnimes() {
         document.getElementById("anime-list");
 
 
-    // Filtrer les animés selon la recherche
+    // Filtrer les animés
     const filteredAnimes =
         animes.filter(anime => {
 
-            return (
+            const matchesSearch =
                 anime.titre
                     .toLowerCase()
                     .includes(search)
+
                 ||
+
                 (
-                    anime.titre_original
-                    &&
+                    anime.titre_original &&
+
                     anime.titre_original
                         .toLowerCase()
                         .includes(search)
-                )
-            );
+                );
+
+
+            return matchesSearch;
 
         });
 
@@ -75,92 +90,75 @@ function displayAnimes() {
         `;
 
         return;
-
     }
 
 
-    // Construire le HTML des animés
+    // Afficher les animés
     animeList.innerHTML =
         filteredAnimes
             .map(anime => {
 
-
-                // Compter les saisons vues
-                const saisonsVues =
-                    anime.saisons.filter(
-                        saison => saison.vue
-                    ).length;
-
-
-                // Nombre total de saisons
-                const nombreSaisons =
-                    anime.saisons.length;
-
-
-                // Construire le HTML des saisons
-                const saisonsHTML =
-                    anime.saisons
-                        .map(saison => {
-
-                            const symbole =
-                                saison.vue
-                                    ? "✓"
-                                    : "○";
-
-
-                            const classe =
-                                saison.vue
-                                    ? "season watched"
-                                    : "season unwatched";
-
-
-                            return `
-                                <button
-                                    class="${classe}"
-                                    data-anime-id="${anime.id}"
-                                    data-saison-id="${saison.id}"
-                                    data-vue="${saison.vue}"
-                                >
-                                    ${symbole}
-                                    Saison ${saison.numero}
-                                </button>
-                            `;
-
-                        })
-                        .join("");
-
-
-                // Retourner la carte complète de l'anime
                 return `
-                    <article class="anime-card">
+                    <article
+                        class="anime-card"
+                    >
 
                         <h2>
                             ${anime.titre}
                         </h2>
 
                         <p class="original-title">
-                            ${anime.titre_original || ""}
+                            ${
+                                anime.titre_original
+                                ||
+                                "Titre original inconnu"
+                            }
                         </p>
 
-                        <p class="anime-status">
+                        <p>
                             Statut :
                             ${anime.statut || "Inconnu"}
                         </p>
 
-                        <h3>
-                            Saisons
-                        </h3>
 
-                        <div class="season-list">
-                            ${saisonsHTML}
+                        <div class="seasons">
+
+                            ${
+                                anime.saisons
+                                    .map(saison => {
+
+                                        const classe =
+                                            saison.vue
+                                                ? "watched"
+                                                : "unwatched";
+
+
+                                        return `
+                                            <button
+                                                class="
+                                                    season-button
+                                                    ${classe}
+                                                "
+                                                data-anime-id="
+                                                    ${anime.id}
+                                                "
+                                                data-season-id="
+                                                    ${saison.id}
+                                                "
+                                                data-season-number="
+                                                    ${saison.numero}
+                                                "
+                                            >
+                                                Saison
+                                                ${saison.numero}
+                                            </button>
+                                        `;
+
+                                    })
+                                    .join("")
+                            }
+
                         </div>
-
-                        <p class="progression">
-                            ${saisonsVues}
-                            /
-                            ${nombreSaisons}
-                            saisons vues
-                        </p>
 
                     </article>
                 `;
@@ -169,39 +167,46 @@ function displayAnimes() {
             .join("");
 
 
-    // Récupérer tous les boutons de saison
-    const boutonsSaison =
-        document.querySelectorAll(".season");
+    // Ajouter les événements
+    // sur les boutons de saison
+    document
+        .querySelectorAll(".season-button")
+        .forEach(button => {
 
+            button.addEventListener(
+                "click",
+                handleSeasonClick
+            );
 
-    // Ajouter un événement à chaque bouton
-    boutonsSaison.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            modifierSaison
-        );
-
-    });
+        });
 
 }
 
-async function modifierSaison(event) {
+
+// Gestion du clic sur une saison
+async function handleSeasonClick(event) {
 
     const button =
         event.currentTarget;
 
+
     const animeId =
-        Number(button.dataset.animeId);
+        Number(
+            button.dataset.animeId
+        );
 
-    const saisonId =
-        Number(button.dataset.saisonId);
+
+    const seasonNumber =
+        Number(
+            button.dataset.seasonNumber
+        );
 
 
-    // Trouver l'anime concerné
+    // Récupérer l'anime concerné
     const anime =
         animes.find(
-            anime => anime.id === animeId
+            anime =>
+                anime.id === animeId
         );
 
 
@@ -210,56 +215,45 @@ async function modifierSaison(event) {
     }
 
 
-    // Trouver la saison cliquée
-    const saisonCliquee =
-        anime.saisons.find(
-            saison => saison.id === saisonId
-        );
+    // Toutes les saisons jusqu'à celle cliquée
+    // deviennent vues.
+    //
+    // Les saisons après celle cliquée
+    // deviennent non vues.
+    anime.saisons.forEach(saison => {
+
+        saison.vue =
+            saison.numero <= seasonNumber;
+
+    });
 
 
-    if (!saisonCliquee) {
-        return;
-    }
-
-
-    // La saison cliquée devient la dernière
-    // saison regardée
-    const derniereSaisonVue =
-        saisonCliquee.numero;
-
-
+    // Envoyer les changements au serveur
     try {
 
-        // Parcourir toutes les saisons
-        for (const saison of anime.saisons) {
-
-            // Toutes les saisons jusqu'à
-            // la saison cliquée sont vues
-            const nouvelleVue =
-                saison.numero <= derniereSaisonVue;
-
-
-            const response = await fetch(
-                `/animes/${animeId}/saisons/${saison.id}?vue=${nouvelleVue}`,
+        const response =
+            await fetch(
+                "/animes/"
+                + animeId
+                + "/saisons/"
+                + seasonNumber,
                 {
                     method: "PUT"
                 }
             );
 
 
-            if (!response.ok) {
+        if (!response.ok) {
 
-                throw new Error(
-                    "Impossible de modifier la saison"
-                );
-
-            }
+            throw new Error(
+                "Erreur lors de la mise à jour"
+            );
 
         }
 
 
-        // Recharger les données depuis SQLite
-        await loadAnimes();
+        // Réafficher la bibliothèque
+        displayAnimes();
 
 
     } catch (error) {
@@ -267,14 +261,15 @@ async function modifierSaison(event) {
         console.error(error);
 
         alert(
-            "Impossible de modifier les saisons."
+            "Impossible de mettre à jour la saison."
         );
 
     }
 
 }
 
-// Rechercher un anime
+
+// Recherche dans la bibliothèque
 document
     .getElementById("search")
     .addEventListener(
@@ -283,5 +278,272 @@ document
     );
 
 
-// Charger les animés au démarrage
+// ============================================================
+// RECHERCHE ANILIST
+// ============================================================
+
+
+const animeSearch =
+    document.getElementById(
+        "anime-search"
+    );
+
+
+const searchResults =
+    document.getElementById(
+        "search-results"
+    );
+
+
+// Attendre un petit moment avant
+// d'envoyer la requête à AniList
+let searchTimeout = null;
+
+
+animeSearch.addEventListener(
+    "input",
+    () => {
+
+        const recherche =
+            animeSearch.value.trim();
+
+
+        // Annuler la recherche précédente
+        clearTimeout(
+            searchTimeout
+        );
+
+
+        // Si moins de 3 caractères
+        // on ne recherche rien
+        if (recherche.length < 3) {
+
+            searchResults.innerHTML = "";
+
+            return;
+        }
+
+
+        // Attendre 500 ms après
+        // la dernière frappe
+        searchTimeout =
+            setTimeout(
+                () => {
+
+                    searchAniList(
+                        recherche
+                    );
+
+                },
+                500
+            );
+
+    }
+);
+
+
+// Rechercher un anime sur AniList
+async function searchAniList(
+    recherche
+) {
+
+    searchResults.innerHTML = `
+        <p>
+            Recherche en cours...
+        </p>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/search-anime?q="
+                +
+                encodeURIComponent(
+                    recherche
+                )
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Erreur lors de la recherche"
+            );
+
+        }
+
+
+        const resultats =
+            await response.json();
+
+
+        displaySearchResults(
+            resultats
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        searchResults.innerHTML = `
+            <p>
+                Impossible de rechercher
+                cet anime.
+            </p>
+        `;
+
+    }
+
+}
+
+
+// Afficher les résultats AniList
+function displaySearchResults(resultats) {
+
+    if (
+        !resultats ||
+        resultats.length === 0
+    ) {
+
+        searchResults.innerHTML = `
+            <p>
+                Aucun anime trouvé.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    searchResults.innerHTML = `
+        <div class="search-results-list">
+
+            ${
+                resultats
+                    .map(anime => {
+
+                        const titrePrincipal =
+                            anime.title.english
+                            ||
+                            anime.title.romaji
+                            ||
+                            anime.title.native;
+
+
+                        const titreSecondaire =
+                            anime.title.romaji
+                            ||
+                            anime.title.native;
+
+
+                        return `
+                            <article
+                                class="search-result"
+                            >
+
+                                <div
+                                    class="search-result-info"
+                                >
+
+                                    <h3>
+                                        ${titrePrincipal}
+                                    </h3>
+
+                                    <p>
+                                        ${titreSecondaire}
+                                    </p>
+
+                                    <small>
+                                        Statut :
+                                        ${anime.status}
+                                    </small>
+
+                                </div>
+
+
+                                <button
+                                    class="add-anime-button"
+                                    data-anilist-id="
+                                        ${anime.id}
+                                    "
+                                >
+                                    Ajouter
+                                </button>
+
+                            </article>
+                        `;
+
+                    })
+                    .join("")
+            }
+
+        </div>
+    `;
+
+
+    // Ajouter l'événement
+    // aux boutons "Ajouter"
+    document
+        .querySelectorAll(
+            ".add-anime-button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                handleAddAnime
+            );
+
+        });
+
+}
+
+// Ajouter un anime à la bibliothèque
+async function handleAddAnime(
+    event
+) {
+
+    const button =
+        event.currentTarget;
+
+
+    const anilistId =
+        Number(
+            button.dataset.anilistId
+        );
+
+
+    console.log(
+        "Anime sélectionné sur AniList :",
+        anilistId
+    );
+
+
+    alert(
+        "Anime sélectionné !\n\n"
+        +
+        "ID AniList : "
+        +
+        anilistId
+        +
+        "\n\n"
+        +
+        "L'ajout à SQLite sera connecté "
+        +
+        "à l'étape suivante."
+    );
+
+}
+
+
+// ============================================================
+// INITIALISATION
+// ============================================================
+
+
+// Charger la bibliothèque
+// au chargement de la page
 loadAnimes();

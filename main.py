@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+from app.anilist import rechercher_animes
 
 from app.database import (
     create_tables,
@@ -66,3 +67,7 @@ async def modifier_vue_saison(
         "saison_id": saison_id,
         "vue": vue
     }
+
+@app.get("/search-anime")
+async def search_anime(q: str):
+    return rechercher_animes(q)
