@@ -93,3 +93,83 @@ def rechercher_animes(recherche):
         )
 
         return []
+
+def recuperer_anime(anime_id):
+
+    query = """
+    query ($id: Int) {
+        Media(id: $id, type: ANIME) {
+            id
+
+            title {
+                romaji
+                english
+                native
+            }
+
+            status
+
+            episodes
+        }
+    }
+    """
+
+    donnees = json.dumps({
+        "query": query,
+        "variables": {
+            "id": anime_id
+        }
+    }).encode("utf-8")
+
+
+    requete = urllib.request.Request(
+        ANILIST_API_URL,
+        data=donnees,
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "anime-library/1.0"
+        },
+        method="POST"
+    )
+
+
+    try:
+
+        with urllib.request.urlopen(
+            requete,
+            timeout=10
+        ) as response:
+
+            resultat = json.loads(
+                response.read()
+            )
+
+
+        media = resultat["data"]["Media"]
+
+
+        return {
+            "titre":
+                media["title"]["english"]
+                or media["title"]["romaji"],
+
+            "titre_original":
+                media["title"]["native"],
+
+            "statut":
+                media["status"],
+
+            "episodes":
+                media["episodes"]
+        }
+
+
+    except Exception as erreur:
+
+        print(
+            "Erreur récupération AniList :",
+            erreur
+        )
+
+        return None

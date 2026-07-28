@@ -3,12 +3,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
-from app.anilist import rechercher_animes
+
+from app.anilist import (
+    rechercher_animes,
+    recuperer_anime
+)
 
 from app.database import (
     create_tables,
     lister_animes_avec_saisons,
-    modifier_saison_vue
+    modifier_saison_vue,
+    ajouter_anime_complet
 )
 
 
@@ -71,3 +76,30 @@ async def modifier_vue_saison(
 @app.get("/search-anime")
 async def search_anime(q: str):
     return rechercher_animes(q)
+
+
+@app.post("/add-anime/{anilist_id}")
+async def add_anime(anilist_id: int):
+
+    anime = recuperer_anime(anilist_id)
+
+
+    if anime is None:
+
+        return {
+            "success": False
+        }
+
+
+    anime_id = ajouter_anime_complet(
+        anime["titre"],
+        anime["titre_original"],
+        anime["statut"],
+        anime["episodes"]
+    )
+
+
+    return {
+        "success": True,
+        "anime_id": anime_id
+    }

@@ -203,3 +203,30 @@ def modifier_saison_vue(anime_id, saison_id, vue):
 
     connection.commit()
     connection.close()
+
+
+def ajouter_anime_complet(
+    titre,
+    titre_original,
+    statut,
+    episodes
+):
+
+    anime_id = ajouter_anime(
+        titre,
+        titre_original,
+        statut
+    )
+
+
+    if episodes:
+
+        for numero in range(1, episodes + 1):
+
+            ajouter_saison(
+                anime_id,
+                numero
+            )
+
+
+    return anime_id

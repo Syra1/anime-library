@@ -1,4 +1,4 @@
-console.log("NOUVEAU SCRIPT 2 JS CHARGE !");
+console.log("NOUVEAU SCRIPT 43"); 
 
 let animes = [];
 
@@ -195,6 +195,10 @@ async function handleSeasonClick(event) {
             button.dataset.animeId
         );
 
+    const seasonId =
+        Number(
+            button.dataset.seasonId
+        );
 
     const seasonNumber =
         Number(
@@ -231,28 +235,43 @@ async function handleSeasonClick(event) {
     // Envoyer les changements au serveur
     try {
 
-        const response =
-            await fetch(
-                "/animes/"
-                + animeId
-                + "/saisons/"
-                + seasonNumber,
-                {
-                    method: "PUT"
-                }
+        for (const saison of anime.saisons) {
+
+            const vue =
+                saison.numero <= seasonNumber;
+
+            console.log(
+                "Envoi saison",
+                saison.numero,
+                "vue =",
+                vue
             );
 
+            const response =
+                await fetch(
+                    "/animes/"
+                    + animeId
+                    + "/saisons/"
+                    + saison.id
+                    + "?vue="
+                    + vue,
+                    {
+                        method: "PUT"
+                    }
+                );
 
-        if (!response.ok) {
 
-            throw new Error(
-                "Erreur lors de la mise à jour"
-            );
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erreur lors de la mise à jour"
+                );
+
+            }
 
         }
 
 
-        // Réafficher la bibliothèque
         displayAnimes();
 
 
@@ -267,7 +286,6 @@ async function handleSeasonClick(event) {
     }
 
 }
-
 
 // Recherche dans la bibliothèque
 document
@@ -502,9 +520,7 @@ function displaySearchResults(resultats) {
 }
 
 // Ajouter un anime à la bibliothèque
-async function handleAddAnime(
-    event
-) {
+async function handleAddAnime(event) {
 
     const button =
         event.currentTarget;
@@ -516,25 +532,48 @@ async function handleAddAnime(
         );
 
 
-    console.log(
-        "Anime sélectionné sur AniList :",
-        anilistId
-    );
+    try {
+
+        const response =
+            await fetch(
+                "/add-anime/"
+                + anilistId,
+                {
+                    method: "POST"
+                }
+            );
 
 
-    alert(
-        "Anime sélectionné !\n\n"
-        +
-        "ID AniList : "
-        +
-        anilistId
-        +
-        "\n\n"
-        +
-        "L'ajout à SQLite sera connecté "
-        +
-        "à l'étape suivante."
-    );
+        const resultat =
+            await response.json();
+
+
+        if (!resultat.success) {
+
+            throw new Error(
+                "Ajout impossible"
+            );
+
+        }
+
+
+        alert(
+            "Anime ajouté à la bibliothèque !"
+        );
+
+
+        loadAnimes();
+
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur pendant l'ajout."
+        );
+
+    }
 
 }
 
