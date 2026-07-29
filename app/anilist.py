@@ -10,7 +10,7 @@ def rechercher_animes(recherche):
 
     query = """
     query ($search: String) {
-        Page(perPage: 10) {
+        Page(perPage: 50) {
             media(
                 search: $search,
                 type: ANIME
@@ -19,7 +19,6 @@ def rechercher_animes(recherche):
                 title {
                     romaji
                     english
-                    native
                 }
                 status
             }
@@ -66,7 +65,65 @@ def rechercher_animes(recherche):
             return []
 
 
-        return resultat["data"]["Page"]["media"]
+        animes = resultat["data"]["Page"]["media"]
+
+        print("Resultat recu par Anilist :")
+
+        for anime in animes:
+            print(
+                anime["title"]["romaji"]
+            )
+
+        recherche_lower = recherche.lower()
+
+
+        def score_anime(anime):
+
+            titres = [
+                anime["title"]["english"],
+                anime["title"]["romaji"]
+            ]
+
+            titres = [
+                titre.lower()
+                for titre in titres
+                if titre
+            ]
+
+            meilleur_score = 999
+
+            for titre in titres: 
+
+                # Le titre est exactement la recherche
+                if titre == recherche_lower:
+                    score = 0
+
+                # Le titre commence par la recherche
+                elif titre.startswith(recherche_lower):
+                    score = 10
+
+                # Le titre contient la recherche
+                elif recherche_lower in titre:
+                    score = 100
+
+                else:
+                    score = 999
+
+                meilleur_score = min(
+                    meilleur_score,
+                    score
+                )
+
+            return meilleur_score
+
+
+        animes = sorted(
+            animes,
+            key=score_anime
+        )
+
+
+        return animes[:10]
 
 
     except urllib.error.HTTPError as error:

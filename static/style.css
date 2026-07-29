@@ -243,3 +243,111 @@ main {
 .unwatched {
     color: #dc2626;
 }
+
+
+/* ============================================================
+   BOUTONS DES SAISONS
+   ============================================================ */
+
+.seasons {
+
+    display: flex;
+    flex-wrap:wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+
+.season-button {
+
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: 
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+
+/* Saison déjà vue */
+.season-button.watched {
+
+    background: #dcfce7;
+    color: #166534;
+
+}
+
+
+/* Saison non vue */
+.season-button.unwatched {
+
+    background: #fee2e2;
+    color: #991b1b;
+
+}
+
+
+/* Survol */
+.season-button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+/* Clic */
+.season-button:active {
+
+    transform: scale(0.95);
+
+}
+
+
+
+/* ============================================================
+   BOUTON SUPPRIMER UN ANIME
+   ============================================================ */
+
+
+.delete-anime-button {
+
+    margin-top: 20px;
+
+    padding: 8px 14px;
+
+    border: 1px solid #dc2626;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #dc2626;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+
+}
+
+
+.delete-anime-button:hover {
+
+    background: #dc2626;
+    color: white;
+
+}
+
+
+.delete-anime-button:active {
+
+    transform: scale(0.95);
+
+}

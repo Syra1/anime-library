@@ -12,7 +12,6 @@ from app.anilist import (
 from app.database import (
     create_tables,
     lister_animes_avec_saisons,
-    modifier_saison_vue,
     modifier_saisons_vue,
     ajouter_anime_complet,
     supprimer_anime
@@ -66,25 +65,6 @@ async def index(request: Request):
 @app.get("/animes")
 async def get_animes():
     return lister_animes_avec_saisons()
-
-@app.put("/animes/{anime_id}/saisons/{saison_id}")
-async def modifier_vue_saison(
-    anime_id: int,
-    saison_id: int,
-    vue: bool
-):
-    modifier_saison_vue(
-        anime_id,
-        saison_id,
-        vue
-    )
-
-    return {
-        "success": True,
-        "anime_id": anime_id,
-        "saison_id": saison_id,
-        "vue": vue
-    }
 
 @app.get("/search-anime")
 async def search_anime(q: str):

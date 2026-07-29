@@ -1,4 +1,4 @@
-console.log("NOUVEAU SCRIPT 43"); 
+console.log("NOUVEAU SCRIPT 34"); 
 
 let animes = [];
 
@@ -117,7 +117,9 @@ function displayAnimes() {
 
                         <p>
                             Statut :
-                            ${anime.statut || "Inconnu"}
+                            <span class="status">
+                                ${anime.statut || "Inconnu"}
+                            </span>
                         </p>
 
                         <button
@@ -516,15 +518,10 @@ function displaySearchResults(resultats) {
                         const titrePrincipal =
                             anime.title.english
                             ||
-                            anime.title.romaji
-                            ||
-                            anime.title.native;
-
+                            anime.title.romaji;
 
                         const titreSecondaire =
-                            anime.title.romaji
-                            ||
-                            anime.title.native;
+                            anime.title.romaji;
 
 
                         return `

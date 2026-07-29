@@ -181,30 +181,6 @@ def lister_animes_avec_saisons():
 
     return resultats
 
-def modifier_saison_vue(anime_id, saison_id, vue):
-    connection = get_connection()
-
-    if vue:
-        connection.execute(
-            """
-            INSERT OR IGNORE INTO saison_vue (anime_id, saison_id)
-            VALUES (?, ?)
-            """,
-            (anime_id, saison_id)
-        )
-    else:
-        connection.execute(
-            """
-            DELETE FROM saison_vue
-            WHERE anime_id = ? AND saison_id = ?
-            """,
-            (anime_id, saison_id)
-        )
-
-    connection.commit()
-    connection.close()
-
-
 def ajouter_anime_complet(
     titre,
     titre_original,
