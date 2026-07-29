@@ -120,6 +120,14 @@ function displayAnimes() {
                             ${anime.statut || "Inconnu"}
                         </p>
 
+                        <button
+                            class="delete-anime-button"
+                            data-anime-id="${anime.id}"
+                        >
+                            🗑️ Supprimer
+                        </button>
+
+
 
                         <div class="seasons">
 
@@ -180,6 +188,17 @@ function displayAnimes() {
 
         });
 
+    document
+    .querySelectorAll(".delete-anime-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            handleDeleteAnime
+        );
+
+    });
+
 }
 
 
@@ -195,10 +214,6 @@ async function handleSeasonClick(event) {
             button.dataset.animeId
         );
 
-    const seasonId =
-        Number(
-            button.dataset.seasonId
-        );
 
     const seasonNumber =
         Number(
@@ -219,61 +234,69 @@ async function handleSeasonClick(event) {
     }
 
 
-    // Toutes les saisons jusqu'à celle cliquée
-    // deviennent vues.
-    //
-    // Les saisons après celle cliquée
-    // deviennent non vues.
+    // Déterminer uniquement les saisons
+    // dont l'état change.
+    const changements = [];
+
     anime.saisons.forEach(saison => {
 
-        saison.vue =
+        const nouvelleValeur =
             saison.numero <= seasonNumber;
+
+        if (saison.vue !== nouvelleValeur) {
+
+            changements.push({
+                id: saison.id,
+                vue: nouvelleValeur
+            });
+
+            // Mise à jour locale
+            saison.vue = nouvelleValeur;
+
+        }
 
     });
 
 
-    // Envoyer les changements au serveur
+    // Rien n'a changé
+    if (changements.length === 0) {
+
+        return;
+
+    }
+
+
     try {
 
-        for (const saison of anime.saisons) {
+        const response =
+            await fetch(
+                "/animes/"
+                + animeId
+                + "/saisons",
+                {
+                    method: "PUT",
 
-            const vue =
-                saison.numero <= seasonNumber;
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-            console.log(
-                "Envoi saison",
-                saison.numero,
-                "vue =",
-                vue
+                    body: JSON.stringify({
+                        saisons: changements
+                    })
+                }
             );
 
-            const response =
-                await fetch(
-                    "/animes/"
-                    + animeId
-                    + "/saisons/"
-                    + saison.id
-                    + "?vue="
-                    + vue,
-                    {
-                        method: "PUT"
-                    }
-                );
 
+        if (!response.ok) {
 
-            if (!response.ok) {
-
-                throw new Error(
-                    "Erreur lors de la mise à jour"
-                );
-
-            }
+            throw new Error(
+                "Erreur lors de la mise à jour"
+            );
 
         }
 
 
         displayAnimes();
-
 
     } catch (error) {
 
@@ -286,6 +309,53 @@ async function handleSeasonClick(event) {
     }
 
 }
+
+
+async function handleDeleteAnime(event) {
+
+    const animeId =
+        Number(
+            event.currentTarget.dataset.animeId
+        );
+
+    if (
+        !confirm(
+            "Supprimer cet anime de la bibliothèque ?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/animes/" + animeId,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        if (!response.ok) {
+            throw new Error();
+        }
+
+
+        loadAnimes();
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Impossible de supprimer l'anime."
+        );
+
+    }
+
+}
+
 
 // Recherche dans la bibliothèque
 document

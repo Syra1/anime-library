@@ -230,3 +230,65 @@ def ajouter_anime_complet(
 
 
     return anime_id
+
+def modifier_saisons_vue(anime_id, saisons):
+
+    connection = get_connection()
+
+    for saison in saisons:
+
+        if saison["vue"]:
+
+            connection.execute(
+                """
+                INSERT OR IGNORE INTO saison_vue
+                (anime_id, saison_id)
+                VALUES (?, ?)
+                """,
+                (anime_id, saison["id"])
+            )
+
+        else:
+
+            connection.execute(
+                """
+                DELETE FROM saison_vue
+                WHERE anime_id = ?
+                AND saison_id = ?
+                """,
+                (anime_id, saison["id"])
+            )
+
+    connection.commit()
+    connection.close()
+
+def supprimer_anime(anime_id):
+
+    connection = get_connection()
+
+    connection.execute(
+        """
+        DELETE FROM saison_vue
+        WHERE anime_id = ?
+        """,
+        (anime_id,)
+    )
+
+    connection.execute(
+        """
+        DELETE FROM saison
+        WHERE anime_id = ?
+        """,
+        (anime_id,)
+    )
+
+    connection.execute(
+        """
+        DELETE FROM anime
+        WHERE id = ?
+        """,
+        (anime_id,)
+    )
+
+    connection.commit()
+    connection.close()
