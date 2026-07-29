@@ -260,6 +260,9 @@ main {
 
 .season-button {
 
+    width: 95px;
+    height: 36px;
+
     padding: 8px 12px;
     border: none;
     border-radius: 8px;
