@@ -99,76 +99,83 @@ function displayAnimes() {
             .map(anime => {
 
                 return `
-                    <article
-                        class="anime-card"
-                    >
-
-                        <h2>
-                            ${anime.titre}
-                        </h2>
-
-                        <p class="original-title">
-                            ${
-                                anime.titre_original
-                                ||
-                                "Titre original inconnu"
-                            }
-                        </p>
-
-                        <p>
-                            Statut :
-                            <span class="status">
-                                ${anime.statut || "Inconnu"}
-                            </span>
-                        </p>
-
-                        <button
-                            class="delete-anime-button"
-                            data-anime-id="${anime.id}"
-                        >
-                            🗑️ Supprimer
-                        </button>
+                    <article class="anime-card">
 
 
+                        <div class="anime-info">
 
-                        <div class="seasons">
-
-                            ${
-                                anime.saisons
-                                    .map(saison => {
-
-                                        const classe =
-                                            saison.vue
-                                                ? "watched"
-                                                : "unwatched";
+                            <h2>
+                                ${anime.titre}
+                            </h2>
 
 
-                                        return `
-                                            <button
-                                                class="
-                                                    season-button
-                                                    ${classe}
-                                                "
-                                                data-anime-id="
-                                                    ${anime.id}
-                                                "
-                                                data-season-id="
-                                                    ${saison.id}
-                                                "
-                                                data-season-number="
-                                                    ${saison.numero}
-                                                "
-                                            >
-                                                Saison
-                                                ${saison.numero}
-                                            </button>
-                                        `;
+                            <p class="original-title">
+                                ${
+                                    anime.titre_original
+                                    ||
+                                    "Titre original inconnu"
+                                }
+                            </p>
 
-                                    })
-                                    .join("")
-                            }
+
+                            <p>
+                                Statut :
+                                <span class="status">
+                                    ${anime.statut || "Inconnu"}
+                                </span>
+                            </p>
+
+
+                            <button
+                                class="delete-anime-button"
+                                data-anime-id="${anime.id}"
+                            >
+                                🗑️ Supprimer
+                            </button>
+
+
+                            <div class="seasons">
+
+                                ${
+                                    anime.saisons
+                                        .map(saison => {
+
+                                            const classe =
+                                                saison.vue
+                                                    ? "watched"
+                                                    : "unwatched";
+
+
+                                            return `
+                                                <button
+                                                    class="
+                                                        season-button
+                                                        ${classe}
+                                                    "
+                                                    data-anime-id="${anime.id}"
+                                                    data-season-id="${saison.id}"
+                                                    data-season-number="${saison.numero}"
+                                                >
+                                                    Saison ${saison.numero}
+                                                </button>
+                                            `;
+
+                                        })
+                                        .join("")
+                                }
+
+                            </div>
+
 
                         </div>
+
+
+                        <div class="anime-image">
+
+                            <!-- Image de l'anime plus tard -->
+
+                        </div>
+
 
                     </article>
                 `;
@@ -190,19 +197,21 @@ function displayAnimes() {
 
         });
 
+
+    // Ajouter les événements
+    // sur les boutons supprimer
     document
-    .querySelectorAll(".delete-anime-button")
-    .forEach(button => {
+        .querySelectorAll(".delete-anime-button")
+        .forEach(button => {
 
-        button.addEventListener(
-            "click",
-            handleDeleteAnime
-        );
+            button.addEventListener(
+                "click",
+                handleDeleteAnime
+            );
 
-    });
+        });
 
 }
-
 
 // Gestion du clic sur une saison
 async function handleSeasonClick(event) {

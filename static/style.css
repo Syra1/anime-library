@@ -215,8 +215,20 @@ main {
     background: white;
     padding: 20px;
     border-radius: 12px;
+    display: flex;
+    gap: 20px;
 }
 
+.anime-info{
+    width: 60%;
+}
+
+.anime-image{
+    width: 40%;
+    min-height: 250px;
+    background: #f4f4f5;
+    border-radius: 8px;
+}
 
 .anime-card h2 {
     margin-bottom: 5px;
