@@ -111,14 +111,6 @@ function displayAnimes(search = "") {
                                 }
                             </p>
 
-                            <button
-                                class="delete-anime-button"
-                                data-anime-id="${anime.id}"
-                            >
-                                🗑️ Supprimer
-                            </button>
-
-
                             <div class="seasons">
 
                                 ${
@@ -151,6 +143,12 @@ function displayAnimes(search = "") {
 
                             </div>
 
+                            <button
+                                class="delete-anime-button"
+                                data-anime-id="${anime.id}"
+                            >
+                                🗑️ Supprimer
+                            </button>
 
                         </div>
 
