@@ -88,26 +88,11 @@ def ajouter_saison(anime_id, numero):
     return saison_id
 
 
-def marquer_saison_vue(anime_id, saison_id):
-    connection = get_connection()
-
-    connection.execute(
-        """
-        INSERT INTO saison_vue (anime_id, saison_id)
-        VALUES (?, ?)
-        """,
-        (anime_id, saison_id)
-    )
-
-    connection.commit()
-    connection.close()
-
-
 def lister_animes():
     connection = get_connection()
 
     cursor = connection.execute("""
-        SELECT id, titre, titre_original, statut
+        SELECT id, titre, titre_original, statut, image
         FROM anime
     """)
 
@@ -117,23 +102,6 @@ def lister_animes():
 
     return animes
 
-def get_saison(anime_id, numero):
-    connection = get_connection()
-
-    cursor = connection.execute(
-        """
-        SELECT id
-        FROM saison
-        WHERE anime_id = ? AND numero = ?
-        """,
-        (anime_id, numero)
-    )
-
-    saison = cursor.fetchone()
-
-    connection.close()
-
-    return saison
 
 def lister_animes_avec_saisons():
     connection = get_connection()

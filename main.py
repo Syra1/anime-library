@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+from pydantic import BaseModel, Field
 
 from app.anilist import (
     rechercher_animes,
@@ -17,9 +18,6 @@ from app.database import (
     supprimer_anime
 )
 
-from pydantic import BaseModel
-
-
 class SaisonUpdate(BaseModel):
     id: int
     vue: bool
@@ -29,7 +27,10 @@ class SaisonBatch(BaseModel):
     saisons: list[SaisonUpdate]
 
 class AnimeAdd(BaseModel):
-    nombre_saisons: int
+    nombre_saisons: int = Field(
+        ge=1,
+        le=20
+    )
 
 # Créer l'application FastAPI
 app = FastAPI()

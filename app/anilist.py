@@ -208,9 +208,14 @@ def recuperer_anime(anime_id):
                 response.read()
             )
 
+        if "errors" in resultat:
+            print(resultat["errors"])
+            return None
 
         media = resultat["data"]["Media"]
 
+        if media is None:
+            return None
 
         return {
             "titre":
@@ -218,7 +223,8 @@ def recuperer_anime(anime_id):
                 or media["title"]["romaji"],
 
             "titre_original":
-                media["title"]["romaji"],
+                media["title"]["romaji"]
+                or media["title"]["english"],
 
             "statut":
                 media["status"],

@@ -2,8 +2,6 @@ console.log("NOUVEAU SCRIPT 34");
 
 let animes = [];
 
-let currentFilter = "all";
-
 
 // ============================================================
 // BIBLIOTHÈQUE
@@ -172,7 +170,10 @@ function displayAnimes() {
 
                         <div class="anime-image">
 
-                            <!-- Image de l'anime plus tard -->
+                            <img
+                                src="${anime.image}"
+                                amt="${anime.titre}"
+                            >
 
                         </div>
 
