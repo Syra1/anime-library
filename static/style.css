@@ -219,7 +219,8 @@ main {
 
 
 #anime-list {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
@@ -229,20 +230,18 @@ main {
     padding: 20px;
     border-radius: 12px;
     display: flex;
-    gap: 20px;
+    width: 700px;
+    gap: 15px;
     align-items: flex-start;
 }
 
 .anime-info{
     flex: 1;
+    min-width: 0;
 }
 
 .anime-image{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0; 
-    border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .anime-image img {
