@@ -41,13 +41,9 @@ async function loadAnimes() {
 
 
 // Afficher les animés de la bibliothèque
-function displayAnimes() {
+function displayAnimes(search = "") {
 
-    const searchInput =
-        document.getElementById("search");
-
-    const search =
-        searchInput.value.toLowerCase();
+    search = search.toLowerCase();
 
     const animeList =
         document.getElementById("anime-list");
@@ -361,13 +357,45 @@ async function handleDeleteAnime(event) {
 
 
 // Recherche dans la bibliothèque
+let librarySearchTimeout = null;
+
+
 document
     .getElementById("search")
     .addEventListener(
         "input",
-        displayAnimes
-    );
+        () => {
 
+            clearTimeout(librarySearchTimeout);
+
+
+            const recherche =
+                document
+                    .getElementById("search")
+                    .value
+                    .trim();
+
+
+            if (recherche.length < 3) {
+
+                displayAnimes("");
+
+                return;
+            }
+
+
+            librarySearchTimeout =
+                setTimeout(
+                    () => {
+
+                        displayAnimes(recherche);
+
+                    },
+                    500
+                );
+
+        }
+    );
 
 // ============================================================
 // RECHERCHE ANILIST
