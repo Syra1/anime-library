@@ -23,7 +23,6 @@ def rechercher_animes(recherche):
                 coverImage {
                     large
                 }
-                status
             }
         }
     }
@@ -123,7 +122,6 @@ def rechercher_animes(recherche):
             {
                 "id": anime["id"],
                 "title": anime["title"],
-                "status": anime["status"],
                 "image": anime["coverImage"]["large"]
             }
             for anime in animes[:10]
@@ -170,9 +168,6 @@ def recuperer_anime(anime_id):
             coverImage{
                 large
             }
-
-            status
-
         }
     }
     """
@@ -225,9 +220,6 @@ def recuperer_anime(anime_id):
             "titre_original":
                 media["title"]["romaji"]
                 or media["title"]["english"],
-
-            "statut":
-                media["status"],
 
             "image":
                 media["coverImage"]["large"]

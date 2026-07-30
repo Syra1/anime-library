@@ -18,7 +18,6 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titre TEXT NOT NULL,
             titre_original TEXT,
-            statut TEXT,
             image TEXT
         )
     """)
@@ -50,15 +49,15 @@ def create_tables():
     connection.close()
 
 
-def ajouter_anime(titre, titre_original, statut, image):
+def ajouter_anime(titre, titre_original, image):
     connection = get_connection()
 
     cursor = connection.execute(
         """
-        INSERT INTO anime (titre, titre_original, statut, image)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO anime (titre, titre_original, image)
+        VALUES (?, ?, ?)
         """,
-        (titre, titre_original, statut, image)
+        (titre, titre_original, image)
     )
 
     anime_id = cursor.lastrowid
@@ -92,7 +91,7 @@ def lister_animes_avec_saisons():
     connection = get_connection()
 
     animes = connection.execute("""
-        SELECT id, titre, titre_original, statut, image
+        SELECT id, titre, titre_original, image
         FROM anime
         ORDER BY titre
     """).fetchall()
@@ -120,7 +119,6 @@ def lister_animes_avec_saisons():
             "id": anime["id"],
             "titre": anime["titre"],
             "titre_original": anime["titre_original"],
-            "statut": anime["statut"],
             "image": anime["image"],
             "saisons": [
                 {
@@ -139,7 +137,6 @@ def lister_animes_avec_saisons():
 def ajouter_anime_complet(
     titre,
     titre_original,
-    statut,
     image,
     nombre_saisons
 ):
@@ -147,7 +144,6 @@ def ajouter_anime_complet(
     anime_id = ajouter_anime(
         titre,
         titre_original,
-        statut,
         image
     )
 

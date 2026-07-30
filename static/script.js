@@ -115,15 +115,6 @@ function displayAnimes() {
                                 }
                             </p>
 
-
-                            <p>
-                                Statut :
-                                <span class="status">
-                                    ${anime.statut || "Inconnu"}
-                                </span>
-                            </p>
-
-
                             <button
                                 class="delete-anime-button"
                                 data-anime-id="${anime.id}"
