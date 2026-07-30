@@ -79,9 +79,7 @@ main {
      * = 380px
      */
     height: 380px;
-
     overflow-y: auto;
-
     margin-top: 15px;
     padding-right: 10px;
 }
@@ -103,13 +101,10 @@ main {
      */
     min-height: 120px;
     max-height: 120px;
-
     padding: 15px;
     margin-bottom: 10px;
-
     border: 1px solid #ddd;
     border-radius: 8px;
-
     background-color: #f8f8f8;
 }
 
@@ -135,14 +130,10 @@ main {
 
 .add-anime-button {
     margin-left: 15px;
-
     padding: 8px 12px;
-
     border: none;
     border-radius: 5px;
-
     cursor: pointer;
-
     background: #18181b;
     color: white;
 }
@@ -156,13 +147,9 @@ main {
 
     width: 70px;
     height: 90px;
-
     object-fit: cover;
-
     border-radius: 6px;
-
     margin-right: 15px;
-
 }
 
 
@@ -237,11 +224,14 @@ main {
     justify-content: space-between;
     align-items: flex-start;
     gap: 15px;
+    position: relative;
 }
 
 .anime-info{
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .anime-image{
@@ -281,7 +271,6 @@ main {
    ============================================================ */
 
 .seasons {
-
     display: flex;
     flex-wrap:wrap;
     gap: 8px;
@@ -290,16 +279,13 @@ main {
 
 
 .season-button {
-
     width: 95px;
     height: 36px;
-
     padding: 8px 12px;
     border: none;
     border-radius: 8px;
     font-size: 14px;
     cursor: pointer;
-
     transition: 
         background-color 0.2s ease,
         color 0.2s ease,
@@ -309,35 +295,27 @@ main {
 
 /* Saison déjà vue */
 .season-button.watched {
-
     background: #dcfce7;
     color: #166534;
-
 }
 
 
 /* Saison non vue */
 .season-button.unwatched {
-
     background: #fee2e2;
     color: #991b1b;
-
 }
 
 
 /* Survol */
 .season-button:hover {
-
     transform: translateY(-1px);
-
 }
 
 
 /* Clic */
 .season-button:active {
-
     transform: scale(0.95);
-
 }
 
 
@@ -348,40 +326,28 @@ main {
 
 
 .delete-anime-button {
-
-    margin-top: 20px;
-
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
     padding: 8px 14px;
-
     border: 1px solid #dc2626;
     border-radius: 8px;
-
     background: transparent;
-
     color: #dc2626;
-
     font-size: 14px;
-
     cursor: pointer;
-
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
         transform 0.1s ease;
-
 }
 
 
 .delete-anime-button:hover {
-
     background: #dc2626;
     color: white;
-
 }
 
-
 .delete-anime-button:active {
-
     transform: scale(0.95);
-
 }
