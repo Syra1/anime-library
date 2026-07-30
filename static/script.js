@@ -538,6 +538,12 @@ function displaySearchResults(resultats) {
                                 class="search-result"
                             >
 
+                                <img
+                                class="search-result-image"
+                                src="${anime.image}"
+                                alt="${titrePrincipal}"
+                            >
+
                                 <div
                                     class="search-result-info"
                                 >

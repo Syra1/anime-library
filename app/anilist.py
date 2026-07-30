@@ -20,6 +20,9 @@ def rechercher_animes(recherche):
                     romaji
                     english
                 }
+                coverImage {
+                    large
+                }
                 status
             }
         }
@@ -66,13 +69,6 @@ def rechercher_animes(recherche):
 
 
         animes = resultat["data"]["Page"]["media"]
-
-        print("Resultat recu par Anilist :")
-
-        for anime in animes:
-            print(
-                anime["title"]["romaji"]
-            )
 
         recherche_lower = recherche.lower()
 
@@ -123,7 +119,15 @@ def rechercher_animes(recherche):
         )
 
 
-        return animes[:10]
+        return [
+            {
+                "id": anime["id"],
+                "title": anime["title"],
+                "status": anime["status"],
+                "image": anime["coverImage"]["large"]
+            }
+            for anime in animes[:10]
+        ]
 
 
     except urllib.error.HTTPError as error:
