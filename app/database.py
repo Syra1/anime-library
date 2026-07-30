@@ -18,7 +18,8 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titre TEXT NOT NULL,
             titre_original TEXT,
-            statut TEXT
+            statut TEXT,
+            image TEXT
         )
     """)
 
@@ -49,15 +50,15 @@ def create_tables():
     connection.close()
 
 
-def ajouter_anime(titre, titre_original, statut):
+def ajouter_anime(titre, titre_original, statut, image):
     connection = get_connection()
 
     cursor = connection.execute(
         """
-        INSERT INTO anime (titre, titre_original, statut)
-        VALUES (?, ?, ?)
+        INSERT INTO anime (titre, titre_original, statut, image)
+        VALUES (?, ?, ?, ?)
         """,
-        (titre, titre_original, statut)
+        (titre, titre_original, statut, image)
     )
 
     anime_id = cursor.lastrowid
@@ -138,7 +139,7 @@ def lister_animes_avec_saisons():
     connection = get_connection()
 
     animes = connection.execute("""
-        SELECT id, titre, titre_original, statut
+        SELECT id, titre, titre_original, statut, image
         FROM anime
         ORDER BY titre
     """).fetchall()
@@ -167,6 +168,7 @@ def lister_animes_avec_saisons():
             "titre": anime["titre"],
             "titre_original": anime["titre_original"],
             "statut": anime["statut"],
+            "image": anime["image"],
             "saisons": [
                 {
                     "id": saison["id"],
@@ -185,24 +187,23 @@ def ajouter_anime_complet(
     titre,
     titre_original,
     statut,
-    episodes
+    image,
+    nombre_saisons
 ):
 
     anime_id = ajouter_anime(
         titre,
         titre_original,
-        statut
+        statut,
+        image
     )
 
+    for numero in range(1, nombre_saisons + 1):
 
-    if episodes:
-
-        for numero in range(1, episodes + 1):
-
-            ajouter_saison(
-                anime_id,
-                numero
-            )
+        ajouter_saison(
+            anime_id,
+            numero
+        )
 
 
     return anime_id

@@ -28,6 +28,8 @@ class SaisonUpdate(BaseModel):
 class SaisonBatch(BaseModel):
     saisons: list[SaisonUpdate]
 
+class AnimeAdd(BaseModel):
+    nombre_saisons: int
 
 # Créer l'application FastAPI
 app = FastAPI()
@@ -72,7 +74,10 @@ async def search_anime(q: str):
 
 
 @app.post("/add-anime/{anilist_id}")
-async def add_anime(anilist_id: int):
+async def add_anime(
+    anilist_id: int,
+    data: AnimeAdd
+):
 
     anime = recuperer_anime(anilist_id)
 
@@ -88,7 +93,8 @@ async def add_anime(anilist_id: int):
         anime["titre"],
         anime["titre_original"],
         anime["statut"],
-        anime["episodes"]
+        anime["image"],
+        data.nombre_saisons
     )
 
 

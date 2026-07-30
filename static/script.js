@@ -614,6 +614,27 @@ async function handleAddAnime(event) {
         );
 
 
+    const nombreSaisons =
+        Number(
+            prompt(
+                "Combien de saisons possède cet anime ?"
+            )
+        );
+
+
+    if (
+        !nombreSaisons ||
+        nombreSaisons < 1
+    ) {
+
+        alert(
+            "Nombre de saisons invalide."
+        );
+
+        return;
+    }
+
+
     try {
 
         const response =
@@ -621,7 +642,15 @@ async function handleAddAnime(event) {
                 "/add-anime/"
                 + anilistId,
                 {
-                    method: "POST"
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        nombre_saisons: nombreSaisons
+                    })
                 }
             );
 
@@ -658,7 +687,6 @@ async function handleAddAnime(event) {
     }
 
 }
-
 
 // ============================================================
 // INITIALISATION

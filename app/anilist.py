@@ -166,10 +166,13 @@ def recuperer_anime(anime_id):
                 romaji
                 english
             }
+            
+            coverImage{
+                large
+            }
 
             status
 
-            episodes
         }
     }
     """
@@ -220,8 +223,8 @@ def recuperer_anime(anime_id):
             "statut":
                 media["status"],
 
-            "episodes":
-                media["episodes"]
+            "image":
+                media["coverImage"]["large"]
         }
 
 
