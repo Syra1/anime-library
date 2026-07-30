@@ -165,7 +165,6 @@ def recuperer_anime(anime_id):
             title {
                 romaji
                 english
-                native
             }
 
             status
@@ -216,7 +215,7 @@ def recuperer_anime(anime_id):
                 or media["title"]["romaji"],
 
             "titre_original":
-                media["title"]["native"],
+                media["title"]["romaji"],
 
             "statut":
                 media["status"],
