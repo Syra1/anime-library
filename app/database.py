@@ -88,21 +88,6 @@ def ajouter_saison(anime_id, numero):
     return saison_id
 
 
-def lister_animes():
-    connection = get_connection()
-
-    cursor = connection.execute("""
-        SELECT id, titre, titre_original, statut, image
-        FROM anime
-    """)
-
-    animes = cursor.fetchall()
-
-    connection.close()
-
-    return animes
-
-
 def lister_animes_avec_saisons():
     connection = get_connection()
 
