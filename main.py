@@ -4,12 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from pydantic import BaseModel, Field
-
 from app.anilist import (
     rechercher_animes,
     recuperer_anime
 )
-
 from app.database import (
     create_tables,
     lister_animes_avec_saisons,
@@ -17,6 +15,10 @@ from app.database import (
     ajouter_anime_complet,
     supprimer_anime
 )
+from pathlib import Path
+
+# Debut du code
+BASE_DIR = Path(__file__).resolve().parent
 
 class SaisonUpdate(BaseModel):
     id: int
@@ -39,14 +41,14 @@ app = FastAPI()
 # Servir les fichiers CSS et JavaScript
 app.mount(
     "/static",
-    StaticFiles(directory="static"),
+    StaticFiles(directory=BASE_DIR / "static"),
     name="static"
 )
 
 
 # Charger les templates HTML
 templates = Jinja2Templates(
-    directory="templates"
+    directory=BASE_DIR / "templates"
 )
 
 
