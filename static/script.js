@@ -1,14 +1,36 @@
-console.log("NOUVEAU SCRIPT 34"); 
+console.log("NOUVEAU SCRIPT 10"); 
 
 let animes = [];
 
+const addModal =
+    document.getElementById("add-modal");
 
-// ============================================================
-// BIBLIOTHÈQUE
-// ============================================================
+const deleteModal =
+    document.getElementById("delete-modal");
 
 
-// Charger les animés depuis notre API FastAPI
+const seasonCountInput =
+    document.getElementById("season-count");
+
+
+const cancelAddButton =
+    document.getElementById("cancel-add");
+
+const confirmAddButton =
+    document.getElementById("confirm-add");
+
+
+const cancelDeleteButton =
+    document.getElementById("cancel-delete");
+
+const confirmDeleteButton =
+    document.getElementById("confirm-delete");
+
+
+
+let currentAnimeToAdd = null;
+let currentAnimeToDelete = null;
+
 async function loadAnimes() {
 
     try {
@@ -39,11 +61,18 @@ async function loadAnimes() {
     }
 }
 
+function normalizeText(text) {
 
-// Afficher les animés de la bibliothèque
+    return (text || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+}
+
 function displayAnimes(search = "") {
 
-    search = search.toLowerCase();
+    search = normalizeText(search);
 
     const animeList =
         document.getElementById("anime-list");
@@ -54,8 +83,7 @@ function displayAnimes(search = "") {
         animes.filter(anime => {
 
             const matchesSearch =
-                anime.titre
-                    .toLowerCase()
+                normalizeText(anime.titre)
                     .includes(search)
 
                 ||
@@ -63,18 +91,15 @@ function displayAnimes(search = "") {
                 (
                     anime.titre_original &&
 
-                    anime.titre_original
-                        .toLowerCase()
+                    normalizeText(anime.titre_original)
                         .includes(search)
                 );
-
 
             return matchesSearch;
 
         });
 
 
-    // Aucun résultat
     if (filteredAnimes.length === 0) {
 
         animeList.innerHTML = `
@@ -87,7 +112,6 @@ function displayAnimes(search = "") {
     }
 
 
-    // Afficher les animés
     animeList.innerHTML =
         filteredAnimes
             .map(anime => {
@@ -169,9 +193,6 @@ function displayAnimes(search = "") {
             })
             .join("");
 
-
-    // Ajouter les événements
-    // sur les boutons de saison
     document
         .querySelectorAll(".season-button")
         .forEach(button => {
@@ -184,8 +205,6 @@ function displayAnimes(search = "") {
         });
 
 
-    // Ajouter les événements
-    // sur les boutons supprimer
     document
         .querySelectorAll(".delete-anime-button")
         .forEach(button => {
@@ -199,7 +218,6 @@ function displayAnimes(search = "") {
 
 }
 
-// Gestion du clic sur une saison
 async function handleSeasonClick(event) {
 
     const button =
@@ -218,7 +236,6 @@ async function handleSeasonClick(event) {
         );
 
 
-    // Récupérer l'anime concerné
     const anime =
         animes.find(
             anime =>
@@ -231,8 +248,6 @@ async function handleSeasonClick(event) {
     }
 
 
-    // Déterminer uniquement les saisons
-    // dont l'état change.
     const changements = [];
 
     anime.saisons.forEach(saison => {
@@ -255,7 +270,6 @@ async function handleSeasonClick(event) {
     });
 
 
-    // Rien n'a changé
     if (changements.length === 0) {
 
         return;
@@ -307,54 +321,73 @@ async function handleSeasonClick(event) {
 
 }
 
+function handleDeleteAnime(event) {
 
-async function handleDeleteAnime(event) {
-
-    const animeId =
+    currentAnimeToDelete =
         Number(
             event.currentTarget.dataset.animeId
         );
 
-    if (
-        !confirm(
-            "Supprimer cet anime de la bibliothèque ?"
-        )
-    ) {
-        return;
-    }
 
-    try {
-
-        const response =
-            await fetch(
-                "/animes/" + animeId,
-                {
-                    method: "DELETE"
-                }
-            );
-
-
-        if (!response.ok) {
-            throw new Error();
-        }
-
-
-        loadAnimes();
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Impossible de supprimer l'anime."
-        );
-
-    }
+    deleteModal.style.display = "flex";
 
 }
 
+cancelDeleteButton.addEventListener(
+    "click",
+    () => {
 
-// Recherche dans la bibliothèque
+        deleteModal.style.display = "none";
+
+        currentAnimeToDelete = null;
+
+    }
+);
+
+
+confirmDeleteButton.addEventListener(
+    "click",
+    async () => {
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/animes/" + currentAnimeToDelete,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error();
+
+            }
+
+
+            deleteModal.style.display = "none";
+
+
+            loadAnimes();
+
+
+        } catch(error) {
+
+            console.error(error);
+
+
+            alert(
+                "Impossible de supprimer l'anime."
+            );
+
+        }
+
+    }
+);
+
 let librarySearchTimeout = null;
 
 
@@ -395,10 +428,6 @@ document
         }
     );
 
-// ============================================================
-// RECHERCHE ANILIST
-// ============================================================
-
 
 const animeSearch =
     document.getElementById(
@@ -411,9 +440,6 @@ const searchResults =
         "search-results"
     );
 
-
-// Attendre un petit moment avant
-// d'envoyer la requête à AniList
 let searchTimeout = null;
 
 
@@ -425,14 +451,11 @@ animeSearch.addEventListener(
             animeSearch.value.trim();
 
 
-        // Annuler la recherche précédente
         clearTimeout(
             searchTimeout
         );
 
 
-        // Si moins de 3 caractères
-        // on ne recherche rien
         if (recherche.length < 3) {
 
             searchResults.innerHTML = "";
@@ -441,8 +464,6 @@ animeSearch.addEventListener(
         }
 
 
-        // Attendre 500 ms après
-        // la dernière frappe
         searchTimeout =
             setTimeout(
                 () => {
@@ -452,14 +473,13 @@ animeSearch.addEventListener(
                     );
 
                 },
-                500
+                300
             );
 
     }
 );
 
 
-// Rechercher un anime sur AniList
 async function searchAniList(
     recherche
 ) {
@@ -517,7 +537,6 @@ async function searchAniList(
 }
 
 
-// Afficher les résultats AniList
 function displaySearchResults(resultats) {
 
     if (
@@ -602,8 +621,6 @@ function displaySearchResults(resultats) {
     `;
 
 
-    // Ajouter l'événement
-    // aux boutons "Ajouter"
     document
         .querySelectorAll(
             ".add-anime-button"
@@ -619,7 +636,6 @@ function displaySearchResults(resultats) {
 
 }
 
-// Ajouter un anime à la bibliothèque
 async function handleAddAnime(event) {
 
     const button =
@@ -631,27 +647,16 @@ async function handleAddAnime(event) {
             button.dataset.anilistId
         );
 
-
-    const nombreSaisons =
-        Number(
-            prompt(
-                "Combien de saisons possède cet anime ?"
-            )
-        );
+    currentAnimeToAdd = anilistId;
 
 
-    if (
-        !nombreSaisons ||
-        nombreSaisons < 1
-    ) {
+    seasonCountInput.value = 1;
 
-        alert(
-            "Nombre de saisons invalide."
-        );
 
-        return;
-    }
+    addModal.style.display = "flex";
 
+
+    return;
 
     try {
 
@@ -706,11 +711,143 @@ async function handleAddAnime(event) {
 
 }
 
-// ============================================================
-// INITIALISATION
-// ============================================================
+cancelAddButton.addEventListener(
+    "click",
+    () => {
+
+        addModal.style.display = "none";
+
+        currentAnimeToAdd = null;
+
+    }
+);
 
 
-// Charger la bibliothèque
-// au chargement de la page
+confirmAddButton.addEventListener(
+    "click",
+    async () => {
+
+
+        const nombreSaisons =
+            Number(
+                seasonCountInput.value
+            );
+
+
+        if (
+            !nombreSaisons ||
+            nombreSaisons < 1
+        ) {
+
+            alert(
+                "Nombre de saisons invalide."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/add-anime/"
+                    + currentAnimeToAdd,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            nombre_saisons:
+                                nombreSaisons
+                        })
+                    }
+                );
+
+
+            const resultat =
+                await response.json();
+
+
+            if (!resultat.success) {
+
+                throw new Error();
+
+            }
+
+
+            addModal.style.display = "none";
+
+
+            loadAnimes();
+
+
+        } catch(error) {
+
+            console.error(error);
+
+            alert(
+                "Erreur pendant l'ajout."
+            );
+
+        }
+
+    }
+);
+
+document.addEventListener(
+    "click",
+    (event) => {
+
+        const clicDansRecherche =
+            animeSearch.contains(event.target);
+
+
+        const clicDansResultats =
+            searchResults.contains(event.target);
+
+
+        // Si le clic n'est pas dans la recherche
+        // ni dans les résultats
+        if (
+            !clicDansRecherche &&
+            !clicDansResultats
+        ) {
+
+            animeSearch.value = "";
+
+            searchResults.innerHTML = "";
+
+        }
+
+    }
+);
+
+const librarySearch =
+    document.getElementById("search");
+
+
+document.addEventListener(
+    "click",
+    (event) => {
+
+        const clicDansRecherche =
+            librarySearch.contains(event.target);
+
+
+        if (!clicDansRecherche) {
+
+            librarySearch.value = "";
+
+            displayAnimes("");
+
+        }
+
+    }
+);
+
 loadAnimes();

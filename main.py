@@ -31,7 +31,7 @@ class SaisonBatch(BaseModel):
 class AnimeAdd(BaseModel):
     nombre_saisons: int = Field(
         ge=1,
-        le=20
+        le=30
     )
 
 # Créer l'application FastAPI

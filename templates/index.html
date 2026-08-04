@@ -75,6 +75,79 @@
     </main>
 
 
+    <!-- ============================================================
+         MODALE AJOUT D'UN ANIME
+         ============================================================ -->
+
+    <div id="add-modal" class="modal">
+
+        <div class="modal-content">
+
+            <h2 id="add-modal-title">
+                Ajouter un anime
+            </h2>
+
+            <p>
+                Combien de saisons possède cet anime ?
+            </p>
+
+            <input
+                type="number"
+                id="season-count"
+                min="1"
+                value="1"
+            >
+
+            <div class="modal-actions">
+
+                <button id="cancel-add">
+                    Annuler
+                </button>
+
+                <button id="confirm-add">
+                    Ajouter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================
+         MODALE SUPPRESSION
+         ============================================================ -->
+
+    <div id="delete-modal" class="modal">
+
+        <div class="modal-content">
+
+            <h2>
+                Supprimer cet anime ?
+            </h2>
+
+            <p>
+                Cette action est irréversible.
+            </p>
+
+            <div class="modal-actions">
+
+                <button id="cancel-delete">
+                    Annuler
+                </button>
+
+                <button id="confirm-delete">
+                    Supprimer
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
     <script src="/static/script.js"></script>
 
 </body>
