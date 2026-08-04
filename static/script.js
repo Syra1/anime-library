@@ -1,4 +1,4 @@
-console.log("NOUVEAU SCRIPT 10"); 
+console.log("NOUVEAU SCRIPT 14"); 
 
 let animes = [];
 
@@ -306,8 +306,13 @@ async function handleSeasonClick(event) {
 
         }
 
+        const recherche =
+            document
+                .getElementById("search")
+                .value
+                .trim();
 
-        displayAnimes();
+        displayAnimes(recherche);
 
     } catch (error) {
 
@@ -593,11 +598,6 @@ function displaySearchResults(resultats) {
                                         ${titreSecondaire}
                                     </p>
 
-                                    <small>
-                                        Statut :
-                                        ${anime.status}
-                                    </small>
-
                                 </div>
 
 
@@ -839,7 +839,19 @@ document.addEventListener(
             librarySearch.contains(event.target);
 
 
-        if (!clicDansRecherche) {
+        const clicDansSaison =
+            event.target.closest(".season-button");
+
+
+        const clicDansSuppression =
+            event.target.closest(".delete-anime-button");
+
+
+        if (
+            !clicDansRecherche &&
+            !clicDansSaison &&
+            !clicDansSuppression
+        ) {
 
             librarySearch.value = "";
 
