@@ -1,4 +1,4 @@
-console.log("NOUVEAU SCRIPT 14"); 
+console.log("NOUVEAU SCRIPT 63"); 
 
 let animes = [];
 
@@ -167,25 +167,26 @@ function displayAnimes(search = "") {
 
                             </div>
 
+                            
+
+                        </div>
+
+                        <div class="anime-right">
+                            <div class="anime-image">
+
+                                <img
+                                    src="${anime.image}"
+                                    amt="${anime.titre}"
+                                >
+                            </div>
+
                             <button
                                 class="delete-anime-button"
                                 data-anime-id="${anime.id}"
                             >
                                 🗑️ Supprimer
                             </button>
-
                         </div>
-
-
-                        <div class="anime-image">
-
-                            <img
-                                src="${anime.image}"
-                                amt="${anime.titre}"
-                            >
-
-                        </div>
-
 
                     </article>
                 `;
