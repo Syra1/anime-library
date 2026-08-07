@@ -13,7 +13,8 @@ from app.database import (
     lister_animes_avec_saisons,
     modifier_saisons_vue,
     ajouter_anime_complet,
-    supprimer_anime
+    supprimer_anime,
+    recuperer_anime_avec_saisons
 )
 from pathlib import Path
 
@@ -65,6 +66,42 @@ async def index(request: Request):
         context={}
     )
 
+# Page détail d'un anime
+@app.get("/anime", response_class=HTMLResponse)
+async def anime_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="anime.html",
+        context={}
+    )
+
+
+@app.get("/anime/{anime_id}", response_class=HTMLResponse)
+async def anime_page(
+    request: Request,
+    anime_id: int
+):
+
+    anime = recuperer_anime_avec_saisons(
+        anime_id
+    )
+
+
+    if anime is None:
+
+        return HTMLResponse(
+            "Anime introuvable",
+            status_code=404
+        )
+
+
+    return templates.TemplateResponse(
+        request=request,
+        name="anime.html",
+        context={
+            "anime": anime
+        }
+    )
 
 # API pour récupérer les animés
 @app.get("/animes")

@@ -1,13 +1,9 @@
-console.log("NOUVEAU SCRIPT 998"); 
+console.log("NOUVEAU SCRIPT 43");
 
 let animes = [];
 
 const addModal =
     document.getElementById("add-modal");
-
-const deleteModal =
-    document.getElementById("delete-modal");
-
 
 const seasonCountInput =
     document.getElementById("season-count");
@@ -20,16 +16,7 @@ const confirmAddButton =
     document.getElementById("confirm-add");
 
 
-const cancelDeleteButton =
-    document.getElementById("cancel-delete");
-
-const confirmDeleteButton =
-    document.getElementById("confirm-delete");
-
-
-
 let currentAnimeToAdd = null;
-let currentAnimeToDelete = null;
 
 async function loadAnimes() {
 
@@ -133,59 +120,19 @@ function displayAnimes(search = "") {
                                     ||
                                     "Titre original inconnu"
                                 }
-                            </p>
-
-                            <div class="seasons">
-
-                                ${
-                                    anime.saisons
-                                        .map(saison => {
-
-                                            const classe =
-                                                saison.vue
-                                                    ? "watched"
-                                                    : "unwatched";
-
-
-                                            return `
-                                                <button
-                                                    class="
-                                                        season-button
-                                                        ${classe}
-                                                    "
-                                                    data-anime-id="${anime.id}"
-                                                    data-season-id="${saison.id}"
-                                                    data-season-number="${saison.numero}"
-                                                >
-                                                    Saison ${saison.numero}
-                                                </button>
-                                            `;
-
-                                        })
-                                        .join("")
-                                }
-
-                            </div>
-
-                            
+                            </p>                            
 
                         </div>
 
-                        <div class="anime-right">
-                            <div class="anime-image">
+                        <div class="anime-image">
 
+                            <a href="/anime/${anime.id}">
                                 <img
                                     src="${anime.image}"
-                                    amt="${anime.titre}"
+                                    alt="${anime.titre}"
                                 >
-                            </div>
+                            </a>
 
-                            <button
-                                class="delete-anime-button"
-                                data-anime-id="${anime.id}"
-                            >
-                                🗑️ Supprimer
-                            </button>
                         </div>
 
                     </article>
@@ -194,205 +141,8 @@ function displayAnimes(search = "") {
             })
             .join("");
 
-    document
-        .querySelectorAll(".season-button")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                handleSeasonClick
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(".delete-anime-button")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                handleDeleteAnime
-            );
-
-        });
-
 }
 
-async function handleSeasonClick(event) {
-
-    const button =
-        event.currentTarget;
-
-
-    const animeId =
-        Number(
-            button.dataset.animeId
-        );
-
-
-    const seasonNumber =
-        Number(
-            button.dataset.seasonNumber
-        );
-
-
-    const anime =
-        animes.find(
-            anime =>
-                anime.id === animeId
-        );
-
-
-    if (!anime) {
-        return;
-    }
-
-
-    const changements = [];
-
-    anime.saisons.forEach(saison => {
-
-        const nouvelleValeur =
-            saison.numero <= seasonNumber;
-
-        if (saison.vue !== nouvelleValeur) {
-
-            changements.push({
-                id: saison.id,
-                vue: nouvelleValeur
-            });
-
-            // Mise à jour locale
-            saison.vue = nouvelleValeur;
-
-        }
-
-    });
-
-
-    if (changements.length === 0) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                "/animes/"
-                + animeId
-                + "/saisons",
-                {
-                    method: "PUT",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        saisons: changements
-                    })
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Erreur lors de la mise à jour"
-            );
-
-        }
-
-        const recherche =
-            document
-                .getElementById("search")
-                .value
-                .trim();
-
-        displayAnimes(recherche);
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Impossible de mettre à jour la saison."
-        );
-
-    }
-
-}
-
-function handleDeleteAnime(event) {
-
-    currentAnimeToDelete =
-        Number(
-            event.currentTarget.dataset.animeId
-        );
-
-
-    deleteModal.style.display = "flex";
-
-}
-
-cancelDeleteButton.addEventListener(
-    "click",
-    () => {
-
-        deleteModal.style.display = "none";
-
-        currentAnimeToDelete = null;
-
-    }
-);
-
-
-confirmDeleteButton.addEventListener(
-    "click",
-    async () => {
-
-
-        try {
-
-            const response =
-                await fetch(
-                    "/animes/" + currentAnimeToDelete,
-                    {
-                        method: "DELETE"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error();
-
-            }
-
-
-            deleteModal.style.display = "none";
-
-
-            loadAnimes();
-
-
-        } catch(error) {
-
-            console.error(error);
-
-
-            alert(
-                "Impossible de supprimer l'anime."
-            );
-
-        }
-
-    }
-);
 
 let librarySearchTimeout = null;
 
@@ -833,34 +583,20 @@ const librarySearch =
 
 
 document.addEventListener(
-    "click",
-    (event) => {
+"click",
+(event) => {
 
-        const clicDansRecherche =
-            librarySearch.contains(event.target);
+    const clicDansRecherche =
+        librarySearch.contains(event.target);
 
+    if (!clicDansRecherche) {
 
-        const clicDansSaison =
-            event.target.closest(".season-button");
+        librarySearch.value = "";
 
-
-        const clicDansSuppression =
-            event.target.closest(".delete-anime-button");
-
-
-        if (
-            !clicDansRecherche &&
-            !clicDansSaison &&
-            !clicDansSuppression
-        ) {
-
-            librarySearch.value = "";
-
-            displayAnimes("");
-
-        }
+        displayAnimes("");
 
     }
+}
 );
 
 loadAnimes();

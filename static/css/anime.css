@@ -1,0 +1,78 @@
+.anime-page {
+
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+
+}
+
+
+
+.anime-header {
+
+    display: flex;
+    gap: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+
+}
+
+
+
+.anime-cover img {
+
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+
+}
+
+
+
+.anime-details {
+
+    flex: 1;
+
+}
+
+
+
+.anime-details h2 {
+
+    font-size: 30px;
+    margin-bottom: 10px;
+
+}
+
+
+
+#anime-description {
+
+    margin-top: 20px;
+    line-height: 1.6;
+
+}
+
+
+
+.anime-seasons {
+
+    margin-top: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+
+}
+
+
+
+#season-list {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+
+}

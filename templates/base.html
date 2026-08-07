@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        Anime Library
+        {% endblock %}
+    </title>
+
+
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/anime.css">
+
+</head>
+
+
+<body>
+
+
+<header class="main-header">
+
+    <a href="/" class="back-home-button">
+        ← Bibliothèque
+    </a>
+
+</header>
+
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/modals.js"></script>
+
+
+{% block scripts %}
+{% endblock %}
+
+
+</body>
+
+</html>

@@ -219,3 +219,69 @@ def supprimer_anime(anime_id):
 
     connection.commit()
     connection.close()
+
+def recuperer_anime_avec_saisons(anime_id):
+
+    connection = get_connection()
+
+
+    anime = connection.execute(
+        """
+        SELECT
+            id,
+            titre,
+            titre_original,
+            image
+        FROM anime
+        WHERE id = ?
+        """,
+        (anime_id,)
+    ).fetchone()
+
+
+    if anime is None:
+
+        connection.close()
+        return None
+
+
+    saisons = connection.execute(
+        """
+        SELECT
+            saison.id,
+            saison.numero,
+            CASE
+                WHEN saison_vue.id IS NOT NULL THEN 1
+                ELSE 0
+            END AS vue
+
+        FROM saison
+
+        LEFT JOIN saison_vue
+            ON saison.id = saison_vue.saison_id
+
+        WHERE saison.anime_id = ?
+
+        ORDER BY saison.numero
+        """,
+        (anime_id,)
+    ).fetchall()
+
+
+    connection.close()
+
+
+    return {
+        "id": anime["id"],
+        "titre": anime["titre"],
+        "titre_original": anime["titre_original"],
+        "image": anime["image"],
+        "saisons": [
+            {
+                "id": saison["id"],
+                "numero": saison["numero"],
+                "vue": bool(saison["vue"])
+            }
+            for saison in saisons
+        ]
+    }
