@@ -1,5 +1,3 @@
-console.log("PAGE ANIME");
-
 document
     .querySelectorAll(".season-button")
     .forEach(button => {
@@ -79,9 +77,6 @@ document
         );
 
     });
-
-console.log("PAGE ANIME");
-
 
 document
 .querySelectorAll(".season-button")
