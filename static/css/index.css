@@ -131,13 +131,15 @@
 
 #anime-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, max-content);
     gap: 20px;
+    justify-content: center;
+    align-items: start;
 }
 
 
 .anime-card {
-    width: 100%;
+    width: fit-content;
     background: white;
     padding: 10px;
     border-radius: 12px;
@@ -148,11 +150,11 @@
 }
 
 .anime-info {
-    width: 100%;
+    width: 150px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     order: 2;
 }
 
@@ -164,21 +166,22 @@
 }
 
 .anime-image img {
-    width: 130px;
-    height: 200px;
+    width: 150px;
+    height: 225px;
     object-fit: cover;
     cursor: pointer;
-    transition: transform 0.2 ease;
+    transition: transform 0.2s ease;
 }
 
-anime-image img:hover {
+.anime-image img:hover {
     transform: scale(1.05);
 }
 
 .anime-card h2 {
     font-size: 14px;
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: left;
+    width: 100%;
     margin-bottom: 5px;
 }
 
@@ -188,7 +191,8 @@ anime-image img:hover {
     font-size: 14px;
     font-style: italic;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left;
+    width: 100%;
 }
 
 .watched {
