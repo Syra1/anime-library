@@ -1,162 +1,130 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
+{% block title %}
+Ma bibliothèque d'animés
+{% endblock %}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+
+{% block content %}
+
+<!-- Recherche d'un anime sur AniList -->
+
+<section class="add-anime">
+
+    <h2>
+        Ajouter un anime
+    </h2>
+
+    <input
+        type="text"
+        id="anime-search"
+        placeholder="Rechercher un anime..."
     >
 
-    <title>Ma bibliothèque d'animés</title>
+    <section id="search-results">
+        <!-- Les résultats AniList apparaîtront ici -->
+    </section>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', path='css/global.css') }}"
+</section>
+
+
+<!-- Recherche dans ma bibliothèque -->
+
+<section class="toolbar">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Rechercher dans ma bibliothèque..."
     >
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', path='css/index.css') }}"
-    >
+</section>
 
 
-</head>
+<!-- Liste de ma bibliothèque -->
+
+<section id="anime-list">
+
+    <p>
+        Chargement des animés...
+    </p>
+
+</section>
 
 
-<body>
+<!-- Modale ajout d'un anime -->
 
-    <header>
+<div id="add-modal" class="modal">
 
-        <h1>🎬 Ma bibliothèque d'animés</h1>
+    <div class="modal-content">
+
+        <h2 id="add-modal-title">
+            Ajouter un anime
+        </h2>
 
         <p>
-            Retrouve tous les animés de ta collection.
+            Combien de saisons possède cet anime ?
         </p>
 
-    </header>
+        <input
+            type="number"
+            id="season-count"
+            min="1"
+            value="1"
+        >
 
+        <div class="modal-actions">
 
-    <main>
+            <button id="cancel-add">
+                Annuler
+            </button>
 
-        <!-- Recherche d'un anime sur AniList -->
-        <section class="add-anime">
-
-            <h2>Ajouter un anime</h2>
-
-            <input
-                type="text"
-                id="anime-search"
-                placeholder="Rechercher un anime..."
-            >
-
-            <section id="search-results">
-                <!-- Les résultats AniList apparaîtront ici -->
-            </section>
-
-        </section>
-
-
-        <!-- Recherche dans ma bibliothèque -->
-        <section class="toolbar">
-
-            <input
-                type="text"
-                id="search"
-                placeholder="Rechercher dans ma bibliothèque..."
-            >
-
-        </section>
-
-
-        <!-- Liste de ma bibliothèque -->
-        <section id="anime-list">
-
-            <p>
-                Chargement des animés...
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- ============================================================
-         MODALE AJOUT D'UN ANIME
-         ============================================================ -->
-
-    <div id="add-modal" class="modal">
-
-        <div class="modal-content">
-
-            <h2 id="add-modal-title">
-                Ajouter un anime
-            </h2>
-
-            <p>
-                Combien de saisons possède cet anime ?
-            </p>
-
-            <input
-                type="number"
-                id="season-count"
-                min="1"
-                value="1"
-            >
-
-            <div class="modal-actions">
-
-                <button id="cancel-add">
-                    Annuler
-                </button>
-
-                <button id="confirm-add">
-                    Ajouter
-                </button>
-
-            </div>
+            <button id="confirm-add">
+                Ajouter
+            </button>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- ============================================================
-         MODALE SUPPRESSION
-         ============================================================ -->
 
-    <div id="delete-modal" class="modal">
+<!-- Modale suppression -->
 
-        <div class="modal-content">
+<div id="delete-modal" class="modal">
 
-            <h2>
-                Supprimer cet anime ?
-            </h2>
+    <div class="modal-content">
 
-            <p>
-                Cette action est irréversible.
-            </p>
+        <h2>
+            Supprimer cet anime ?
+        </h2>
 
-            <div class="modal-actions">
+        <p>
+            Cette action est irréversible.
+        </p>
 
-                <button id="cancel-delete">
-                    Annuler
-                </button>
+        <div class="modal-actions">
 
-                <button id="confirm-delete">
-                    Supprimer
-                </button>
+            <button id="cancel-delete">
+                Annuler
+            </button>
 
-            </div>
+            <button id="confirm-delete">
+                Supprimer
+            </button>
 
         </div>
 
     </div>
 
+</div>
 
-    <script src="/static/js/index.js"></script>
+{% endblock %}
 
-</body>
 
-</html>
+{% block scripts %}
+
+<script src="/static/js/index.js"></script>
+
+{% endblock %}
