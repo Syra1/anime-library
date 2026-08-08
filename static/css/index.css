@@ -131,7 +131,7 @@
 
 #anime-list {
     display: grid;
-    grid-template-columns: repeat(6, max-content);
+    grid-template-columns: repeat(8, max-content);
     gap: 20px;
     justify-content: center;
     align-items: start;
@@ -147,6 +147,16 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.anime-card:hover {
+    text-decoration: none;
+    color: inherit;
+    transform: scale(1.03);
 }
 
 .anime-info {
@@ -169,12 +179,6 @@
     width: 150px;
     height: 225px;
     object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.anime-image img:hover {
-    transform: scale(1.05);
 }
 
 .anime-card h2 {
@@ -183,6 +187,10 @@
     text-align: left;
     width: 100%;
     margin-bottom: 5px;
+    display : -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 
@@ -193,81 +201,10 @@
     margin-bottom: 15px;
     text-align: left;
     width: 100%;
-}
-
-.watched {
-    color: #16a34a;
-}
-
-.unwatched {
-    color: #dc2626;
-}
-
-.seasons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.season-button {
-    width: 75px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 6px;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
-}
-
-.season-button.watched {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.season-button.unwatched {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.season-button:hover {
-    transform: translateY(-1px);
-}
-
-.season-button:active {
-    transform: scale(0.95);
-}
-
-.delete-anime-button {
-    padding: 5px 7px;
-    border: 1px solid #dc2626;
-    border-radius: 6px;
-    background: transparent;
-    color: #dc2626;
-    font-size: 12px;
-    cursor: pointer;
-    align-self: center;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
-}
-
-.delete-anime-button:hover {
-    background: #dc2626;
-    color: white;
-}
-
-.delete-anime-button:active {
-    transform: scale(0.95);
+    display : -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
 
 .modal {

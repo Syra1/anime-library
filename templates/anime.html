@@ -1,48 +1,59 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
-<img 
+<img
     src="{{ anime.image }}"
     alt="{{ anime.titre }}"
     class="anime-detail-image"
 >
 
-
 <h1>
     {{ anime.titre }}
 </h1>
 
+{% if anime.titre_original %}
 
-<p class="original-title">
-    {{ anime.titre_original }}
-</p>
+    <p class="anime-detail-original-title">
+        {{ anime.titre_original }}
+    </p>
 
+{% endif %}
 
-<div class="seasons">
+{% if anime.description %}
+
+    <p class="anime-description">
+        {{ anime.description | safe }}
+    </p>
+
+{% else %}
+
+    <p class="anime-description">
+        Aucune description disponible.
+    </p>
+
+{% endif %}
+
 
 {% for saison in anime.saisons %}
 
-<button
-    class="
-        season-button
-        {% if saison.vue %}
-            watched
-        {% else %}
-            unwatched
-        {% endif %}
-    "
-    data-anime-id="{{ anime.id }}"
-    data-season-id="{{ saison.id }}"
-    data-season-number="{{ saison.numero }}"
->
-    Saison {{ saison.numero }}
-</button>
+    <button
+        class="
+            season-button
+            {% if saison.vue %}
+                watched
+            {% else %}
+                unwatched
+            {% endif %}
+        "
+        data-anime-id="{{ anime.id }}"
+        data-season-id="{{ saison.id }}"
+        data-season-number="{{ saison.numero }}"
+    >
+        Saison {{ saison.numero }}
+    </button>
 
 {% endfor %}
-
-</div>
 
 
 <button
@@ -52,13 +63,9 @@
     🗑️ Supprimer
 </button>
 
-
 {% endblock %}
 
 
-
 {% block scripts %}
-
-<script src="/static/js/anime.js"></script>
 
 {% endblock %}

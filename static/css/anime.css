@@ -1,78 +1,126 @@
 .anime-page {
-
     max-width: 1000px;
     margin: 40px auto;
     padding: 20px;
-
 }
 
-
-
 .anime-header {
-
     display: flex;
     gap: 30px;
     background: white;
     padding: 25px;
     border-radius: 12px;
-
 }
 
-
-
 .anime-cover img {
-
     width: 250px;
     height: 350px;
     object-fit: cover;
     border-radius: 10px;
-
 }
-
-
 
 .anime-details {
-
     flex: 1;
-
 }
-
-
 
 .anime-details h2 {
-
     font-size: 30px;
     margin-bottom: 10px;
-
 }
-
-
 
 #anime-description {
-
     margin-top: 20px;
     line-height: 1.6;
-
 }
 
-
-
 .anime-seasons {
-
     margin-top: 30px;
     background: white;
     padding: 25px;
     border-radius: 12px;
-
 }
 
-
-
 #season-list {
-
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 20px;
+}
 
+.seasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.season-button {
+    width: 75px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.season-button.watched {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.season-button.unwatched {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.season-button:hover {
+    transform: translateY(-1px);
+}
+
+.season-button:active {
+    transform: scale(0.95);
+}
+
+.delete-anime-button {
+    padding: 5px 7px;
+    border: 1px solid #dc2626;
+    border-radius: 6px;
+    background: transparent;
+    color: #dc2626;
+    font-size: 12px;
+    cursor: pointer;
+    align-self: center;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.delete-anime-button:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-anime-button:active {
+    transform: scale(0.95);
+}
+
+.anime-description {
+    max-width: 800px;
+    margin: 20px auto;
+    line-height: 1.6;
+    color: #52525b;
+}
+
+.anime-detail-original-title {
+    color: #71717a;
+    font-style: italic;
 }

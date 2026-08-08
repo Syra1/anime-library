@@ -104,7 +104,19 @@ function displayAnimes(search = "") {
             .map(anime => {
 
                 return `
-                    <article class="anime-card">
+                    <a
+                        href="/anime/${anime.id}"
+                        class="anime-card"
+                    >
+
+                        <div class="anime-image">
+
+                            <img
+                                src="${anime.image}"
+                                alt="${anime.titre}"
+                            >
+
+                        </div>
 
 
                         <div class="anime-info">
@@ -113,29 +125,17 @@ function displayAnimes(search = "") {
                                 ${anime.titre}
                             </h2>
 
-
                             <p class="original-title">
                                 ${
                                     anime.titre_original
                                     ||
                                     "Titre original inconnu"
                                 }
-                            </p>                            
+                            </p>
 
                         </div>
 
-                        <div class="anime-image">
-
-                            <a href="/anime/${anime.id}">
-                                <img
-                                    src="${anime.image}"
-                                    alt="${anime.titre}"
-                                >
-                            </a>
-
-                        </div>
-
-                    </article>
+                    </a>
                 `;
 
             })
@@ -143,9 +143,7 @@ function displayAnimes(search = "") {
 
 }
 
-
 let librarySearchTimeout = null;
-
 
 document
     .getElementById("search")

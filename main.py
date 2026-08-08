@@ -130,10 +130,12 @@ async def add_anime(
 
 
     anime_id = ajouter_anime_complet(
-        anime["titre"],
-        anime["titre_original"],
-        anime["image"],
-        data.nombre_saisons
+        titre=anime["titre"],
+        titre_original=anime["titre_original"],
+        image=anime["image"],
+        nombre_saisons=data.nombre_saisons,
+        description=anime["description"],
+        nombre_episodes=anime["nombre_episodes"]
     )
 
 

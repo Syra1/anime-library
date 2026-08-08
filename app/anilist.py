@@ -158,16 +158,21 @@ def recuperer_anime(anime_id):
     query = """
     query ($id: Int) {
         Media(id: $id, type: ANIME) {
+
             id
 
             title {
                 romaji
                 english
             }
-            
-            coverImage{
+
+            coverImage {
                 large
             }
+
+            description(asHtml: false)
+
+            episodes
         }
     }
     """
@@ -203,16 +208,24 @@ def recuperer_anime(anime_id):
                 response.read()
             )
 
+
         if "errors" in resultat:
+
             print(resultat["errors"])
+
             return None
+
 
         media = resultat["data"]["Media"]
 
+
         if media is None:
+
             return None
 
+
         return {
+
             "titre":
                 media["title"]["english"]
                 or media["title"]["romaji"],
@@ -222,7 +235,14 @@ def recuperer_anime(anime_id):
                 or media["title"]["english"],
 
             "image":
-                media["coverImage"]["large"]
+                media["coverImage"]["large"],
+
+            "description":
+                media["description"] or "",
+
+            "nombre_episodes":
+                media["episodes"]
+
         }
 
 
