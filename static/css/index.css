@@ -15,7 +15,7 @@
 
 #anime-search {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 15px 12px 35px;
     border: 1px solid #d4d4d8;
     border-radius: 8px;
     font-size: 16px;
@@ -97,7 +97,7 @@
 
 #search {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 15px 12px 35px;
     border: 1px solid #d4d4d8;
     border-radius: 8px;
     font-size: 16px;
@@ -290,3 +290,27 @@
 #confirm-delete:hover {
     background: #b91c1c;
 }
+
+.search-input {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 16px;
+    height: 16px;
+
+    pointer-events: none;
+}
+
+.search-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+

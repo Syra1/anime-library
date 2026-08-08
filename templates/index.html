@@ -15,11 +15,18 @@ Ma bibliothèque d'animés
         Ajouter un anime
     </h2>
 
-    <input
-        type="text"
-        id="anime-search"
-        placeholder="Rechercher un anime..."
-    >
+    <div class="search-input">
+        <span class="search-icon">
+            <img src="/static/icons/search.svg" alt="" > 
+        </span>
+
+        <input
+            type="text"
+            id="anime-search"
+            placeholder="Rechercher un anime..."
+        >
+
+    </div>
 
     <section id="search-results">
         <!-- Les résultats AniList apparaîtront ici -->
@@ -32,11 +39,16 @@ Ma bibliothèque d'animés
 
 <section class="toolbar">
 
-    <input
-        type="text"
-        id="search"
-        placeholder="Rechercher dans ma bibliothèque..."
-    >
+    <div class="search-input">
+        <span class="search-icon">
+            <img src="/static/icons/search.svg" alt="" >
+        </span>
+        <input
+            type="text"
+            id="search"
+            placeholder="Rechercher dans ma bibliothèque..."
+        >
+    </div>
 
 </section>
 
