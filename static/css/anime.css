@@ -124,3 +124,30 @@
     color: #71717a;
     font-style: italic;
 }
+
+.season-controls {
+    display: inline-flex;
+    margin-top: 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #3f3f46;
+}
+
+.season-control-btn {
+    width: 48px;
+    height: 42px;
+    border: none;
+    background: #27272a;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.season-control-btn:hover {
+    background: #3f3f46;
+}
+
+.remove-season-btn {
+    border-right: 1px solid #3f3f46;
+}

@@ -14,7 +14,9 @@ from app.database import (
     modifier_saisons_vue,
     ajouter_anime_complet,
     supprimer_anime,
-    recuperer_anime_avec_saisons
+    recuperer_anime_avec_saisons,
+    ajouter_saison_suivante,
+    supprimer_derniere_saison
 )
 from pathlib import Path
 
@@ -172,4 +174,26 @@ async def delete_anime(anime_id: int):
 
     return {
         "success": True
+    }
+
+@app.post("/animes/{anime_id}/saisons/ajouter")
+async def ajouter_saison(
+    anime_id: int
+):
+    saison = ajouter_saison_suivante(
+        anime_id
+    )
+
+    return {
+        "success": True,
+        "saison": saison
+    }
+
+@app.delete("/animes/{anime_id}/saisons/retirer")
+async def retirer_saison(anime_id: int):
+
+    success = supprimer_derniere_saison(anime_id)
+
+    return {
+        "success": success
     }

@@ -291,3 +291,85 @@ def recuperer_anime_avec_saisons(anime_id):
             for saison in saisons
         ]
     }
+
+
+def ajouter_saison_suivante(anime_id):
+    connection = get_connection()
+
+    derniere_saison = connection.execute(
+        """
+        SELECT MAX(numero) AS numero
+        FROM saison
+        WHERE anime_id = ?
+        """,
+        (anime_id,)
+    ).fetchone()
+
+    if derniere_saison["numero"] is None:
+        numero = 1
+    else:
+        numero = derniere_saison["numero"] + 1
+
+    cursor = connection.execute(
+        """
+        INSERT INTO saison (
+            anime_id,
+            numero,
+            anilist_id,
+            nombre_episodes
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            anime_id,
+            numero,
+            None,
+            None
+        )
+    )
+
+    saison_id = cursor.lastrowid
+
+    connection.commit()
+    connection.close()
+
+    return {
+        "id": saison_id,
+        "numero": numero,
+        "nombre_episodes": None,
+        "vue": False
+    }
+
+def supprimer_derniere_saison(anime_id):
+
+    connection = get_connection()
+
+    derniere = connection.execute(
+        """
+        SELECT id
+        FROM saison
+        WHERE anime_id = ?
+        ORDER BY numero DESC, id DESC
+        LIMIT 1
+        """,
+        (anime_id,)
+    ).fetchone()
+
+    if derniere is None:
+        connection.close()
+        return False
+
+    connection.execute(
+        "DELETE FROM saison_vue WHERE saison_id = ?",
+        (derniere["id"],)
+    )
+
+    connection.execute(
+        "DELETE FROM saison WHERE id = ?",
+        (derniere["id"],)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return True

@@ -612,4 +612,34 @@ document.addEventListener(
 }
 );
 
+document.addEventListener("keydown", (event) => {
+
+    // La fenêtre "Ajouter un anime" n'est pas ouverte
+    if (
+        !addModal ||
+        addModal.style.display !== "flex"
+    ) {
+        return;
+    }
+
+    // Entrée = Ajouter
+    if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        confirmAddButton.click();
+
+    }
+
+    // Échap = Annuler
+    if (event.key === "Escape") {
+
+        event.preventDefault();
+
+        cancelAddButton.click();
+
+    }
+
+});
+
 loadAnimes();

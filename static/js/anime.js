@@ -98,18 +98,6 @@ if (deleteButton) {
                     deleteButton.dataset.animeId
                 );
 
-
-            const confirmation =
-                confirm(
-                    "Voulez-vous supprimer cet anime ?"
-                );
-
-
-            if (!confirmation) {
-                return;
-            }
-
-
             try {
 
                 const response =
@@ -147,3 +135,84 @@ if (deleteButton) {
     );
 
 }
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const bouton =
+            document.querySelector(
+                ".add-season-button"
+            );
+
+        if (!bouton) {
+            return;
+        }
+
+        bouton.addEventListener(
+            "click",
+            async () => {
+
+                const animeId =
+                    bouton.dataset.animeId;
+
+                const response =
+                    await fetch(
+                        `/animes/${animeId}/saisons/ajouter`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                const resultat =
+                    await response.json();
+
+                if (!resultat.success) {
+                    return;
+                }
+
+                window.location.reload();
+            }
+        );
+    }
+);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const controls = document.querySelector(".season-controls");
+    if (!controls) return;
+
+    const animeId = controls.dataset.animeId;
+
+    const addBtn = controls.querySelector(".add-season-btn");
+    const removeBtn = controls.querySelector(".remove-season-btn");
+
+    addBtn.addEventListener("click", async () => {
+        const response = await fetch(
+            `/animes/${animeId}/saisons/ajouter`,
+            { method: "POST" }
+        );
+
+        const resultat = await response.json();
+
+        if (resultat.success) {
+            window.location.reload();
+        }
+    });
+
+    removeBtn.addEventListener("click", async () => {
+
+        const response = await fetch(
+            `/animes/${animeId}/saisons/retirer`,
+            { method: "DELETE" }
+        );
+
+        const resultat = await response.json();
+
+        if (resultat.success) {
+            window.location.reload();
+        }
+    });
+
+});
