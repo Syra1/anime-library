@@ -34,8 +34,9 @@
 
 {% endif %}
 
+<div class="seasons">
 
-{% for saison in anime.saisons %}
+    {% for saison in anime.saisons %}
 
     <button
         class="
@@ -53,30 +54,41 @@
         Saison {{ saison.numero }}
     </button>
 
-{% endfor %}
+    {% endfor %}
 
-<div class="season-controls" data-anime-id="{{ anime.id }}">
-    <button
-        type="button"
-        class="season-control-btn remove-season-btn"
-    >
-        −
-    </button>
-
-    <button
-        type="button"
-        class="season-control-btn add-season-btn"
-    >
-        +
-    </button>
 </div>
 
-<button
-    class="delete-anime-button"
-    data-anime-id="{{ anime.id }}"
->
-    🗑️ Supprimer
-</button>
+
+<div class="anime-actions">
+
+    <div
+        class="season-controls"
+        data-anime-id="{{ anime.id }}"
+    >
+        <button
+            type="button"
+            class="season-control-btn remove-season-btn"
+        >
+            −
+        </button>
+
+        <button
+            type="button"
+            class="season-control-btn add-season-btn"
+        >
+            +
+        </button>
+    </div>
+
+
+    <button
+        class="delete-anime-button"
+        data-anime-id="{{ anime.id }}"
+    >
+        🗑️ Supprimer
+    </button>
+
+</div>
 
 {% endblock %}
 

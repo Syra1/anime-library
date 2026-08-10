@@ -57,7 +57,7 @@
 .season-button {
     width: 75px;
     height: 20px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 4px 6px;
@@ -114,9 +114,10 @@
 }
 
 .anime-description {
-    max-width: 800px;
+    max-width: 1500px;
     margin: 20px auto;
     line-height: 1.6;
+    text-align: justify;
     color: #52525b;
 }
 
@@ -150,4 +151,11 @@
 
 .remove-season-btn {
     border-right: 1px solid #3f3f46;
+}
+
+.anime-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
 }
