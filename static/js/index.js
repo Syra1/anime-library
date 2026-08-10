@@ -103,6 +103,18 @@ function displayAnimes(search = "") {
         filteredAnimes
             .map(anime => {
 
+                const derniereSaisonVue =
+                    anime.saisons
+                    .filter(saison => saison.vue)
+                    .reduce(
+                        (max, saison) =>
+                            Math.max(max, saison.numero),
+                        0
+                    );
+
+                const nombreSaisons =
+                    anime.saisons.length;
+
                 return `
                     <a
                         href="/anime/${anime.id}"
@@ -116,6 +128,9 @@ function displayAnimes(search = "") {
                                 alt="${anime.titre}"
                             >
 
+                        <span class="season-progress">
+                            ${derniereSaisonVue} / ${nombreSaisons}
+                        </span>
                         </div>
 
 

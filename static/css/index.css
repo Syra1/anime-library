@@ -301,10 +301,8 @@
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-
     width: 16px;
     height: 16px;
-
     pointer-events: none;
 }
 
@@ -313,4 +311,24 @@
     height: 100%;
 }
 
+.anime-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    order: 1;
+    width: 100%;
+}
 
+.season-progress {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    padding: 3px 5px;
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: white;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
