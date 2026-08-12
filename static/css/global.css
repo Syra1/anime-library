@@ -44,7 +44,10 @@ main {
 }
 
 .back-home-button {
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
     color: #52525b;
     text-decoration: none;
     padding: 8px 14px;
@@ -53,6 +56,12 @@ main {
     transition:
         background-color 0.2s ease,
         transform 0.1s ease;
+}
+
+.back-home-button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
 
 .back-home-button:hover {
@@ -65,22 +74,15 @@ main {
 }
 
 .site-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #18181b; 
-}
-
-.site-title {
     display: flex;
     align-items: center;
     gap: 8px;
-
     font-size: 16px;
     font-weight: 600;
     color: #18181b;
 }
 
-.site-title-icon {
+.site-title img {
     width: 20px;
     height: 20px;
     object-fit: contain;

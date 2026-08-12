@@ -13,7 +13,7 @@
 
     <link
         rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>"
+        href="/static/icons/clapper.svg"
     >
 
     <link rel="stylesheet" href="/static/css/global.css">
@@ -25,13 +25,20 @@
 <body>
 
     <header class="main-header">
-
+        
         <a href="/" class="back-home-button">
+            <img
+                src="/static/icons/library.svg"
+                alt="Bibliothèque"
+            >
             Bibliothèque
         </a>
 
         <div class="site-title">
-            <img src="/static/icons/clapper.svg" alt="" class="site-title-icon" >
+            <img
+                src="/static/icons/clapper.svg"
+                alt="Clapper"
+            >
             <span>
                 Anime Library
             </span>
@@ -45,9 +52,6 @@
         {% endblock %}
 
     </main>
-
-    <script src="/static/js/utils.js"></script>
-    <script src="/static/js/modals.js"></script>
 
     {% block scripts %}
     {% endblock %}
