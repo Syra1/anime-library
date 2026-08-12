@@ -1,6 +1,7 @@
 import json
 import urllib.request
 import urllib.error
+from app.traduction import traduire_anglais_francais
 
 
 ANILIST_API_URL = "https://graphql.anilist.co"
@@ -238,7 +239,9 @@ def recuperer_anime(anime_id):
                 media["coverImage"]["large"],
 
             "description":
-                media["description"] or "",
+                traduire_anglais_francais(
+                    media["description"] or ""
+                ),
 
             "nombre_episodes":
                 media["episodes"]
