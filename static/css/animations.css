@@ -1,6 +1,14 @@
 .magic-card {
-    animation: magic-card-appear 2s ease-out;
+    position: relative;
+    overflow: visible;
+
+    animation: magic-card-appear 1.1s ease-out;
 }
+
+
+/* =========================
+   ANIMATION D'APPARITION
+   ========================= */
 
 @keyframes magic-card-appear {
 
@@ -9,14 +17,21 @@
         transform: scale(0.2);
     }
 
-    60% {
+    45% {
         opacity: 1;
         transform: scale(1.08);
+    }
+
+    65% {
+        transform: scale(0.97);
+    }
+
+    82% {
+        transform: scale(1.03);
     }
 
     100% {
         opacity: 1;
         transform: scale(1);
     }
-
 }
