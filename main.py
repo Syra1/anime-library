@@ -17,21 +17,22 @@ from app.database import (
     recuperer_anime_avec_saisons,
     ajouter_saison_suivante,
     supprimer_derniere_saison,
-    modifier_description
 )
 from pathlib import Path
 
-# Debut du code
+# Chemin vers le dossier principal de l'application
 BASE_DIR = Path(__file__).resolve().parent
 
+# Modèle utilisé pour modifier l'état d'une saison
 class SaisonUpdate(BaseModel):
     id: int
     vue: bool
 
-
+# Modèle utilisé pour modifier plusieurs saisons
 class SaisonBatch(BaseModel):
     saisons: list[SaisonUpdate]
 
+# Modèle utilisé lors de l'ajout d'un anime
 class AnimeAdd(BaseModel):
     nombre_saisons: int = Field(
         ge=1,
@@ -69,16 +70,7 @@ async def index(request: Request):
         context={}
     )
 
-# Page détail d'un anime
-@app.get("/anime", response_class=HTMLResponse)
-async def anime_page(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="anime.html",
-        context={}
-    )
-
-
+# Affiche la page détaillée d'un anime
 @app.get("/anime/{anime_id}", response_class=HTMLResponse)
 async def anime_page(
     request: Request,
@@ -106,16 +98,17 @@ async def anime_page(
         }
     )
 
-# API pour récupérer les animés
+# Retourne tous les animés de la bibliothèque avec leurs saisons
 @app.get("/animes")
 async def get_animes():
     return lister_animes_avec_saisons()
 
+# Recherche des animés sur AniList
 @app.get("/search-anime")
 async def search_anime(q: str):
     return rechercher_animes(q)
 
-
+# Ajoute un anime dans la bibliothèque
 @app.post("/add-anime/{anilist_id}")
 async def add_anime(
     anilist_id: int,
@@ -144,6 +137,7 @@ async def add_anime(
         "anime_id": anime_id
     }
 
+# Met à jour l'état "vue" des saisons d'un anime
 @app.put("/animes/{anime_id}/saisons")
 async def modifier_saisons(
     anime_id: int,
@@ -165,6 +159,7 @@ async def modifier_saisons(
         "success": True
     }
 
+# Supprime un anime de la bibliothèque
 @app.delete("/animes/{anime_id}")
 async def delete_anime(anime_id: int):
 
@@ -174,6 +169,7 @@ async def delete_anime(anime_id: int):
         "success": True
     }
 
+# Ajoute une saison à un anime
 @app.post("/animes/{anime_id}/saisons/ajouter")
 async def ajouter_saison(
     anime_id: int
@@ -187,6 +183,7 @@ async def ajouter_saison(
         "saison": saison
     }
 
+# Supprime la dernière saison d'un anime
 @app.delete("/animes/{anime_id}/saisons/retirer")
 async def retirer_saison(anime_id: int):
 
