@@ -16,7 +16,8 @@ from app.database import (
     supprimer_anime,
     recuperer_anime_avec_saisons,
     ajouter_saison_suivante,
-    supprimer_derniere_saison
+    supprimer_derniere_saison,
+    modifier_description
 )
 from pathlib import Path
 
@@ -118,18 +119,16 @@ async def search_anime(q: str):
 @app.post("/add-anime/{anilist_id}")
 async def add_anime(
     anilist_id: int,
-    data: AnimeAdd
+    data: AnimeAdd,
 ):
 
     anime = recuperer_anime(anilist_id)
-
 
     if anime is None:
 
         return {
             "success": False
         }
-
 
     anime_id = ajouter_anime_complet(
         titre=anime["titre"],
@@ -139,7 +138,6 @@ async def add_anime(
         description=anime["description"],
         nombre_episodes=anime["nombre_episodes"]
     )
-
 
     return {
         "success": True,

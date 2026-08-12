@@ -166,6 +166,22 @@ def ajouter_anime_complet(
 
     return anime_id
 
+def modifier_description(anime_id, description):
+
+    connection = get_connection()
+
+    connection.execute(
+        """
+        UPDATE anime
+        SET description = ?
+        WHERE id = ?
+        """,
+        (description, anime_id)
+    )
+
+    connection.commit()
+    connection.close()
+
 def modifier_saisons_vue(anime_id, saisons):
 
     connection = get_connection()

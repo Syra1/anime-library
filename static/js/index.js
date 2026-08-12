@@ -1,4 +1,4 @@
-console.log("NOUVEAU SCRIPT 43");
+console.log("NOUVEAU SCRIPT 12");
 
 let animes = [];
 
@@ -119,6 +119,7 @@ function displayAnimes(search = "") {
                     <a
                         href="/anime/${anime.id}"
                         class="anime-card"
+                        data-anime-id="${anime.id}"
                     >
 
                         <div class="anime-image">
@@ -417,59 +418,7 @@ async function handleAddAnime(event) {
     seasonCountInput.focus();
     seasonCountInput.select();
 
-
     return;
-
-    try {
-
-        const response =
-            await fetch(
-                "/add-anime/"
-                + anilistId,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        nombre_saisons: nombreSaisons
-                    })
-                }
-            );
-
-
-        const resultat =
-            await response.json();
-
-
-        if (!resultat.success) {
-
-            throw new Error(
-                "Ajout impossible"
-            );
-
-        }
-
-
-        alert(
-            "Anime ajouté à la bibliothèque !"
-        );
-
-
-        loadAnimes();
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Erreur pendant l'ajout."
-        );
-
-    }
 
 }
 
@@ -478,7 +427,6 @@ cancelAddButton.addEventListener(
     () => {
 
         addModal.style.display = "none";
-
         currentAnimeToAdd = null;
 
     }
@@ -489,12 +437,10 @@ confirmAddButton.addEventListener(
     "click",
     async () => {
 
-
         const nombreSaisons =
             Number(
                 seasonCountInput.value
             );
-
 
         if (
             !nombreSaisons ||
@@ -508,7 +454,6 @@ confirmAddButton.addEventListener(
             return;
 
         }
-
 
         try {
 
@@ -547,6 +492,9 @@ confirmAddButton.addEventListener(
 
             loadAnimes();
 
+            setTimeout(() => {
+                animerAnimeAjoute(resultat.anime_id);
+            }, 100);
 
         } catch(error) {
 
@@ -639,5 +587,24 @@ document.addEventListener("keydown", (event) => {
     }
 
 });
+
+function animerAnimeAjoute(animeId) {
+
+    console.log("ID à animer :", animeId);
+
+    const card =
+        document.querySelector(
+            `.anime-card[data-anime-id="${animeId}"]`
+        );
+
+    console.log("Carte trouvée :", card);
+
+    if (!card) {
+        return;
+    }
+
+    card.classList.add("magic-card");
+
+}
 
 loadAnimes();

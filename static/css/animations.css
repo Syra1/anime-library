@@ -1,0 +1,22 @@
+.magic-card {
+    animation: magic-card-appear 2s ease-out;
+}
+
+@keyframes magic-card-appear {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.2);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
