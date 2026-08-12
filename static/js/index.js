@@ -412,12 +412,10 @@ async function handleAddAnime(event) {
         );
 
     currentAnimeToAdd = anilistId;
-
-
     seasonCountInput.value = 1;
-
-
     addModal.style.display = "flex";
+    seasonCountInput.focus();
+    seasonCountInput.select();
 
 
     return;

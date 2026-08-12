@@ -244,6 +244,7 @@
     border-radius: 8px;
     font-size: 16px;
     margin-bottom: 25px;
+    -moz-appearance: textfield;
 }
 
 

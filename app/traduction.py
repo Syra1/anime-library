@@ -5,19 +5,41 @@ import urllib.request
 
 def traduire_anglais_francais(texte):
 
-    params = urllib.parse.urlencode({
-        "q": texte,
-        "langpair": "en|fr"
-    })
+    if not texte:
+        return ""
 
-    url = (
-        "https://api.mymemory.translated.net/get?"
-        + params
-    )
+    morceaux = []
 
-    with urllib.request.urlopen(url) as response:
-        resultat = json.loads(
-            response.read().decode("utf-8")
+    for paragraphe in texte.split("\n\n"):
+
+        while len(paragraphe) > 500:
+            morceaux.append(paragraphe[:500])
+            paragraphe = paragraphe[500:]
+
+        morceaux.append(paragraphe)
+
+    traductions = []
+
+    for morceau in morceaux:
+
+        params = urllib.parse.urlencode({
+            "q": morceau,
+            "langpair": "en|fr"
+        })
+
+        url = (
+            "https://api.mymemory.translated.net/get?"
+            + params
         )
 
-    return resultat["responseData"]["translatedText"]
+        with urllib.request.urlopen(url) as response:
+
+            resultat = json.loads(
+                response.read().decode("utf-8")
+            )
+
+        traductions.append(
+            resultat["responseData"]["translatedText"]
+        )
+
+    return "\n\n".join(traductions)
