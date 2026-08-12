@@ -401,7 +401,7 @@ function displaySearchResults(resultats) {
 
 }
 
-async function handleAddAnime(event) {
+function handleAddAnime(event) {
 
     const button =
         event.currentTarget;
@@ -417,8 +417,6 @@ async function handleAddAnime(event) {
     addModal.style.display = "flex";
     seasonCountInput.focus();
     seasonCountInput.select();
-
-    return;
 
 }
 

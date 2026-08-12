@@ -170,7 +170,6 @@ def recuperer_anime(anime_id):
 
             description(asHtml: false)
 
-            episodes
         }
     }
     """
@@ -237,9 +236,6 @@ def recuperer_anime(anime_id):
 
             "description":
                 media["description"] or "",
-
-            "nombre_episodes":
-                media["episodes"]
 
         }
 

@@ -136,48 +136,6 @@ if (deleteButton) {
 
 }
 
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        const bouton =
-            document.querySelector(
-                ".add-season-button"
-            );
-
-        if (!bouton) {
-            return;
-        }
-
-        bouton.addEventListener(
-            "click",
-            async () => {
-
-                const animeId =
-                    bouton.dataset.animeId;
-
-                const response =
-                    await fetch(
-                        `/animes/${animeId}/saisons/ajouter`,
-                        {
-                            method: "POST"
-                        }
-                    );
-
-                const resultat =
-                    await response.json();
-
-                if (!resultat.success) {
-                    return;
-                }
-
-                window.location.reload();
-            }
-        );
-    }
-);
-
 document.addEventListener("DOMContentLoaded", () => {
 
     const controls = document.querySelector(".season-controls");

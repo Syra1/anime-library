@@ -20,8 +20,7 @@ def create_tables():
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
-            description TEXT,
-            nombre_episodes INTEGER
+            description TEXT
         )
     """)
 
@@ -52,15 +51,15 @@ def create_tables():
     connection.close()
 
 
-def ajouter_anime(titre, titre_original, image, description, nombre_episodes):
+def ajouter_anime(titre, titre_original, image, description):
     connection = get_connection()
 
     cursor = connection.execute(
         """
-        INSERT INTO anime (titre, titre_original, image, description, nombre_episodes)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO anime (titre, titre_original, image, description)
+        VALUES (?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, nombre_episodes)
+        (titre, titre_original, image, description)
     )
 
     anime_id = cursor.lastrowid
@@ -94,7 +93,7 @@ def lister_animes_avec_saisons():
     connection = get_connection()
 
     animes = connection.execute("""
-        SELECT id, titre, titre_original, image, description, nombre_episodes
+        SELECT id, titre, titre_original, image, description
         FROM anime
         ORDER BY titre
     """).fetchall()
@@ -124,7 +123,6 @@ def lister_animes_avec_saisons():
             "titre_original": anime["titre_original"],
             "image": anime["image"],
             "description": anime["description"],
-            "nombre_episodes": anime["nombre_episodes"],
             "saisons": [
                 {
                     "id": saison["id"],
@@ -145,7 +143,6 @@ def ajouter_anime_complet(
     image,
     nombre_saisons,
     description,
-    nombre_episodes
 ):
 
     anime_id = ajouter_anime(
@@ -153,7 +150,6 @@ def ajouter_anime_complet(
         titre_original,
         image,
         description,
-        nombre_episodes
     )
 
     for numero in range(1, nombre_saisons + 1):
@@ -236,7 +232,7 @@ def recuperer_anime_avec_saisons(anime_id):
 
     anime = connection.execute(
         """
-        SELECT id, titre, titre_original, image, description, nombre_episodes
+        SELECT id, titre, titre_original, image, description
         FROM anime
         WHERE id = ?
         """,
@@ -282,7 +278,6 @@ def recuperer_anime_avec_saisons(anime_id):
         "titre_original": anime["titre_original"],
         "image": anime["image"],
         "description": anime["description"],
-        "nombre_episodes": anime["nombre_episodes"],
         "saisons": [
             {
                 "id": saison["id"],
@@ -315,17 +310,13 @@ def ajouter_saison_suivante(anime_id):
         """
         INSERT INTO saison (
             anime_id,
-            numero,
-            anilist_id,
-            nombre_episodes
+            numero
         )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?)
         """,
         (
             anime_id,
             numero,
-            None,
-            None
         )
     )
 
@@ -337,7 +328,6 @@ def ajouter_saison_suivante(anime_id):
     return {
         "id": saison_id,
         "numero": numero,
-        "nombre_episodes": None,
         "vue": False
     }
 

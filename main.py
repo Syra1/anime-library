@@ -129,7 +129,6 @@ async def add_anime(
         image=anime["image"],
         nombre_saisons=data.nombre_saisons,
         description=anime["description"],
-        nombre_episodes=anime["nombre_episodes"]
     )
 
     return {
