@@ -91,7 +91,8 @@ function displayAnimes(search = "") {
     animeList.innerHTML = animeCards;
 }
 
-librarySearch.addEventListener("input", () => {
+// Gère la saisie dans le champ de recherche de la bibliothèque.
+function handleLibrarySearch() {
     clearTimeout(librarySearchTimeout);
     const recherche = librarySearch.value.trim();
     const rechercheTropCourte = recherche.length < minimumSearchLength;
@@ -102,262 +103,84 @@ librarySearch.addEventListener("input", () => {
     librarySearchTimeout = setTimeout(() => {
         displayAnimes(recherche);
     }, librarySearchDelay);
-});
-
-animeSearch.addEventListener(
-    "input",
-    () => {
-
-        const recherche =
-            animeSearch.value.trim();
-
-
-        clearTimeout(
-            searchTimeout
-        );
-
-
-        const rechercheTropCourte =
-            recherche.length <
-            minimumSearchLength;
-
-
-        if (rechercheTropCourte) {
-
-            searchResults.innerHTML =
-                "";
-
-            return;
-
-        }
-
-
-        searchTimeout =
-            setTimeout(
-                () => {
-
-                    searchAniList(
-                        recherche
-                    );
-
-                },
-                animeSearchDelay
-            );
-
-    }
-);
-
-
-/* =========================================================
-   RECHERCHE ANILIST
-   ========================================================= */
-
-async function searchAniList(
-    recherche
-) {
-
-    const loadingMessage =
-        `
-            <p>
-                Recherche en cours...
-            </p>
-        `;
-
-
-    searchResults.innerHTML =
-        loadingMessage;
-
-
-    try {
-
-        const encodedRecherche =
-            encodeURIComponent(
-                recherche
-            );
-
-
-        const url =
-            "/search-anime?q=" +
-            encodedRecherche;
-
-
-        const response =
-            await fetch(url);
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Erreur lors de la recherche"
-            );
-
-        }
-
-
-        const resultats =
-            await response.json();
-
-
-        displaySearchResults(
-            resultats
-        );
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        const errorMessage =
-            `
-                <p>
-                    Impossible de rechercher
-                    cet anime.
-                </p>
-            `;
-
-
-        searchResults.innerHTML =
-            errorMessage;
-
-    }
-
 }
 
+librarySearch.addEventListener("input", handleLibrarySearch);
 
-/* =========================================================
-   AFFICHAGE DES RÉSULTATS ANILIST
-   ========================================================= */
-
-function displaySearchResults(
-    resultats
-) {
-
-    const aucunResultat =
-        !resultats ||
-        resultats.length === 0;
-
-
-    if (aucunResultat) {
-
-        const message =
-            `
-                <p>
-                    Aucun anime trouvé.
-                </p>
-            `;
-
-
-        searchResults.innerHTML =
-            message;
-
-
+// Gère la saisie dans le champ de recherche AniList.
+function handleAnimeSearch() {
+    const recherche = animeSearch.value.trim();
+    clearTimeout(searchTimeout);
+    const rechercheTropCourte = recherche.length < minimumSearchLength;
+    if (rechercheTropCourte) {
+        searchResults.innerHTML = "";
         return;
-
     }
+    searchTimeout = setTimeout(() => {
+        searchAniList(recherche);
+    }, animeSearchDelay);
+}
 
+animeSearch.addEventListener("input", handleAnimeSearch);
 
-    const searchResultsList =
-        resultats
-            .map(anime => {
-
-                const titreEnglish =
-                    anime.title.english;
-
-
-                const titreRomaji =
-                    anime.title.romaji;
-
-
-                const titrePrincipal =
-                    titreEnglish ||
-                    titreRomaji;
-
-
-                const titreSecondaire =
-                    titreRomaji;
-
-
-                const image =
-                    anime.image;
-
-
-                const anilistId =
-                    anime.id;
-
-
-                return `
-                    <article
-                        class="search-result"
-                    >
-
-                        <img
-                            class="search-result-image"
-                            src="${image}"
-                            alt="${titrePrincipal}"
-                        >
-
-                        <div
-                            class="search-result-info"
-                        >
-
-                            <h3>
-                                ${titrePrincipal}
-                            </h3>
-
-                            <p>
-                                ${titreSecondaire}
-                            </p>
-
-                        </div>
-
-                        <button
-                            class="add-anime-button"
-                            data-anilist-id="
-                                ${anilistId}
-                            "
-                        >
-                            Ajouter
-                        </button>
-
-                    </article>
-                `;
-
-            })
-            .join("");
-
-
-    const searchResultsHTML =
-        `
-            <div class="search-results-list">
-
-                ${searchResultsList}
-
-            </div>
-        `;
-
-
-    searchResults.innerHTML =
-        searchResultsHTML;
-
-
-    const addAnimeButtons =
-        document.querySelectorAll(
-            ".add-anime-button"
-        );
-
-
-    addAnimeButtons.forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                handleAddAnime
-            );
-
+// Recherche un anime via l'API AniList.
+async function searchAniList(recherche) {
+    const loadingMessage = `<p>Recherche en cours...</p>`;
+    searchResults.innerHTML = loadingMessage;
+    try {
+        const encodedRecherche = encodeURIComponent(recherche);
+        const url = "/search-anime?q=" + encodedRecherche;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Erreur lors de la recherche");
         }
-    );
+        const resultats = await response.json();
+        displaySearchResults(resultats);
+    } catch (error) {
+        console.error(error);
+        const errorMessage = `<p>Impossible de rechercher cet anime.</p>`;
+        searchResults.innerHTML = errorMessage;
+    }
+}
 
+// Affiche les résultats de la recherche via l'API AniList.
+function displaySearchResults(resultats) {
+    const aucunResultat = !resultats || resultats.length === 0;
+    if (aucunResultat) {
+        const message = `<p>Aucun anime trouvé.</p>`;
+        searchResults.innerHTML = message;
+        return;
+    }
+    const searchResultsList = resultats.map(anime => {
+        const titreEnglish = anime.title.english;
+        const titreRomaji = anime.title.romaji;
+        const titrePrincipal = titreEnglish || titreRomaji;
+        const titreSecondaire = titreRomaji;
+        const image = anime.image;
+        const anilistId = anime.id;
+        return `<article class="search-result">
+                    <img class="search-result-image" src="${image}" alt="${titrePrincipal}">
+                    <div class="search-result-info">
+                        <h3>
+                            ${titrePrincipal}
+                        </h3>
+                        <p>
+                            ${titreSecondaire}
+                        </p>
+                    </div>
+                    <button class="add-anime-button" data-anilist-id="${anilistId}">
+                        Ajouter
+                    </button>
+                </article>`;
+    }).join("");
+    const searchResultsHTML = `<div class="search-results-list">
+        ${searchResultsList}
+    </div>`;
+    searchResults.innerHTML = searchResultsHTML;
+    const addAnimeButtons = document.querySelectorAll(".add-anime-button");
+    addAnimeButtons.forEach(button => {
+        button.addEventListener("click", handleAddAnime);
+    });
 }
 
 
