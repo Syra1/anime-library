@@ -52,42 +52,39 @@ if (deleteButton) {
     deleteButton.addEventListener("click", handleDeleteAnime);
 }
 
-// 
-document.addEventListener("DOMContentLoaded", () => {
-
+// Initialise les contrôles des saisons lorsque la page est chargée.
+function initializeSeasonControls() {
     const controls = document.querySelector(".season-controls");
-    if (!controls) return;
-
+    if (!controls) {
+        return;
+    }
     const animeId = controls.dataset.animeId;
-
     const addBtn = controls.querySelector(".add-season-btn");
     const removeBtn = controls.querySelector(".remove-season-btn");
+    addBtn.addEventListener("click", () => handleAddSeason(animeId));
+    removeBtn.addEventListener("click", () => handleRemoveSeason(animeId));
+}
 
-    addBtn.addEventListener("click", async () => {
-        const response = await fetch(
-            `/animes/${animeId}/saisons/ajouter`,
-            { method: "POST" }
-        );
-
-        const resultat = await response.json();
-
-        if (resultat.success) {
-            window.location.reload();
-        }
+// Ajoute une saison à l'anime.
+async function handleAddSeason(animeId) {
+    const response = await fetch(`/animes/${animeId}/saisons/ajouter`, { 
+        method: "POST"
     });
+    const resultat = await response.json();
+    if (resultat.success) {
+        window.location.reload();
+    }
+}
 
-    removeBtn.addEventListener("click", async () => {
-
-        const response = await fetch(
-            `/animes/${animeId}/saisons/retirer`,
-            { method: "DELETE" }
-        );
-
-        const resultat = await response.json();
-
-        if (resultat.success) {
-            window.location.reload();
-        }
+// Retire une saison à l'anime.
+async function handleRemoveSeason(animeId) {
+    const response = await fetch(`/animes/${animeId}/saisons/retirer`, {
+        method: "DELETE"
     });
+    const resultat = await response.json();
+    if (resultat.success) {
+        window.location.reload();
+    }
+}
 
-});
+document.addEventListener("DOMContentLoaded", initializeSeasonControls);

@@ -5,14 +5,9 @@ import urllib.error
 ANILIST_API_URL = "https://graphql.anilist.co"
 
 def rechercher_animes(recherche):
-
-    query = """
-    query ($search: String) {
+    query = """query ($search: String) {
         Page(perPage: 50) {
-            media(
-                search: $search,
-                type: ANIME
-            ) {
+            media(search: $search, type: ANIME) {
                 id
                 title {
                     romaji
@@ -23,60 +18,28 @@ def rechercher_animes(recherche):
                 }
             }
         }
-    }
-    """
-
+    }"""
     donnees = json.dumps({
-        "query": query,
-        "variables": {
+        "query": query, "variables": {
             "search": recherche
         }
     }).encode("utf-8")
-
-
-    requete = urllib.request.Request(
-        ANILIST_API_URL,
-        data=donnees,
-        headers={
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "User-Agent": "anime-library/1.0"
-        },
-        method="POST"
-    )
-
-
+    requete = urllib.request.Request(ANILIST_API_URL, data=donnees, headers={
+        "Content-Type": "application/json", "Accept": "application/json", "User-Agent": "anime-library/1.0"
+    }, method="POST")
     try:
-
-        with urllib.request.urlopen(
-            requete,
-            timeout=10
-        ) as response:
-
-            resultat = json.loads(
-                response.read()
-            )
-
-
+        with urllib.request.urlopen(requete, timeout=10) as response : resultat = json.loads(response.read())
         if "errors" in resultat:
             print("Erreur AniList :")
             print(resultat["errors"])
-
             return []
-
-
         animes = resultat["data"]["Page"]["media"]
-
         recherche_lower = recherche.lower()
-
-
         def score_anime(anime):
-
             titres = [
                 anime["title"]["english"],
                 anime["title"]["romaji"]
             ]
-
             titres = [
                 titre.lower()
                 for titre in titres
