@@ -1,3 +1,4 @@
+// Déclaration des variables
 let animes = [];
 let currentAnimeToAdd = null;
 let librarySearchTimeout = null;
@@ -18,7 +19,7 @@ const modalDisplay = "flex";
 const modalHiddenDisplay = "none";
 const unknownOriginalTitle = "Titre original inconnu";
 
-// Charge les animés depuis le serveur et les affiche dans la bibliothèque.
+// Charge les animés depuis la base de donnée.
 async function loadAnimes() {
     try {
         const response = await fetch("/animes");
@@ -36,7 +37,7 @@ async function loadAnimes() {
     }
 }
 
-// Normalise un texte sans accents ni majuscules.
+// Normalise les noms pour la recherche, sans accents ni majuscules.
 function normalizeText(text) {
     return (text || "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 }
@@ -183,339 +184,112 @@ function displaySearchResults(resultats) {
     });
 }
 
-
-/* =========================================================
-   AJOUT D'UN ANIME
-   ========================================================= */
-
+// Prépare l'ajout d'un anime
 function handleAddAnime(event) {
-
-    const button =
-        event.currentTarget;
-
-
-    const anilistId =
-        Number(
-            button.dataset.anilistId
-        );
-
-
-    currentAnimeToAdd =
-        anilistId;
-
-
-    seasonCountInput.value =
-        1;
-
-
-    addModal.style.display =
-        modalDisplay;
-
-
+    const button = event.currentTarget;
+    const anilistId = Number(button.dataset.anilistId);
+    currentAnimeToAdd = anilistId;
+    seasonCountInput.value = 1;
+    addModal.style.display = modalDisplay;
     seasonCountInput.focus();
-
     seasonCountInput.select();
-
 }
 
-
-/* =========================================================
-   ANNULATION
-   ========================================================= */
-
-cancelAddButton.addEventListener(
-    "click",
-    () => {
-
-        addModal.style.display =
-            modalHiddenDisplay;
-
-
-        currentAnimeToAdd =
-            null;
-
-    }
-);
-
-
-/* =========================================================
-   CONFIRMATION DE L'AJOUT
-   ========================================================= */
-
-confirmAddButton.addEventListener(
-    "click",
-    async () => {
-
-        const nombreSaisons =
-            Number(
-                seasonCountInput.value
-            );
-
-
-        const nombreSaisonsInvalide =
-            !nombreSaisons ||
-            nombreSaisons < 1;
-
-
-        if (nombreSaisonsInvalide) {
-
-            alert(
-                "Nombre de saisons invalide."
-            );
-
-
-            return;
-
-        }
-
-
-        try {
-
-            const url =
-                "/add-anime/" +
-                currentAnimeToAdd;
-
-
-            const requestOptions = {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    nombre_saisons:
-                        nombreSaisons
-
-                })
-
-            };
-
-
-            const response =
-                await fetch(
-                    url,
-                    requestOptions
-                );
-
-
-            const resultat =
-                await response.json();
-
-
-            const ajoutReussi =
-                resultat.success;
-
-
-            if (!ajoutReussi) {
-
-                throw new Error();
-
-            }
-
-
-            addModal.style.display =
-                modalHiddenDisplay;
-
-
-            loadAnimes();
-
-
-            const animeId =
-                resultat.anime_id;
-
-
-            setTimeout(
-                () => {
-
-                    animerAnimeAjoute(
-                        animeId
-                    );
-
-                },
-                animeAnimationDelay
-            );
-
-
-        } catch (error) {
-
-            console.error(error);
-
-
-            alert(
-                "Erreur pendant l'ajout."
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   CLICS EN DEHORS DES RECHERCHES
-   ========================================================= */
-
-document.addEventListener(
-    "click",
-    (event) => {
-
-        const clicDansRecherche =
-            animeSearch.contains(
-                event.target
-            );
-
-
-        const clicDansResultats =
-            searchResults.contains(
-                event.target
-            );
-
-
-        const clicDansLibrarySearch =
-            librarySearch.contains(
-                event.target
-            );
-
-
-        const clicEnDehorsRechercheAnime =
-            !clicDansRecherche &&
-            !clicDansResultats;
-
-
-        const clicEnDehorsRechercheBibliotheque =
-            !clicDansLibrarySearch;
-
-
-        if (
-            clicEnDehorsRechercheAnime
-        ) {
-
-            animeSearch.value =
-                "";
-
-            searchResults.innerHTML =
-                "";
-
-        }
-
-
-        if (
-            clicEnDehorsRechercheBibliotheque
-        ) {
-
-            librarySearch.value =
-                "";
-
-            displayAnimes("");
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   RACCOURCIS CLAVIER DU MODAL
-   ========================================================= */
-
-document.addEventListener(
-    "keydown",
-    (event) => {
-
-        const modalOuvert =
-            addModal &&
-            addModal.style.display ===
-                modalDisplay;
-
-
-        if (!modalOuvert) {
-
-            return;
-
-        }
-
-
-        const toucheEntree =
-            event.key === "Enter";
-
-
-        const toucheEchap =
-            event.key === "Escape";
-
-
-        if (toucheEntree) {
-
-            event.preventDefault();
-
-            confirmAddButton.click();
-
-        }
-
-
-        if (toucheEchap) {
-
-            event.preventDefault();
-
-            cancelAddButton.click();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   ANIMATION DE L'ANIME AJOUTÉ
-   ========================================================= */
-
-function animerAnimeAjoute(
-    animeId
-) {
-
-    console.log(
-        "ID à animer :",
-        animeId
-    );
-
-
-    const selector =
-        `.anime-card[data-anime-id="${animeId}"]`;
-
-
-    const card =
-        document.querySelector(
-            selector
-        );
-
-
-    console.log(
-        "Carte trouvée :",
-        card
-    );
-
-
-    if (!card) {
-
+// Ferme la fenêtre d'ajout et réinitialise l'anime sélectionné.
+function handleCancelAdd() {
+    addModal.style.display = modalHiddenDisplay;
+    currentAnimeToAdd = null;
+}
+
+cancelAddButton.addEventListener("click", handleCancelAdd);
+
+// Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
+async function handleConfirmAdd() {
+    const nombreSaisons = Number(seasonCountInput.value);
+    const nombreSaisonsInvalide = !nombreSaisons || nombreSaisons < 1;
+    if (nombreSaisonsInvalide) {
+        alert("Nombre de saisons invalide.");
         return;
-
     }
-
-
-    card.classList.add(
-        "magic-card"
-    );
-
+    try {
+        const url = "/add-anime/" + currentAnimeToAdd;
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                nombre_saisons : nombreSaisons
+            })
+        };
+        const response = await fetch(url, requestOptions);
+        const resultat = await response.json();
+        const ajoutReussi = resultat.success;
+        if (!ajoutReussi) {
+            throw new Error();
+        }
+        addModal.style.display = modalHiddenDisplay;
+        loadAnimes();
+        const animeId = resultat.anime_id;
+        setTimeout(() => {
+            animerAnimeAjoute(animeId);
+        }, animeAnimationDelay);
+    } catch (error) {
+        console.error(error);
+        alert("Erreur pendant l'ajout.");
+    }
 }
 
+confirmAddButton.addEventListener("click", handleConfirmAdd);
 
-/* =========================================================
-   INITIALISATION
-   ========================================================= */
+// Ferme les recherches lorsqu'un clic est effectué en dehors de la barre de recherche.
+function handleDocumentClick(event) {
+    const clicDansRecherche = animeSearch.contains(event.target);
+    const clicDansResultats = searchResults.contains(event.target);
+    const clicDansLibrarySearch = librarySearch.contains(event.target);
+    const clicEnDehorsRechercheAnime = !clicDansRecherche && !clicDansResultats;
+    const clicEnDehorsRechercheBibliotheque = !clicDansLibrarySearch;
+    if (clicEnDehorsRechercheAnime) {
+        animeSearch.value = "";
+        searchResults.innerHTML = "";
+    }
+    if (clicEnDehorsRechercheBibliotheque) {
+        librarySearch.value = "";
+        displayAnimes("");
+    }
+}
 
+document.addEventListener("click", handleDocumentClick);
+
+// Gère les touches Entrée et Échap lorsque la fenêtre d'ajout est ouverte.
+function handleDocumentKeydown(event) {
+    const modalOuvert = addModal && addModal.style.display === modalDisplay;
+    if (!modalOuvert) {
+        return;
+    }
+    const toucheEntree = event.key === "Enter";
+    const toucheEchap = event.key === "Escape";
+    if (toucheEntree) {
+        event.preventDefault();
+        confirmAddButton.click();
+    }
+    if (toucheEchap) {
+        event.preventDefault();
+        cancelAddButton.click();
+    }
+}
+
+document.addEventListener("keydown", handleDocumentKeydown);
+
+// Prépare la nouvelle card pour l'animation CSS.
+function animerAnimeAjoute(animeId) {
+    const selector = `.anime-card[data-anime-id="${animeId}"]`;
+    const card = document.querySelector(selector);
+    if (!card) {
+        return;
+    }
+    card.classList.add("magic-card");
+}
+
+// Recharge la liste des animés de la base de donnée.
 loadAnimes();
