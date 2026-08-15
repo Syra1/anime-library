@@ -4,111 +4,63 @@
 Ma bibliothèque d'animés
 {% endblock %}
 
-
 {% block content %}
-
 <!-- Recherche d'un anime sur AniList -->
-
 <section class="add-anime">
-
     <h2>
         Ajouter un anime
     </h2>
-
     <div class="search-input">
         <span class="search-icon">
             <img src="/static/icons/search.svg" alt="" > 
         </span>
-
-        <input
-            type="text"
-            id="anime-search"
-            placeholder="Rechercher un anime..."
-        >
-
+        <input type="text" id="anime-search" placeholder="Rechercher un anime...">
     </div>
-
     <section id="search-results">
         <!-- Les résultats AniList apparaîtront ici -->
     </section>
-
 </section>
 
-
 <!-- Recherche dans ma bibliothèque -->
-
 <section class="toolbar">
-
     <div class="search-input">
         <span class="search-icon">
             <img src="/static/icons/search.svg" alt="" >
         </span>
-        <input
-            type="text"
-            id="search"
-            placeholder="Rechercher dans ma bibliothèque..."
-        >
+        <input type="text" id="search" placeholder="Rechercher dans ma bibliothèque...">
     </div>
-
 </section>
 
 
 <!-- Liste de ma bibliothèque -->
-
 <section id="anime-list">
-
     <p>
         Chargement des animés...
     </p>
-
 </section>
 
-
 <!-- Modale ajout d'un anime -->
-
 <div id="add-modal" class="modal">
-
     <div class="modal-content">
-
         <h2 id="add-modal-title">
             Ajouter un anime
         </h2>
-
         <p>
             Combien de saisons possède cet anime ?
         </p>
-
-        <input
-            type="text"
-            inputmode="numeric"
-            id="season-count"
-            min="1"
-            max="30"
-            value="1"
-        >
-
+        <input type="text" inputmode="numeric" id="season-count" min="1" max="30" value="1">
         <div class="modal-actions">
-
             <button id="cancel-add">
                 Annuler
             </button>
-
             <button id="confirm-add">
                 Ajouter
             </button>
-
         </div>
-
     </div>
-
 </div>
-
-
 {% endblock %}
 
-
 {% block scripts %}
-
 <script src="/static/js/index.js"></script>
-
 {% endblock %}

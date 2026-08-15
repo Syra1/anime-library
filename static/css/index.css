@@ -7,11 +7,9 @@
     border-radius: 12px;
 }
 
-
 .add-anime h2 {
     margin-bottom: 15px;
 }
-
 
 #anime-search {
     width: 100%;
@@ -27,7 +25,6 @@
     margin-top: 15px;
     padding-right: 10px;
 }
-
 
 .search-result {
     display: flex;
@@ -47,21 +44,17 @@
     flex: 1;
 }
 
-
 .search-result h3 {
     margin: 0 0 5px 0;
 }
-
 
 .search-result p {
     margin: 5px 0;
 }
 
-
 .search-result small {
     color: #666;
 }
-
 
 .add-anime-button {
     margin-left: 15px;
@@ -72,7 +65,6 @@
     background: #18181b;
     color: white;
 }
-
 
 .add-anime-button:hover {
     background: #3f3f46;
@@ -94,7 +86,6 @@
     border-radius: 12px;
 }
 
-
 #search {
     width: 100%;
     padding: 12px 15px 12px 35px;
@@ -103,12 +94,10 @@
     font-size: 16px;
 }
 
-
 .filters {
     display: flex;
     gap: 10px;
 }
-
 
 .filter {
     border: none;
@@ -118,11 +107,9 @@
     cursor: pointer;
 }
 
-
 .filter:hover {
     background: #d4d4d8;
 }
-
 
 .filter.active {
     background: #18181b;
@@ -136,7 +123,6 @@
     justify-content: center;
     align-items: start;
 }
-
 
 .anime-card {
     width: fit-content;
@@ -189,10 +175,10 @@
     margin-bottom: 5px;
     display : -webkit-box;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     overflow: hidden;
 }
-
 
 .original-title {
     color: #71717a;
@@ -202,6 +188,7 @@
     width: 100%;
     display : -webkit-box;
     -webkit-box-orient: vertical;
+    line-clamp: 1;
     -webkit-line-clamp: 1;
     overflow: hidden;
 }
@@ -244,9 +231,9 @@
     border-radius: 8px;
     font-size: 16px;
     margin-bottom: 25px;
+    appearance: textfield;
     -moz-appearance: textfield;
 }
-
 
 .modal-actions {
     display: flex;
