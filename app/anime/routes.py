@@ -20,9 +20,7 @@ from app.anime.database import (
     supprimer_derniere_saison,
 )
 
-templates = Jinja2Templates(
-    directory=TEMPLATES_DIR
-)
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 router = APIRouter()
 
@@ -41,7 +39,6 @@ class AnimeAdd(BaseModel):
         le=30
     )
 
-
 @router.get(
     "/",
     response_class=HTMLResponse
@@ -54,9 +51,13 @@ async def index(request: Request):
         context={}
     )
 
+@router.get("/api")
+async def get_animes():
+
+    return lister_animes_avec_saisons()
 
 @router.get(
-    "/anime/{anime_id}",
+    "/{anime_id}",
     response_class=HTMLResponse
 )
 async def anime_page(
@@ -81,12 +82,6 @@ async def anime_page(
             "anime": anime
         }
     )
-
-@router.get("/animes")
-async def get_animes():
-
-    return lister_animes_avec_saisons()
-
 
 @router.get("/search-anime")
 async def search_anime(q: str):

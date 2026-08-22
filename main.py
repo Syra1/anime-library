@@ -3,11 +3,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.config import STATIC_DIR, TEMPLATES_DIR
+from app.home.routes import router as home_router
 from app.anime.routes import router as anime_router
 # from app.film.routes import router as film_router
 # from app.serie.routes import router as serie_router
 from app.anime.database import create_tables
-
 
 app = FastAPI()
 
@@ -18,18 +18,16 @@ app.mount(
     name="static"
 )
 
-
 # Templates
 templates = Jinja2Templates(
     directory=TEMPLATES_DIR
 )
 
-
 # Base de données
 create_tables()
 
-
 # Routes
-app.include_router(anime_router)
-# app.include_router(film_router)
-# app.include_router(serie_router)
+app.include_router(home_router)
+app.include_router(anime_router,prefix="/anime")
+# app.include_router(film_router,prefix="/film")
+# app.include_router(serie_router,prefix="/serie")

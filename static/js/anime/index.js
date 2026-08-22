@@ -22,14 +22,13 @@ const unknownOriginalTitle = "Titre original inconnu";
 // Charge les animés depuis la base de donnée.
 async function loadAnimes() {
     try {
-        const response = await fetch("/animes");
+        const response = await fetch("/anime/api");
         if (!response.ok) {
             throw new Error("Erreur lors du chargement des animés");
         }
         const resultats = await response.json();
         animes = resultats;
         displayAnimes();
-
     } catch (error) {
         console.error(error);
         const message = `<p>Impossible de charger les animés.</p>`;
@@ -39,7 +38,10 @@ async function loadAnimes() {
 
 // Normalise les noms pour la recherche, sans accents ni majuscules.
 function normalizeText(text) {
-    return (text || "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+    return (text || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
 }
 
 // Filtre les animés, génère leurs cartes et les affiche dans la bibliothèque.
@@ -57,22 +59,23 @@ function displayAnimes(search = "") {
         animeList.innerHTML = message;
         return;
     }
-    const animeCards = filteredAnimes.map(anime => {
-        const derniereSaisonVue = anime.saisons.reduce((max, saison) => {
-            const saisonVue = saison.vue;
-            const numeroSaison = saison.numero;
-            if (saisonVue) {
-                return Math.max(max, numeroSaison);
-            }
-            return max;
-        }, 0);
+    const animeCards = filteredAnimes
+        .map(anime => {
+            const derniereSaisonVue = anime.saisons.reduce((max, saison) => {
+                const saisonVue = saison.vue;
+                const numeroSaison = saison.numero;
+                if (saisonVue) {
+                    return Math.max(max, numeroSaison);
+                }
+                return max;
+            }, 0);
 
-        const nombreSaisons = anime.saisons.length;
-        const titre = anime.titre;
-        const titreOriginal = anime.titre_original || unknownOriginalTitle;
-        const image = anime.image;
-        const animeId = anime.id;
-        return `<a href="/anime/${animeId}" class="anime-card" data-anime-id="${animeId}">
+            const nombreSaisons = anime.saisons.length;
+            const titre = anime.titre;
+            const titreOriginal = anime.titre_original || unknownOriginalTitle;
+            const image = anime.image;
+            const animeId = anime.id;
+            return `<a href="/anime/${animeId}" class="anime-card" data-anime-id="${animeId}">
                     <div class="anime-image">
                         <img src="${image}" alt="${titre}">
                         <span class="season-progress">
@@ -88,7 +91,8 @@ function displayAnimes(search = "") {
                         </p>
                     </div>
                 </a>`;
-    }).join("");
+        })
+        .join("");
     animeList.innerHTML = animeCards;
 }
 
@@ -130,7 +134,7 @@ async function searchAniList(recherche) {
     searchResults.innerHTML = loadingMessage;
     try {
         const encodedRecherche = encodeURIComponent(recherche);
-        const url = "/search-anime?q=" + encodedRecherche;
+        const url = "/anime/search-anime?q=" + encodedRecherche;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Erreur lors de la recherche");
@@ -152,14 +156,15 @@ function displaySearchResults(resultats) {
         searchResults.innerHTML = message;
         return;
     }
-    const searchResultsList = resultats.map(anime => {
-        const titreEnglish = anime.title.english;
-        const titreRomaji = anime.title.romaji;
-        const titrePrincipal = titreEnglish || titreRomaji;
-        const titreSecondaire = titreRomaji;
-        const image = anime.image;
-        const anilistId = anime.id;
-        return `<article class="search-result">
+    const searchResultsList = resultats
+        .map(anime => {
+            const titreEnglish = anime.title.english;
+            const titreRomaji = anime.title.romaji;
+            const titrePrincipal = titreEnglish || titreRomaji;
+            const titreSecondaire = titreRomaji;
+            const image = anime.image;
+            const anilistId = anime.id;
+            return `<article class="search-result">
                     <img class="search-result-image" src="${image}" alt="${titrePrincipal}">
                     <div class="search-result-info">
                         <h3>
@@ -173,7 +178,8 @@ function displaySearchResults(resultats) {
                         Ajouter
                     </button>
                 </article>`;
-    }).join("");
+        })
+        .join("");
     const searchResultsHTML = `<div class="search-results-list">
         ${searchResultsList}
     </div>`;
@@ -212,15 +218,15 @@ async function handleConfirmAdd() {
         return;
     }
     try {
-        const url = "/add-anime/" + currentAnimeToAdd;
+        const url = "/anime/add-anime/" + currentAnimeToAdd;
         const requestOptions = {
             method: "POST",
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nombre_saisons : nombreSaisons
-            })
+                nombre_saisons: nombreSaisons,
+            }),
         };
         const response = await fetch(url, requestOptions);
         const resultat = await response.json();
