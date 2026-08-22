@@ -4,11 +4,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from pydantic import BaseModel, Field
-from app.anilist import (
+from app.anime.api import (
     rechercher_animes,
     recuperer_anime
 )
-from app.database import (
+from app.anime.database import (
     create_tables,
     lister_animes_avec_saisons,
     modifier_saisons_vue,
@@ -66,7 +66,7 @@ create_tables()
 async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
+        name="anime/index.html",
         context={}
     )
 
@@ -92,7 +92,7 @@ async def anime_page(
 
     return templates.TemplateResponse(
         request=request,
-        name="anime.html",
+        name="anime/anime.html",
         context={
             "anime": anime
         }
