@@ -1,10 +1,9 @@
-from pathlib import Path
-
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 from starlette.requests import Request
+from app.config import TEMPLATES_DIR
 
 from app.anime.api import (
     rechercher_animes,
@@ -12,7 +11,6 @@ from app.anime.api import (
 )
 
 from app.anime.database import (
-    create_tables,
     lister_animes_avec_saisons,
     modifier_saisons_vue,
     ajouter_anime_complet,
@@ -22,33 +20,11 @@ from app.anime.database import (
     supprimer_derniere_saison,
 )
 
-
-# ============================================================
-# Configuration
-# ============================================================
-
-# routes.py se trouve dans :
-# app/anime/routes.py
-#
-# parents[0] = anime
-# parents[1] = app
-# parents[2] = racine du projet
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-
-
 templates = Jinja2Templates(
-    directory=BASE_DIR / "templates"
+    directory=TEMPLATES_DIR
 )
 
-
-# Routeur dédié aux animés
 router = APIRouter()
-
-
-# ============================================================
-# Modèles Pydantic
-# ============================================================
 
 class SaisonUpdate(BaseModel):
     id: int
@@ -65,17 +41,6 @@ class AnimeAdd(BaseModel):
         le=30
     )
 
-
-# ============================================================
-# Initialisation de la base
-# ============================================================
-
-create_tables()
-
-
-# ============================================================
-# Pages HTML
-# ============================================================
 
 @router.get(
     "/",
@@ -116,11 +81,6 @@ async def anime_page(
             "anime": anime
         }
     )
-
-
-# ============================================================
-# API
-# ============================================================
 
 @router.get("/animes")
 async def get_animes():

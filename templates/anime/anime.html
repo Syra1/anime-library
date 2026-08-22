@@ -1,33 +1,17 @@
-{% extends "base.html" %}
-{% block content %}
-<img src="{{ anime.image }}" alt="{{ anime.titre }}" class="anime-detail-image">
-<h1>
-    {{ anime.titre }}
-</h1>
+{% extends "base.html" %} {% block content %}
+<img src="{{ anime.image }}" alt="{{ anime.titre }}" class="anime-detail-image" />
+<h1>{{ anime.titre }}</h1>
 {% if anime.titre_original %}
-    <p class="anime-detail-original-title">
-        {{ anime.titre_original }}
-    </p>
-{% endif %}
-{% if anime.description %}
-    <p class="anime-description">
-        {{ anime.description | safe }}
-    </p>
+<p class="anime-detail-original-title">{{ anime.titre_original }}</p>
+{% endif %} {% if anime.description %}
+<p class="anime-description">{{ anime.description | safe }}</p>
 {% else %}
-    <p class="anime-description">
-        Aucune description disponible.
-    </p>
+<p class="anime-description">Aucune description disponible.</p>
 {% endif %}
 <div class="seasons">
     {% for saison in anime.saisons %}
     <button
-        class="season-button {
-            % if saison.vue %
-        } watched {
-            % else %
-        } unwatched {
-            % endif %
-        }"
+        class="season-button {% if saison.vue %} watched {% else %} unwatched {% endif %}"
         data-anime-id="{{ anime.id }}"
         data-season-id="{{ saison.id }}"
         data-season-number="{{ saison.numero }}"
@@ -38,18 +22,11 @@
 </div>
 <div class="anime-actions">
     <div class="season-controls" data-anime-id="{{ anime.id }}">
-        <button type="button" class="season-control-btn remove-season-btn">
-            −
-        </button>
-        <button type="button" class="season-control-btn add-season-btn">
-            +
-        </button>
+        <button type="button" class="season-control-btn remove-season-btn">−</button>
+        <button type="button" class="season-control-btn add-season-btn">+</button>
     </div>
-    <button class="delete-anime-button" data-anime-id="{{ anime.id }}">
-        🗑️ Supprimer
-    </button>
+    <button class="delete-anime-button" data-anime-id="{{ anime.id }}">🗑️ Supprimer</button>
 </div>
-{% endblock %}
-{% block scripts %}
-    <script src="/static/js/anime/anime.js"></script>
+{% endblock %} {% block scripts %}
+<script src="/static/js/anime/anime.js"></script>
 {% endblock %}
