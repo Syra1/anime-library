@@ -210,15 +210,25 @@ function handleCancelAdd() {
 cancelAddButton.addEventListener("click", handleCancelAdd);
 
 // Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
+// Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
 async function handleConfirmAdd() {
     const nombreSaisons = Number(seasonCountInput.value);
     const nombreSaisonsInvalide = !nombreSaisons || nombreSaisons < 1;
+
     if (nombreSaisonsInvalide) {
         alert("Nombre de saisons invalide.");
         return;
     }
+
+    const anilistId = currentAnimeToAdd;
+
+    // Ferme immédiatement la fenêtre.
+    addModal.style.display = modalHiddenDisplay;
+    currentAnimeToAdd = null;
+
     try {
-        const url = "/anime/add-anime/" + currentAnimeToAdd;
+        const url = "/anime/add-anime/" + anilistId;
+
         const requestOptions = {
             method: "POST",
             headers: {
@@ -228,18 +238,28 @@ async function handleConfirmAdd() {
                 nombre_saisons: nombreSaisons,
             }),
         };
+
         const response = await fetch(url, requestOptions);
+
+        if (!response.ok) {
+            throw new Error("Erreur HTTP lors de l'ajout");
+        }
+
         const resultat = await response.json();
         const ajoutReussi = resultat.success;
+
         if (!ajoutReussi) {
-            throw new Error();
+            throw new Error("L'ajout de l'anime a échoué");
         }
-        addModal.style.display = modalHiddenDisplay;
-        loadAnimes();
+
+        await loadAnimes();
+
         const animeId = resultat.anime_id;
+
         setTimeout(() => {
             animerAnimeAjoute(animeId);
         }, animeAnimationDelay);
+
     } catch (error) {
         console.error(error);
         alert("Erreur pendant l'ajout.");
