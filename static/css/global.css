@@ -25,49 +25,125 @@ body {
     border-bottom: 1px solid #e4e4e7;
 }
 
-header h1 {
-    margin-bottom: 10px;
-}
-
-header p {
-    color: #d4d4d8;
-}
-
 main {
     max-width: 1500px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
+.library-menu {
+    position: relative;
+}
+
 .back-home-button {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 16px;
+    gap: 6px;
+
+    font-size: 13px;
     font-weight: 600;
     color: #52525b;
+
     text-decoration: none;
-    padding: 10px 16px;
-    border-radius: 8px;
+
+    padding: 8px 10px;
+    border-radius: 6px;
+
     background: transparent;
+
     transition:
         background-color 0.2s ease,
+        color 0.2s ease,
         transform 0.1s ease;
 }
 
 .back-home-button img {
     width: 20px;
     height: 20px;
-    object-fit: contain;
 }
 
 .back-home-button:hover {
-    background: #f4f4f5;
+    background: #e4e4e7;
     color: #18181b;
 }
 
 .back-home-button:active {
     transform: scale(0.95);
+}
+
+/* Sous-menu */
+
+.library-submenu {
+    position: absolute;
+
+    top: calc(100% + 4px);
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 120px;
+
+    padding: 4px;
+
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-5px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+}
+
+/* Le survol de tout le menu affiche le sous-menu */
+
+.library-menu:hover .library-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.library-submenu-button {
+    display: block;
+
+    padding: 8px 10px;
+
+    color: #52525b;
+    background: #ffffff;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.library-submenu-button:hover {
+    background: #e4e4e7;
+    color: #18181b;
+}
+
+.library-submenu-button.disabled {
+    color: #a1a1aa;
+    cursor: default;
+}
+
+.library-submenu-button.disabled:hover {
+    background: #ffffff;
 }
 
 .site-title {
@@ -82,5 +158,4 @@ main {
 .site-title img {
     width: 20px;
     height: 20px;
-    object-fit: contain;
 }

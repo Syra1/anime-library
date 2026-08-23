@@ -14,18 +14,43 @@
         {% endblock %}
     </head>
     <body>
+        
         <header class="main-header">
-            <a href="/" class="back-home-button">
-                <img src="/static/icons/library.svg" alt="Accueil" />
-                Accueil
+
+    <div class="library-menu">
+
+        <a href="/" class="back-home-button">
+            <img src="/static/icons/library.svg" alt="Accueil" />
+            Accueil
+        </a>
+
+        <div class="library-submenu">
+
+            <a href="/anime/" class="library-submenu-button">
+                Animés
             </a>
-            <div class="site-title">
-                <img src="/static/icons/clapper.svg" alt="Clapper" />
-                <span>
-                    Ma Bibliothèque
-                </span>
-            </div>
-        </header>
+
+            <span class="library-submenu-button disabled">
+                Films
+            </span>
+
+            <span class="library-submenu-button disabled">
+                Séries
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="site-title">
+        <img src="/static/icons/clapper.svg" alt="Clapper" />
+        <span>
+            Ma Bibliothèque
+        </span>
+    </div>
+
+</header>
+
         <main>
             {% block content %}
             {% endblock %}
