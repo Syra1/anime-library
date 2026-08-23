@@ -118,7 +118,7 @@
 
 #anime-list {
     display: grid;
-    grid-template-columns: repeat(8, max-content);
+    grid-template-columns: repeat(7, max-content);
     gap: 20px;
     justify-content: center;
     align-items: start;
