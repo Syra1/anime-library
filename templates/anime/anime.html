@@ -17,6 +17,7 @@
 <div class="seasons">
     {% for saison in anime.saisons %}
     <button
+        type="button"
         class="season-button {% if saison.vue %} watched {% else %} unwatched {% endif %}"
         data-anime-id="{{ anime.id }}"
         data-season-id="{{ saison.id }}"
