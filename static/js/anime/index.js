@@ -70,6 +70,7 @@ function displayAnimes(search = "") {
             }, 0);
 
             const nombreSaisons = anime.saisons.length;
+            const animeTermine = nombreSaisons > 0 && derniereSaisonVue === nombreSaisons;
             const titre = anime.titre;
             const titreOriginal = anime.titre_original || unknownOriginalTitle;
             const image = anime.image;
@@ -80,6 +81,10 @@ function displayAnimes(search = "") {
                         <span class="season-progress">
                             ${derniereSaisonVue} / ${nombreSaisons}
                         </span>
+                        ${
+                            animeTermine? `<img class="anime-complete-badge" src="/static/icons/check.svg" alt="Anime terminé">`: ""
+                        }
+
                     </div>
                     <div class="anime-info">
                         <h2>

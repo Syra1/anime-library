@@ -320,3 +320,12 @@
     font-size: 10px;
     font-weight: bold;
 }
+
+.anime-complete-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 16px !important;
+    height: 16px !important;
+    object-fit: contain;
+}
