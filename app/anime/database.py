@@ -20,7 +20,10 @@ def create_tables():
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
-            description TEXT
+            description TEXT,
+            annee INTEGER,
+            genres TEXT,
+            studios TEXT
         )
     """)
 
@@ -51,15 +54,15 @@ def create_tables():
     connection.close()
 
 
-def ajouter_anime(titre, titre_original, image, description):
+def ajouter_anime(titre, titre_original, image, description, annee, genres, studios):
     connection = get_connection()
 
     cursor = connection.execute(
         """
-        INSERT INTO anime (titre, titre_original, image, description)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO anime (titre, titre_original, image, description, annee, genres, studios)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description)
+        (titre, titre_original, image, description, annee, genres, studios)
     )
 
     anime_id = cursor.lastrowid
@@ -93,7 +96,7 @@ def lister_animes_avec_saisons():
     connection = get_connection()
 
     animes = connection.execute("""
-        SELECT id, titre, titre_original, image, description
+        SELECT id, titre, titre_original, image, description, annee, genres, studios
         FROM anime
         ORDER BY titre
     """).fetchall()
@@ -123,6 +126,9 @@ def lister_animes_avec_saisons():
             "titre_original": anime["titre_original"],
             "image": anime["image"],
             "description": anime["description"],
+            "annee": anime["annee"],
+            "genres": anime["genres"],
+            "studios": anime["studios"],
             "saisons": [
                 {
                     "id": saison["id"],
@@ -143,6 +149,9 @@ def ajouter_anime_complet(
     image,
     nombre_saisons,
     description,
+    annee,
+    genres,
+    studios,
 ):
 
     anime_id = ajouter_anime(
@@ -150,6 +159,9 @@ def ajouter_anime_complet(
         titre_original,
         image,
         description,
+        annee,
+        genres,
+        studios,
     )
 
     for numero in range(1, nombre_saisons + 1):
@@ -232,7 +244,7 @@ def recuperer_anime_avec_saisons(anime_id):
 
     anime = connection.execute(
         """
-        SELECT id, titre, titre_original, image, description
+        SELECT id, titre, titre_original, image, description, annee, genres, studios
         FROM anime
         WHERE id = ?
         """,
@@ -278,6 +290,9 @@ def recuperer_anime_avec_saisons(anime_id):
         "titre_original": anime["titre_original"],
         "image": anime["image"],
         "description": anime["description"],
+        "annee": anime["annee"],
+        "genres": anime["genres"],
+        "studios": anime["studios"],
         "saisons": [
             {
                 "id": saison["id"],

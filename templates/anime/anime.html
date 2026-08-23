@@ -41,6 +41,27 @@
                 </p>
             {% endif %}
 
+            {% if anime.annee %}
+                <p class="anime-info">
+                    <strong>Année :</strong>
+                    {{ anime.annee }}
+                </p>
+            {% endif %}
+
+            {% if anime.genres %}
+                <p class="anime-info">
+                    <strong>Genres :</strong>
+                    {{ anime.genres }}
+                </p>
+            {% endif %}
+
+            {% if anime.studios %}
+                <p class="anime-info">
+                    <strong>Studio :</strong>
+                    {{ anime.studios }}
+                </p>
+            {% endif %}
+
             <!-- Saisons -->
             <div class="seasons">
 

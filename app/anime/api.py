@@ -10,7 +10,7 @@ ANILIST_HEADERS = {
     "User-Agent": "anime-library/1.0"
 }
 ANILIST_TIMEOUT = 10
-MAX_SEARCH_RESULTS = 10
+MAX_SEARCH_RESULTS = 15
 NO_SCORE = 999
 
 # Prépare les données pour la base de données.
@@ -31,6 +31,12 @@ def creer_requete_anilist(donnees):
     )
     return requete
 
+# Converti une liste en texte
+def convertir_liste_en_texte(elements):
+    if not elements:
+        return ""
+    return ", ".join(elements)
+
 # Execute la requete pour l'API AniList.
 def executer_requete_anilist(requete):
     with urllib.request.urlopen(
@@ -43,7 +49,7 @@ def executer_requete_anilist(requete):
 # Recherche un anime dans la base de donnée.
 def rechercher_animes(recherche):
     query = """query ($search: String) {
-        Page(perPage: 50) {
+        Page(perPage: 15) {
             media(search: $search, type: ANIME) {
                 id
                 title {
@@ -132,6 +138,15 @@ def recuperer_anime(anime_id):
                 large
             }
             description(asHtml: false)
+            startDate {
+                year
+            }
+            genres
+            studios(isMain : true) {
+                nodes {
+                    name
+                }
+            }
         }
     }"""
     donnees = preparer_donnees(
@@ -158,11 +173,17 @@ def recuperer_anime(anime_id):
         )
         image = media["coverImage"]["large"]
         description = media["description"] or ""
+        annee = media["startDate"]["year"] if media["startDate"] else None
+        genres = convertir_liste_en_texte(media["genres"])
+        studio = convertir_liste_en_texte([studio["name"] for studio in media["studios"]["nodes"]])
         return {
             "titre": titre,
             "titre_original": titre_original,
             "image": image,
-            "description": description
+            "description": description,
+            "annee": annee,
+            "genres": genres,
+            "studios": studio
         }
     except Exception as erreur:
         print("Erreur récupération AniList :", erreur)
