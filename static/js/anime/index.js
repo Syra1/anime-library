@@ -12,7 +12,6 @@ const librarySearch = document.getElementById("search");
 const animeSearch = document.getElementById("anime-search");
 const searchResults = document.getElementById("search-results");
 const minimumSearchLength = 3;
-const librarySearchDelay = 500;
 const animeSearchDelay = 300;
 const animeAnimationDelay = 100;
 const modalDisplay = "flex";
@@ -105,9 +104,8 @@ function handleLibrarySearch() {
         displayAnimes("");
         return;
     }
-    librarySearchTimeout = setTimeout(() => {
-        displayAnimes(recherche);
-    }, librarySearchDelay);
+    displayAnimes(recherche);
+
 }
 
 librarySearch.addEventListener("input", handleLibrarySearch);
