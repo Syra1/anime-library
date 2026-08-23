@@ -1,36 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>
-        {% block title %}
-        Anime Library
-        {% endblock %}
-    </title>
-    <link rel="icon" href="/static/icons/clapper.svg">
-    <link rel="stylesheet" href="/static/css/global.css">
-    <link rel="stylesheet" href="/static/css/anime/index.css">
-    <link rel="stylesheet" href="/static/css/anime/anime.css">
-    <link rel="stylesheet" href="/static/css/animations.css">
-</head>
-<body>
-    <header class="main-header">
-        <a href="/" class="back-home-button">
-            <img src="/static/icons/library.svg" alt="Bibliothèque">
-            Bibliothèque
-        </a>
-        <div class="site-title">
-            <img src="/static/icons/clapper.svg" alt="Clapper">
-            <span>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            {% block title %}
                 Anime Library
-            </span>
-        </div>
-    </header>
-    <main>
-        {% block content %}
+            {% endblock %}
+        </title>
+        <link rel="icon" href="/static/icons/clapper.svg" />
+        <link rel="stylesheet" href="/static/css/global.css" />
+        <link rel="stylesheet" href="/static/css/animations.css" />
+        {% block styles %}
         {% endblock %}
-    </main>
-    {% block scripts %}
-    {% endblock %}
-</body>
+    </head>
+    <body>
+        <header class="main-header">
+            <a href="/" class="back-home-button">
+                <img src="/static/icons/library.svg" alt="Accueil" />
+                Accueil
+            </a>
+            <div class="site-title">
+                <img src="/static/icons/clapper.svg" alt="Clapper" />
+                <span>
+                    Ma Bibliothèque
+                </span>
+            </div>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        {% block scripts %}
+        {% endblock %}
+    </body>
 </html>
