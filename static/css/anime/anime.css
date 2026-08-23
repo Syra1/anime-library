@@ -1,71 +1,144 @@
 .anime-page {
-    max-width: 1000px;
-    margin: 40px auto;
+    max-width: 1200px;
+    margin: 60px auto;
     padding: 20px;
 }
 
+/* =========================
+   En-tête de l'anime
+   ========================= */
+
 .anime-header {
     display: flex;
-    gap: 30px;
+    gap: 40px;
+
+    min-height: 500px;
+
+    padding: 30px;
+
     background: white;
-    padding: 25px;
-    border-radius: 12px;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================
+   Image
+   ========================= */
+
+.anime-cover {
+    flex-shrink: 0;
+
+    width: 280px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .anime-cover img {
-    width: 250px;
-    height: 350px;
+    width: 280px;
+    height: 400px;
+
     object-fit: cover;
-    border-radius: 10px;
-}
 
-.anime-details {
-    flex: 1;
-}
-
-.anime-details h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-#anime-description {
-    margin-top: 20px;
-    line-height: 1.6;
-}
-
-.anime-seasons {
-    margin-top: 30px;
-    background: white;
-    padding: 25px;
     border-radius: 12px;
 }
 
-#season-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+/* =========================
+   Bouton supprimer
+   ========================= */
+
+.delete-anime-button {
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #dc2626;
+    border-radius: 7px;
+
+    background: transparent;
+    color: #dc2626;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
 }
+
+.delete-anime-button:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-anime-button:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   Informations
+   ========================= */
+
+.anime-details {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.anime-details h2 {
+    margin: 0 0 8px;
+
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.anime-detail-original-title {
+    margin: 0;
+
+    color: #71717a;
+
+    font-size: 15px;
+    font-style: italic;
+}
+
+/* =========================
+   Saisons
+   ========================= */
 
 .seasons {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
+
+    gap: 10px;
+
+    margin-top: 25px;
 }
 
 .season-button {
-    width: 75px;
-    height: 20px;
+    width: 90px;
+    height: 36px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 4px 6px;
+
+    padding: 6px 10px;
+
     border: none;
     border-radius: 8px;
-    font-size: 12px;
+
+    font-size: 13px;
+
     cursor: pointer;
-    transition: 
+
+    transition:
         background-color 0.2s ease,
         color 0.2s ease,
         transform 0.1s ease;
@@ -82,67 +155,44 @@
 }
 
 .season-button:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .season-button:active {
     transform: scale(0.95);
 }
 
-.delete-anime-button {
-    padding: 5px 7px;
-    border: 1px solid #dc2626;
-    border-radius: 6px;
-    background: transparent;
-    color: #dc2626;
-    font-size: 12px;
-    cursor: pointer;
-    align-self: center;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
-}
-
-.delete-anime-button:hover {
-    background: #dc2626;
-    color: white;
-}
-
-.delete-anime-button:active {
-    transform: scale(0.95);
-}
-
-.anime-description {
-    max-width: 1500px;
-    margin: 20px auto;
-    line-height: 1.6;
-    text-align: justify;
-    color: #52525b;
-}
-
-.anime-detail-original-title {
-    color: #71717a;
-    font-style: italic;
-}
+/* =========================
+   Boutons + / -
+   ========================= */
 
 .season-controls {
     display: inline-flex;
-    margin-top: 18px;
-    border-radius: 10px;
+
+    width: fit-content;
+
+    margin-top: 15px;
+
     overflow: hidden;
+
     border: 1px solid #3f3f46;
+    border-radius: 8px;
 }
 
 .season-control-btn {
-    width: 48px;
-    height: 42px;
+    width: 42px;
+    height: 38px;
+
     border: none;
+
     background: #27272a;
     color: white;
-    font-size: 22px;
+
+    font-size: 20px;
+
     cursor: pointer;
-    transition: background 0.15s ease;
+
+    transition: background-color 0.15s ease;
 }
 
 .season-control-btn:hover {
@@ -153,9 +203,63 @@
     border-right: 1px solid #3f3f46;
 }
 
-.anime-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
+/* =========================
+   Description
+   ========================= */
+
+.anime-description {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    line-height: 1.7;
+
+    text-align: justify;
+
+    color: #52525b;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .anime-header {
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 25px;
+    }
+
+    .anime-cover {
+        width: 220px;
+    }
+
+    .anime-cover img {
+        width: 220px;
+        height: 315px;
+    }
+
+    .anime-details {
+        width: 100%;
+    }
+
+    .anime-details h2 {
+        font-size: 26px;
+    }
+
+    .seasons {
+        justify-content: center;
+    }
+
+    .season-controls {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

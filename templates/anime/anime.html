@@ -5,37 +5,106 @@
 {% endblock %}
 
 {% block content %}
-<img src="{{ anime.image }}" alt="{{ anime.titre }}" class="anime-detail-image" />
-<h1>{{ anime.titre }}</h1>
-{% if anime.titre_original %}
-<p class="anime-detail-original-title">{{ anime.titre_original }}</p>
-{% endif %} {% if anime.description %}
-<p class="anime-description">{{ anime.description | safe }}</p>
-{% else %}
-<p class="anime-description">Aucune description disponible.</p>
-{% endif %}
-<div class="seasons">
-    {% for saison in anime.saisons %}
-    <button
-        type="button"
-        class="season-button {% if saison.vue %} watched {% else %} unwatched {% endif %}"
-        data-anime-id="{{ anime.id }}"
-        data-season-id="{{ saison.id }}"
-        data-season-number="{{ saison.numero }}"
-    >
-        Saison {{ saison.numero }}
-    </button>
-    {% endfor %}
-</div>
-<div class="anime-actions">
-    <div class="season-controls" data-anime-id="{{ anime.id }}">
-        <button type="button" class="season-control-btn remove-season-btn">−</button>
-        <button type="button" class="season-control-btn add-season-btn">+</button>
+
+<div class="anime-page">
+
+    <div class="anime-header">
+
+        <!-- Image + suppression -->
+        <div class="anime-cover">
+
+            <img
+                src="{{ anime.image }}"
+                alt="{{ anime.titre }}"
+            />
+
+            <button
+                type="button"
+                class="delete-anime-button"
+                data-anime-id="{{ anime.id }}"
+            >
+                🗑️ Supprimer
+            </button>
+
+        </div>
+
+        <!-- Informations de l'anime -->
+        <div class="anime-details">
+
+            <h2>
+                {{ anime.titre }}
+            </h2>
+
+            {% if anime.titre_original %}
+                <p class="anime-detail-original-title">
+                    {{ anime.titre_original }}
+                </p>
+            {% endif %}
+
+            <!-- Saisons -->
+            <div class="seasons">
+
+                {% for saison in anime.saisons %}
+
+                    <button
+                        type="button"
+                        class="season-button {% if saison.vue %}watched{% else %}unwatched{% endif %}"
+                        data-anime-id="{{ anime.id }}"
+                        data-season-id="{{ saison.id }}"
+                        data-season-number="{{ saison.numero }}"
+                    >
+                        Saison {{ saison.numero }}
+                    </button>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- Ajouter / retirer une saison -->
+            <div
+                class="season-controls"
+                data-anime-id="{{ anime.id }}"
+            >
+
+                <button
+                    type="button"
+                    class="season-control-btn remove-season-btn"
+                >
+                    −
+                </button>
+
+                <button
+                    type="button"
+                    class="season-control-btn add-season-btn"
+                >
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-    <button class="delete-anime-button" data-anime-id="{{ anime.id }}">🗑️ Supprimer</button>
+
+    <!-- Description -->
+    {% if anime.description %}
+
+        <p class="anime-description">
+            {{ anime.description | safe }}
+        </p>
+
+    {% else %}
+
+        <p class="anime-description">
+            Aucune description disponible.
+        </p>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}
+
 {% block scripts %}
     <script src="/static/js/anime/anime.js"></script>
 {% endblock %}
