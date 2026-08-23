@@ -56,38 +56,10 @@ async def get_animes():
 
     return lister_animes_avec_saisons()
 
-@router.get(
-    "/{anime_id}",
-    response_class=HTMLResponse
-)
-async def anime_page(
-    request: Request,
-    anime_id: int
-):
-
-    anime = recuperer_anime_avec_saisons(
-        anime_id
-    )
-
-    if anime is None:
-        return HTMLResponse(
-            "Anime introuvable",
-            status_code=404
-        )
-
-    return templates.TemplateResponse(
-        request=request,
-        name="anime/anime.html",
-        context={
-            "anime": anime
-        }
-    )
-
 @router.get("/search-anime")
 async def search_anime(q: str):
 
     return rechercher_animes(q)
-
 
 @router.post("/add-anime/{anilist_id}")
 async def add_anime(
@@ -116,6 +88,35 @@ async def add_anime(
         "success": True,
         "anime_id": anime_id
     }
+
+@router.get(
+    "/{anime_id}",
+    response_class=HTMLResponse
+)
+async def anime_page(
+    request: Request,
+    anime_id: int
+):
+
+    anime = recuperer_anime_avec_saisons(
+        anime_id
+    )
+
+    if anime is None:
+        return HTMLResponse(
+            "Anime introuvable",
+            status_code=404
+        )
+
+    return templates.TemplateResponse(
+        request=request,
+        name="anime/anime.html",
+        context={
+            "anime": anime
+        }
+    )
+
+
 
 
 @router.put("/animes/{anime_id}/saisons")

@@ -12,7 +12,7 @@ async function handleSeasonClick(event) {
             vue: numero <= seasonNumber
         });
     });
-    await fetch("/animes/" + animeId + "/saisons", {
+    await fetch("/anime/animes/" + animeId + "/saisons", {
         method: "PUT", headers: {
             "Content-Type": "application/json"
         },
@@ -33,7 +33,7 @@ async function handleDeleteAnime(event) {
     const deleteButton = event.currentTarget;
     const animeId = Number(deleteButton.dataset.animeId);
     try {
-        const response = await fetch("/animes/" + animeId, {
+        const response = await fetch("/anime/animes/" + animeId, {
             method: "DELETE"
         });
         if (!response.ok) {
@@ -67,7 +67,7 @@ function initializeSeasonControls() {
 
 // Ajoute une saison à l'anime.
 async function handleAddSeason(animeId) {
-    const response = await fetch(`/animes/${animeId}/saisons/ajouter`, { 
+    const response = await fetch(`/anime/animes/${animeId}/saisons/ajouter`, { 
         method: "POST"
     });
     const resultat = await response.json();
@@ -78,7 +78,7 @@ async function handleAddSeason(animeId) {
 
 // Retire une saison à l'anime.
 async function handleRemoveSeason(animeId) {
-    const response = await fetch(`/animes/${animeId}/saisons/retirer`, {
+    const response = await fetch(`/anime/animes/${animeId}/saisons/retirer`, {
         method: "DELETE"
     });
     const resultat = await response.json();
