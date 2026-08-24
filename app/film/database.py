@@ -26,7 +26,9 @@ def create_tables():
             annee INTEGER,
             genres TEXT,
             duree INTEGER,
-            realisateur TEXT
+            realisateur TEXT,
+            collection_id INTEGER,
+            collection_nom TEXT
         )
     """)
 
@@ -43,6 +45,8 @@ def ajouter_film(
     genres,
     duree,
     realisateur,
+    collection_id,
+    collection_nom,
 ):
     connection = get_connection()
 
@@ -56,9 +60,11 @@ def ajouter_film(
             annee,
             genres,
             duree,
-            realisateur
+            realisateur,
+            collection_id,
+            collection_nom
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             titre,
@@ -69,6 +75,8 @@ def ajouter_film(
             genres,
             duree,
             realisateur,
+            collection_id,
+            collection_nom,
         )
     )
 
@@ -93,9 +101,11 @@ def lister_films():
             film.annee,
             film.genres,
             film.duree,
-            film.realisateur
+            film.realisateur,
+            film.collection_id,
+            film.collection_nom
         FROM film
-        ORDER BY film.titre COLLATE NOCASE
+        ORDER BY COALESCE(film.collection_nom, film.titre) COLLATE NOCASE ASC, film.annee ASC, film.titre COLLATE NOCASE ASC
     """).fetchall()
 
     connection.close()
@@ -111,6 +121,8 @@ def lister_films():
             "genres": film["genres"],
             "duree": film["duree"],
             "realisateur": film["realisateur"],
+            "collection_id": film["collection_id"],
+            "collection_nom": film["collection_nom"],
         }
         for film in films
     ]
@@ -149,7 +161,9 @@ def recuperer_film(film_id):
             film.annee,
             film.genres,
             film.duree,
-            film.realisateur
+            film.realisateur,
+            film.collection_id,
+            film.collection_nom
         FROM film
         WHERE film.id = ?
         """,
@@ -173,4 +187,6 @@ def recuperer_film(film_id):
         "genres": film["genres"],
         "duree": film["duree"],
         "realisateur": film["realisateur"],
+        "collection_id": film["collection_id"],
+        "collection_nom": film["collection_nom"],
     }

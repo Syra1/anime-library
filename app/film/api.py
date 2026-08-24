@@ -260,6 +260,17 @@ def recuperer_film(film_id):
 
         realisateur = None
 
+        collection_id = None
+        collection_nom = None
+
+        collection = media.get(
+            "belongs_to_collection"
+        )
+
+        if collection:
+            collection_id = collection.get("id")
+            collection_nom = collection.get("name")
+
         credits = media.get(
             "credits",
             {}
@@ -284,6 +295,8 @@ def recuperer_film(film_id):
             "genres": genres,
             "duree": duree,
             "realisateur": realisateur,
+            "collection_id": collection_id,
+            "collection_nom": collection_nom,
 
         }
 
