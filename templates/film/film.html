@@ -3,3 +3,88 @@
 {% block styles %}
     <link rel="stylesheet" href="/static/css/film/film.css">
 {% endblock %}
+
+{% block content %}
+
+<div class="film-page">
+
+    <div class="film-header">
+
+        <!-- Image + suppression -->
+        <div class="film-cover">
+
+            <img
+                src="{{ film.image }}"
+                alt="{{ film.titre }}"
+            />
+
+            <button
+                type="button"
+                class="delete-film-button"
+                data-film-id="{{ film.id }}"
+            >
+                🗑️ Supprimer
+            </button>
+
+        </div>
+
+        <!-- Informations du film -->
+        <div class="film-details">
+
+            <h2>
+                {{ film.titre }}
+            </h2>
+
+            {% if film.titre_original %}
+                <p class="film-detail-original-title">
+                    {{ film.titre_original }}
+                </p>
+            {% endif %}
+
+            {% if film.annee %}
+                <p class="film-info">
+                    <strong>Année :</strong>
+                    {{ film.annee }}
+                </p>
+            {% endif %}
+
+            {% if film.genres %}
+                <p class="film-info">
+                    <strong>Genres :</strong>
+                    {{ film.genres }}
+                </p>
+            {% endif %}
+
+            {% if film.studios %}
+                <p class="film-info">
+                    <strong>Studio :</strong>
+                    {{ film.studios }}
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Description -->
+    {% if film.description %}
+
+        <p class="film-description">
+            {{ film.description | safe }}
+        </p>
+
+    {% else %}
+
+        <p class="film-description">
+            Aucune description disponible.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/film/film.js"></script>
+{% endblock %}
