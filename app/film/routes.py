@@ -13,8 +13,7 @@ from app.film.api import (
 
 from app.film.database import (
     lister_films,
-    modifier_film_vue,
-    ajouter_film_complet,
+    ajouter_film,
     supprimer_film,
     recuperer_film as recuperer_film_database,
 )
@@ -23,11 +22,6 @@ from app.film.database import (
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 router = APIRouter()
-
-
-class FilmVueUpdate(BaseModel):
-    vue: bool
-
 
 @router.get(
     "/",
@@ -61,7 +55,7 @@ async def add_film(tmdb_id: int):
             "success": False
         }
 
-    film_id = ajouter_film_complet(
+    film_id = ajouter_film(
         titre=film["titre"],
         titre_original=film["titre_original"],
         image=film["image"],
@@ -102,22 +96,6 @@ async def film_page(
             "film": film
         }
     )
-
-
-@router.put("/films/{film_id}/vue")
-async def modifier_vue(
-    film_id: int,
-    data: FilmVueUpdate
-):
-
-    modifier_film_vue(
-        film_id,
-        data.vue
-    )
-
-    return {
-        "success": True
-    }
 
 
 @router.delete("/films/{film_id}")

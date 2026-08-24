@@ -2,17 +2,20 @@
 
 let films = [];
 
-let librarySearchTimeout = null;
 
 let searchTimeout = null;
 
-const filmList = document.getElementById("film-list");
+const filmList =
+    document.getElementById("film-list");
 
-const librarySearch = document.getElementById("search");
+const librarySearch =
+    document.getElementById("search");
 
-const filmSearch = document.getElementById("film-search");
+const filmSearch =
+    document.getElementById("film-search");
 
-const searchResults = document.getElementById("search-results");
+const searchResults =
+    document.getElementById("search-results");
 
 const minimumSearchLength = 3;
 
@@ -20,7 +23,8 @@ const filmSearchDelay = 300;
 
 const filmAnimationDelay = 100;
 
-const unknownOriginalTitle = "Titre original inconnu";
+const unknownOriginalTitle =
+    "Titre original inconnu";
 
 
 // Charge les films depuis la base de données.
@@ -29,7 +33,8 @@ async function loadFilms() {
 
     try {
 
-        const response = await fetch("/film/api");
+        const response =
+            await fetch("/film/api");
 
         if (!response.ok) {
 
@@ -39,15 +44,21 @@ async function loadFilms() {
 
         }
 
-        const resultats = await response.json();
+        const resultats =
+            await response.json();
 
-        films = resultats;
+        films = Array.isArray(resultats)
+            ? resultats
+            : [];
 
         displayFilms();
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur chargement films :",
+            error
+        );
 
         const message = `
             <p>Impossible de charger les films.</p>
@@ -58,114 +69,132 @@ async function loadFilms() {
 }
 
 
-// Normalise les noms pour la recherche,
-// sans accents ni majuscules.
+// Normalise les noms pour la recherche
+// et le tri, sans accents ni majuscules.
 
 function normalizeText(text) {
 
     return (text || "")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
+}
+
+// Génère une carte de film.
+
+function createFilmCard(film) {
+
+    const titre =
+        film.titre || "Titre inconnu";
+
+
+    const titreOriginal =
+        film.titre_original ||
+        unknownOriginalTitle;
+
+
+    const image =
+        film.image;
+
+
+    const filmId =
+        film.id;
+
+
+    return `
+
+        <a
+            href="/film/${filmId}"
+            class="film-card"
+            data-film-id="${filmId}"
+        >
+
+            <div class="film-image">
+
+                <img
+                    src="${image || ""}"
+                    alt="${titre}"
+                >
+
+            </div>
+
+
+            <div class="film-info">
+
+                <h2>
+                    ${titre}
+                </h2>
+
+                <p class="original-title">
+                    ${titreOriginal}
+                </p>
+
+            </div>
+
+        </a>
+
+    `;
 }
 
 
-// Filtre les films, génère leurs cartes
-// et les affiche dans la bibliothèque.
+// Filtre les films, les trie par nom,
+// génère leurs cartes et les affiche
+// dans la bibliothèque.
+
+// Filtre les films,
+// génère leurs cartes et les affiche
+// dans la bibliothèque.
 
 function displayFilms(search = "") {
 
-    const recherche = normalizeText(search);
+    const recherche =
+        normalizeText(search);
 
-    const filteredFilms = films.filter(film => {
 
-        const titre = normalizeText(
-            film.titre
+    const filteredFilms =
+        films.filter(
+            film => {
+
+                const titre =
+                    normalizeText(
+                        film.titre
+                    );
+
+
+                const titreOriginal =
+                    normalizeText(
+                        film.titre_original
+                    );
+
+
+                return (
+                    titre.includes(recherche) ||
+                    titreOriginal.includes(recherche)
+                );
+
+            }
         );
 
-        const titreOriginal = normalizeText(
-            film.titre_original
-        );
 
-        return (
-            titre.includes(recherche) ||
-            titreOriginal.includes(recherche)
-        );
-    });
+    if (filteredFilms.length === 0) {
 
-
-    const aucunResultat =
-        filteredFilms.length === 0;
-
-
-    if (aucunResultat) {
-
-        const message = `
+        filmList.innerHTML = `
             <p>Aucun film trouvé.</p>
         `;
-
-        filmList.innerHTML = message;
 
         return;
     }
 
 
-    const filmCards = filteredFilms
-
-        .map(film => {
-
-            const titre = film.titre;
-
-            const titreOriginal =
-                film.titre_original ||
-                unknownOriginalTitle;
-
-            const image = film.image;
-
-            const filmId = film.id;
+    const filmCards =
+        filteredFilms
+            .map(createFilmCard)
+            .join("");
 
 
-
-            return `
-
-                <a
-                    href="/film/${filmId}"
-                    class="film-card"
-                    data-film-id="${filmId}"
-                >
-
-                    <div class="film-image">
-
-                        <img
-                            src="${image}"
-                            alt="${titre}"
-                        >
-
-                    </div>
-
-
-                    <div class="film-info">
-
-                        <h2>
-                            ${titre}
-                        </h2>
-
-                        <p class="original-title">
-                            ${titreOriginal}
-                        </p>
-
-                    </div>
-
-                </a>
-
-            `;
-
-        })
-
-        .join("");
-
-
-    filmList.innerHTML = filmCards;
+    filmList.innerHTML =
+        filmCards;
 }
 
 
@@ -174,14 +203,14 @@ function displayFilms(search = "") {
 
 function handleLibrarySearch() {
 
-    clearTimeout(librarySearchTimeout);
 
     const recherche =
         librarySearch.value.trim();
 
 
     const rechercheTropCourte =
-        recherche.length < minimumSearchLength;
+        recherche.length <
+        minimumSearchLength;
 
 
     if (rechercheTropCourte) {
@@ -192,7 +221,9 @@ function handleLibrarySearch() {
     }
 
 
-    displayFilms(recherche);
+    displayFilms(
+        recherche
+    );
 }
 
 
@@ -211,26 +242,36 @@ function handleFilmSearch() {
         filmSearch.value.trim();
 
 
-    clearTimeout(searchTimeout);
+    clearTimeout(
+        searchTimeout
+    );
 
 
     const rechercheTropCourte =
-        recherche.length < minimumSearchLength;
+        recherche.length <
+        minimumSearchLength;
 
 
     if (rechercheTropCourte) {
 
-        searchResults.innerHTML = "";
+        searchResults.innerHTML =
+            "";
 
         return;
     }
 
 
-    searchTimeout = setTimeout(() => {
+    searchTimeout =
+        setTimeout(
+            () => {
 
-        searchTMDB(recherche);
+                searchTMDB(
+                    recherche
+                );
 
-    }, filmSearchDelay);
+            },
+            filmSearchDelay
+        );
 }
 
 
@@ -242,11 +283,14 @@ filmSearch.addEventListener(
 
 // Recherche un film via l'API TMDB.
 
-async function searchTMDB(recherche) {
+async function searchTMDB(
+    recherche
+) {
 
     const loadingMessage = `
         <p>Recherche en cours...</p>
     `;
+
 
     searchResults.innerHTML =
         loadingMessage;
@@ -255,7 +299,9 @@ async function searchTMDB(recherche) {
     try {
 
         const encodedRecherche =
-            encodeURIComponent(recherche);
+            encodeURIComponent(
+                recherche
+            );
 
 
         const url =
@@ -280,12 +326,16 @@ async function searchTMDB(recherche) {
             await response.json();
 
 
-        displaySearchResults(resultats);
-
+        displaySearchResults(
+            resultats
+        );
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur recherche TMDB :",
+            error
+        );
 
 
         const errorMessage = `
@@ -293,6 +343,7 @@ async function searchTMDB(recherche) {
                 Impossible de rechercher ce film.
             </p>
         `;
+
 
         searchResults.innerHTML =
             errorMessage;
@@ -302,10 +353,12 @@ async function searchTMDB(recherche) {
 
 // Affiche les résultats de la recherche TMDB.
 
-function displaySearchResults(resultats) {
+function displaySearchResults(
+    resultats
+) {
 
     const aucunResultat =
-        !resultats ||
+        !Array.isArray(resultats) ||
         resultats.length === 0;
 
 
@@ -315,87 +368,103 @@ function displaySearchResults(resultats) {
             <p>Aucun film trouvé.</p>
         `;
 
+
         searchResults.innerHTML =
             message;
+
 
         return;
     }
 
 
-    const searchResultsList = resultats
+    const searchResultsList =
+        resultats
+            .map(
+                film => {
 
-        .map(film => {
-
-            const titre =
-                film.title;
-
-            const titreOriginal =
-                film.original_title ||
-                unknownOriginalTitle;
-
-            const image =
-                film.image;
-
-            const annee =
-                film.annee;
-
-            const tmdbId =
-                film.id;
+                    const titre =
+                        film.title ||
+                        "Titre inconnu";
 
 
-            return `
-
-                <article class="search-result">
-
-                    <img
-                        class="search-result-image"
-                        src="${image}"
-                        alt="${titre}"
-                    >
+                    const titreOriginal =
+                        film.original_title ||
+                        unknownOriginalTitle;
 
 
-                    <div class="search-result-info">
-
-                        <h3>
-                            ${titre}
-                        </h3>
-
-                        <p>
-                            ${titreOriginal}
-                        </p>
-
-                        ${
-                            annee
-                                ? `
-                                    <p>
-                                        ${annee}
-                                    </p>
-                                `
-                                : ""
-                        }
-
-                    </div>
+                    const image =
+                        film.image;
 
 
-                    <button
-                        class="add-film-button"
-                        data-tmdb-id="${tmdbId}"
-                    >
-                        Ajouter
-                    </button>
+                    const annee =
+                        film.annee;
 
-                </article>
 
-            `;
+                    const tmdbId =
+                        film.id;
 
-        })
 
-        .join("");
+                    return `
+
+                        <article
+                            class="search-result"
+                        >
+
+                            <img
+                                class="search-result-image"
+                                src="${image || ""}"
+                                alt="${titre}"
+                            >
+
+
+                            <div
+                                class="search-result-info"
+                            >
+
+                                <h3>
+                                    ${titre}
+                                </h3>
+
+
+                                <p>
+                                    ${titreOriginal}
+                                </p>
+
+
+                                ${
+                                    annee
+                                        ? `
+                                            <p>
+                                                ${annee}
+                                            </p>
+                                        `
+                                        : ""
+                                }
+
+                            </div>
+
+
+                            <button
+                                class="add-film-button"
+                                data-tmdb-id="${tmdbId}"
+                            >
+                                Ajouter
+                            </button>
+
+                        </article>
+
+                    `;
+
+                }
+            )
+            .join("");
 
 
     const searchResultsHTML = `
 
-        <div class="search-results-list">
+        <div
+            class="search-results-list"
+        >
 
             ${searchResultsList}
 
@@ -414,14 +483,16 @@ function displaySearchResults(resultats) {
         );
 
 
-    addFilmButtons.forEach(button => {
+    addFilmButtons.forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            handleAddFilm
-        );
+            button.addEventListener(
+                "click",
+                handleAddFilm
+            );
 
-    });
+        }
+    );
 }
 
 
@@ -430,22 +501,31 @@ function displaySearchResults(resultats) {
 
 async function handleAddFilm(event) {
 
-    const button = event.currentTarget;
+    const button =
+        event.currentTarget;
 
-    const tmdbId = Number(
-        button.dataset.tmdbId
-    );
+
+    const tmdbId =
+        Number(
+            button.dataset.tmdbId
+        );
+
 
     if (!tmdbId) {
+
         return;
     }
 
 
-    // Évite plusieurs clics pendant l'ajout.
+    // Évite plusieurs clics
+    // pendant l'ajout.
 
-    button.disabled = true;
+    button.disabled =
+        true;
 
-    button.textContent = "Ajout...";
+
+    button.textContent =
+        "Ajout...";
 
 
     try {
@@ -455,12 +535,13 @@ async function handleAddFilm(event) {
             tmdbId;
 
 
-        const response = await fetch(
-            url,
-            {
-                method: "POST"
-            }
-        );
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "POST"
+                }
+            );
 
 
         if (!response.ok) {
@@ -494,32 +575,41 @@ async function handleAddFilm(event) {
             resultat.film_id;
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            animerFilmAjoute(
-                filmId
-            );
+                animerFilmAjoute(
+                    filmId
+                );
 
-        }, filmAnimationDelay);
+            },
+            filmAnimationDelay
+        );
 
 
-        // Le résultat de recherche reste affiché.
-
-        button.textContent = "Ajouté";
+        button.textContent =
+            "Ajouté";
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur ajout film :",
+            error
+        );
+
 
         alert(
             "Erreur pendant l'ajout du film."
         );
 
 
-        button.disabled = false;
+        button.disabled =
+            false;
 
-        button.textContent = "Ajouter";
+
+        button.textContent =
+            "Ajouter";
     }
 }
 
@@ -558,20 +648,24 @@ function handleDocumentClick(event) {
 
     if (clicEnDehorsRechercheFilm) {
 
-        filmSearch.value = "";
+        filmSearch.value =
+            "";
 
-        searchResults.innerHTML = "";
+        searchResults.innerHTML =
+            "";
     }
 
 
-    if (
-        clicEnDehorsRechercheBibliotheque
-    ) {
+    if (clicEnDehorsRechercheBibliotheque) {
 
-        librarySearch.value = "";
+        if (librarySearch.value !== "") {
 
-        displayFilms("");
+            librarySearch.value = "";
+
+            displayFilms("");
+
     }
+}
 }
 
 
@@ -584,7 +678,9 @@ document.addEventListener(
 // Prépare la nouvelle card
 // pour l'animation CSS.
 
-function animerFilmAjoute(filmId) {
+function animerFilmAjoute(
+    filmId
+) {
 
     const selector =
         `.film-card[data-film-id="${filmId}"]`;

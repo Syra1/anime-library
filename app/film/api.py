@@ -2,26 +2,19 @@ import json
 import urllib.request
 import urllib.error
 import urllib.parse
-import os
-
+from app.config import TMDB_ACCESS_TOKEN
 
 TMDB_API_URL = "https://api.themoviedb.org/3"
-
-TMDB_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNWQyN2ZkMWJkZDAzYjI1NzRkMDBhMmMzMjI4MjkxNSIsIm5iZiI6MTc4NzM2NTg1NC4wNTUsInN1YiI6IjZhODkwOWRlYzRhMmVkNmIwYzViMTU4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PynZlQhC-Jl0IAvIajef_AuDLqB-WT9Y8-CuH1DIoXc"
-
 TMDB_HEADERS = {
     "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
     "Accept": "application/json"
 }
 
 TMDB_TIMEOUT = 10
-
 MAX_SEARCH_RESULTS = 20
-
 NO_SCORE = 999
 
 IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
-
 
 # Prépare les paramètres pour l'API TMDB.
 def preparer_parametres(parametres):

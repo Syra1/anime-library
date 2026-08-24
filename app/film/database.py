@@ -30,33 +30,6 @@ def create_tables():
         )
     """)
 
-    # Ajoute la colonne réalisateur si la table existait déjà
-    # avant l'ajout de cette fonctionnalité.
-    colonnes = connection.execute("""
-        PRAGMA table_info(film)
-    """).fetchall()
-
-    noms_colonnes = [
-        colonne["name"]
-        for colonne in colonnes
-    ]
-
-    if "realisateur" not in noms_colonnes:
-        connection.execute("""
-            ALTER TABLE film
-            ADD COLUMN realisateur TEXT
-        """)
-
-    # Table des films regardés
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS film_vue (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            film_id INTEGER NOT NULL,
-            FOREIGN KEY (film_id) REFERENCES film(id),
-            UNIQUE (film_id)
-        )
-    """)
-
     connection.commit()
     connection.close()
 
@@ -107,30 +80,6 @@ def ajouter_film(
     return film_id
 
 
-def ajouter_film_complet(
-    titre,
-    titre_original,
-    image,
-    description,
-    annee,
-    genres,
-    duree,
-    realisateur,
-):
-    film_id = ajouter_film(
-        titre,
-        titre_original,
-        image,
-        description,
-        annee,
-        genres,
-        duree,
-        realisateur,
-    )
-
-    return film_id
-
-
 def lister_films():
     connection = get_connection()
 
@@ -144,16 +93,9 @@ def lister_films():
             film.annee,
             film.genres,
             film.duree,
-            film.realisateur,
-            CASE
-                WHEN film_vue.id IS NOT NULL THEN 1
-                ELSE 0
-            END AS vue
+            film.realisateur
         FROM film
-        LEFT JOIN film_vue
-            ON film.id = film_vue.film_id
-        ORDER BY
-            film.titre COLLATE NOCASE
+        ORDER BY film.titre COLLATE NOCASE
     """).fetchall()
 
     connection.close()
@@ -174,51 +116,10 @@ def lister_films():
     ]
 
 
-def modifier_film_vue(
-    film_id,
-    vue,
-):
-    connection = get_connection()
-
-    if vue:
-        connection.execute(
-            """
-            INSERT OR IGNORE INTO film_vue (
-                film_id
-            )
-            VALUES (?)
-            """,
-            (
-                film_id,
-            )
-        )
-    else:
-        connection.execute(
-            """
-            DELETE FROM film_vue
-            WHERE film_id = ?
-            """,
-            (
-                film_id,
-            )
-        )
-
-    connection.commit()
-    connection.close()
-
 
 def supprimer_film(film_id):
     connection = get_connection()
 
-    connection.execute(
-        """
-        DELETE FROM film_vue
-        WHERE film_id = ?
-        """,
-        (
-            film_id,
-        )
-    )
 
     connection.execute(
         """
@@ -248,14 +149,8 @@ def recuperer_film(film_id):
             film.annee,
             film.genres,
             film.duree,
-            film.realisateur,
-            CASE
-                WHEN film_vue.id IS NOT NULL THEN 1
-                ELSE 0
-            END AS vue
+            film.realisateur
         FROM film
-        LEFT JOIN film_vue
-            ON film.id = film_vue.film_id
         WHERE film.id = ?
         """,
         (
@@ -278,5 +173,4 @@ def recuperer_film(film_id):
         "genres": film["genres"],
         "duree": film["duree"],
         "realisateur": film["realisateur"],
-        "vue": bool(film["vue"]),
     }
