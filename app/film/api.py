@@ -265,7 +265,6 @@ def recuperer_film(film_id):
 
         duree = media.get("runtime")
 
-        # Récupération du réalisateur.
         realisateur = None
 
         credits = media.get(
@@ -283,6 +282,16 @@ def recuperer_film(film_id):
                 realisateur = personne.get("name")
                 break
 
+        collection_nom = None
+
+        collection = media.get(
+            "belongs_to_collection"
+        )
+
+        if collection:
+            collection_nom = collection.get("name"
+            )
+
         return {
             "titre": titre,
             "titre_original": titre_original,
@@ -291,7 +300,8 @@ def recuperer_film(film_id):
             "annee": annee,
             "genres": genres,
             "duree": duree,
-            "realisateur": realisateur
+            "realisateur": realisateur,
+            "collection_nom": collection_nom
         }
 
     except urllib.error.HTTPError as error:

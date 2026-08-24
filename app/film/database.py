@@ -26,7 +26,8 @@ def create_tables():
             annee INTEGER,
             genres TEXT,
             duree INTEGER,
-            realisateur TEXT
+            realisateur TEXT,
+            collection_nom TEXT
         )
     """)
 
@@ -70,6 +71,7 @@ def ajouter_film(
     genres,
     duree,
     realisateur,
+    collection_nom,
 ):
     connection = get_connection()
 
@@ -116,6 +118,7 @@ def ajouter_film_complet(
     genres,
     duree,
     realisateur,
+    collection_nom,
 ):
     film_id = ajouter_film(
         titre,
@@ -126,6 +129,7 @@ def ajouter_film_complet(
         genres,
         duree,
         realisateur,
+        collection_nom,
     )
 
     return film_id
@@ -145,6 +149,7 @@ def lister_films():
             film.genres,
             film.duree,
             film.realisateur,
+            film.collection_nom,
             CASE
                 WHEN film_vue.id IS NOT NULL THEN 1
                 ELSE 0
@@ -153,8 +158,13 @@ def lister_films():
         LEFT JOIN film_vue
             ON film.id = film_vue.film_id
         ORDER BY
-            film.titre COLLATE NOCASE,
-            film.annee
+            CASE
+                WHEN film.collection_nom IS NULL THEN 1
+                ELSE 0
+            END,
+        film.collection_nom COLLATE NOCASE,
+        film.annee,
+        film.titre COLLATE NOCASE
     """).fetchall()
 
     connection.close()
@@ -170,7 +180,7 @@ def lister_films():
             "genres": film["genres"],
             "duree": film["duree"],
             "realisateur": film["realisateur"],
-            "vue": bool(film["vue"]),
+            "collection_nom": film["collection_nom"],
         }
         for film in films
     ]

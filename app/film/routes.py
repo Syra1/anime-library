@@ -70,6 +70,7 @@ async def add_film(tmdb_id: int):
         genres=film["genres"],
         duree=film["duree"],
         realisateur=film["realisateur"],
+        collection_nom=film["collection_nom"],
     )
 
     return {
