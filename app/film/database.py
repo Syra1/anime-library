@@ -157,7 +157,7 @@ def lister_films():
         LEFT JOIN film_vue
             ON film.id = film_vue.film_id
 
-        ORDER BY film.titre
+        ORDER BY film.titre COLLATE NOCASE, film.annee
 
     """).fetchall()
 
