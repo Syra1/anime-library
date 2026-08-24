@@ -124,7 +124,6 @@ function displayFilms(search = "") {
 
             const filmId = film.id;
 
-            const filmVu = film.vue;
 
 
             return `
@@ -141,18 +140,6 @@ function displayFilms(search = "") {
                             src="${image}"
                             alt="${titre}"
                         >
-
-                        ${
-                            filmVu
-                                ? `
-                                    <img
-                                        class="film-complete-badge"
-                                        src="/static/icons/check.svg"
-                                        alt="Film regardé"
-                                    >
-                                `
-                                : ""
-                        }
 
                     </div>
 
