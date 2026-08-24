@@ -72,7 +72,7 @@
         transform 0.1s ease;
 }
 
-.delete-filmbutton:hover {
+.delete-film-button:hover {
     background: #dc2626;
     color: white;
 }
@@ -103,6 +103,27 @@
     color: #71717a;
     font-size: 15px;
     font-style: italic;
+}
+
+
+/* =========================
+   Description
+   ========================= */
+
+.film-description {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    line-height: 1.7;
+
+    text-align: justify;
+
+    color: #52525b;
 }
 
 /* =========================
