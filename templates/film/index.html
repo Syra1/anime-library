@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Films
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/static/css/film/index.css">
+{% endblock %}
+
+{% block content %}
+<!-- Recherche d'un film sur TMDB -->
+<section class="add-film">
+    <div class="search-input">
+        <span class="search-icon">
+            <img src="/static/icons/search.svg" alt="" > 
+        </span>
+        <input type="text" id="film-search" placeholder="Rechercher un film...">
+    </div>
+    <section id="search-results">
+        <!-- Les résultats TMDB apparaîtront ici -->
+    </section>
+</section>
+
+<!-- Recherche dans ma bibliothèque -->
+<section class="toolbar">
+    <div class="search-input">
+        <span class="search-icon">
+            <img src="/static/icons/search.svg" alt="" >
+        </span>
+        <input type="text" id="search" placeholder="Rechercher dans ma bibliothèque...">
+    </div>
+</section>
+
+
+<!-- Liste de ma bibliothèque -->
+<section id="film-list">
+    <p>
+        Chargement des films...
+    </p>
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/film/index.js"></script>
+{% endblock %}
