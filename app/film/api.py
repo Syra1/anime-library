@@ -282,16 +282,6 @@ def recuperer_film(film_id):
                 realisateur = personne.get("name")
                 break
 
-        collection_nom = None
-
-        collection = media.get(
-            "belongs_to_collection"
-        )
-
-        if collection:
-            collection_nom = collection.get("name"
-            )
-
         return {
             "titre": titre,
             "titre_original": titre_original,
@@ -301,7 +291,7 @@ def recuperer_film(film_id):
             "genres": genres,
             "duree": duree,
             "realisateur": realisateur,
-            "collection_nom": collection_nom
+
         }
 
     except urllib.error.HTTPError as error:
