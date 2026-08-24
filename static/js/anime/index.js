@@ -214,58 +214,127 @@ cancelAddButton.addEventListener("click", handleCancelAdd);
 
 // Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
 // Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
+// Confirme l'ajout d'un anime et l'enregistre
+// dans la base de données.
+
 async function handleConfirmAdd() {
-    const nombreSaisons = Number(seasonCountInput.value);
-    const nombreSaisonsInvalide = !nombreSaisons || nombreSaisons < 1;
+
+    const nombreSaisons =
+        Number(seasonCountInput.value);
+
+    const nombreSaisonsInvalide =
+        !nombreSaisons ||
+        nombreSaisons < 1;
+
 
     if (nombreSaisonsInvalide) {
+
         alert("Nombre de saisons invalide.");
+
         return;
     }
 
-    const anilistId = currentAnimeToAdd;
 
-    // Ferme immédiatement la fenêtre.
-    addModal.style.display = modalHiddenDisplay;
+    const anilistId =
+        currentAnimeToAdd;
+
+
+    if (!anilistId) {
+
+        return;
+    }
+
+
+    // Ferme la modale.
+
+    addModal.style.display =
+        modalHiddenDisplay;
+
     currentAnimeToAdd = null;
 
+
     try {
-        const url = "/anime/add-anime/" + anilistId;
+
+        const url =
+            "/anime/add-anime/" +
+            anilistId;
+
 
         const requestOptions = {
+
             method: "POST",
+
             headers: {
-                "Content-Type": "application/json",
+
+                "Content-Type":
+                    "application/json",
+
             },
+
             body: JSON.stringify({
-                nombre_saisons: nombreSaisons,
+
+                nombre_saisons:
+                    nombreSaisons,
+
             }),
+
         };
 
-        const response = await fetch(url, requestOptions);
+
+        const response =
+            await fetch(
+                url,
+                requestOptions
+            );
+
 
         if (!response.ok) {
-            throw new Error("Erreur HTTP lors de l'ajout");
+
+            throw new Error(
+                "Erreur HTTP lors de l'ajout"
+            );
+
         }
 
-        const resultat = await response.json();
-        const ajoutReussi = resultat.success;
 
-        if (!ajoutReussi) {
-            throw new Error("L'ajout de l'anime a échoué");
+        const resultat =
+            await response.json();
+
+
+        if (!resultat.success) {
+
+            throw new Error(
+                "L'ajout de l'anime a échoué"
+            );
+
         }
+
+
+        // Recharge la bibliothèque.
 
         await loadAnimes();
 
-        const animeId = resultat.anime_id;
+
+        const animeId =
+            resultat.anime_id;
+
 
         setTimeout(() => {
-            animerAnimeAjoute(animeId);
+
+            animerAnimeAjoute(
+                animeId
+            );
+
         }, animeAnimationDelay);
 
+
     } catch (error) {
+
         console.error(error);
-        alert("Erreur pendant l'ajout.");
+
+        alert(
+            "Erreur pendant l'ajout."
+        );
     }
 }
 
@@ -273,11 +342,15 @@ confirmAddButton.addEventListener("click", handleConfirmAdd);
 
 // Ferme les recherches lorsqu'un clic est effectué en dehors de la barre de recherche.
 function handleDocumentClick(event) {
+    if (event.target.closest(".add-anime-button")) {
+        return;
+    }
     const clicDansRecherche = animeSearch.contains(event.target);
     const clicDansResultats = searchResults.contains(event.target);
     const clicDansLibrarySearch = librarySearch.contains(event.target);
-    const clicEnDehorsRechercheAnime = !clicDansRecherche && !clicDansResultats;
-    const clicEnDehorsRechercheBibliotheque = !clicDansLibrarySearch;
+    const clicDansModal = addModal && addModal.contains(event.target);
+    const clicEnDehorsRechercheAnime = !clicDansRecherche && !clicDansResultats && !clicDansModal;
+    const clicEnDehorsRechercheBibliotheque = !clicDansLibrarySearch && !clicDansModal;
     if (clicEnDehorsRechercheAnime) {
         animeSearch.value = "";
         searchResults.innerHTML = "";

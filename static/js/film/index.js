@@ -443,16 +443,13 @@ function displaySearchResults(resultats) {
 
 async function handleAddFilm(event) {
 
-    const button =
-        event.currentTarget;
+    const button = event.currentTarget;
 
-
-    const tmdbId =
-        Number(button.dataset.tmdbId);
-
+    const tmdbId = Number(
+        button.dataset.tmdbId
+    );
 
     if (!tmdbId) {
-
         return;
     }
 
@@ -471,16 +468,12 @@ async function handleAddFilm(event) {
             tmdbId;
 
 
-        const response =
-            await fetch(
-
-                url,
-
-                {
-                    method: "POST"
-                }
-
-            );
+        const response = await fetch(
+            url,
+            {
+                method: "POST"
+            }
+        );
 
 
         if (!response.ok) {
@@ -496,11 +489,7 @@ async function handleAddFilm(event) {
             await response.json();
 
 
-        const ajoutReussi =
-            resultat.success;
-
-
-        if (!ajoutReussi) {
+        if (!resultat.success) {
 
             throw new Error(
                 "L'ajout du film a échoué"
@@ -527,12 +516,9 @@ async function handleAddFilm(event) {
         }, filmAnimationDelay);
 
 
-        // Efface les résultats TMDB
-        // après l'ajout.
+        // Le résultat de recherche reste affiché.
 
-        filmSearch.value = "";
-
-        searchResults.innerHTML = "";
+        button.textContent = "Ajouté";
 
 
     } catch (error) {
