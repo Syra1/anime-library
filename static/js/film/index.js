@@ -2,17 +2,9 @@
 
 let films = [];
 
-let currentFilmToAdd = null;
-
 let librarySearchTimeout = null;
 
 let searchTimeout = null;
-
-const addModal = document.getElementById("add-modal");
-
-const cancelAddButton = document.getElementById("cancel-add");
-
-const confirmAddButton = document.getElementById("confirm-add");
 
 const filmList = document.getElementById("film-list");
 
@@ -27,10 +19,6 @@ const minimumSearchLength = 3;
 const filmSearchDelay = 300;
 
 const filmAnimationDelay = 100;
-
-const modalDisplay = "flex";
-
-const modalHiddenDisplay = "none";
 
 const unknownOriginalTitle = "Titre original inconnu";
 
@@ -66,9 +54,7 @@ async function loadFilms() {
         `;
 
         filmList.innerHTML = message;
-
     }
-
 }
 
 
@@ -81,7 +67,6 @@ function normalizeText(text) {
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
-
 }
 
 
@@ -106,7 +91,6 @@ function displayFilms(search = "") {
             titre.includes(recherche) ||
             titreOriginal.includes(recherche)
         );
-
     });
 
 
@@ -123,7 +107,6 @@ function displayFilms(search = "") {
         filmList.innerHTML = message;
 
         return;
-
     }
 
 
@@ -145,6 +128,7 @@ function displayFilms(search = "") {
 
 
             return `
+
                 <a
                     href="/film/${filmId}"
                     class="film-card"
@@ -186,6 +170,7 @@ function displayFilms(search = "") {
                     </div>
 
                 </a>
+
             `;
 
         })
@@ -194,7 +179,6 @@ function displayFilms(search = "") {
 
 
     filmList.innerHTML = filmCards;
-
 }
 
 
@@ -203,9 +187,7 @@ function displayFilms(search = "") {
 
 function handleLibrarySearch() {
 
-    clearTimeout(
-        librarySearchTimeout
-    );
+    clearTimeout(librarySearchTimeout);
 
     const recherche =
         librarySearch.value.trim();
@@ -220,12 +202,10 @@ function handleLibrarySearch() {
         displayFilms("");
 
         return;
-
     }
 
 
     displayFilms(recherche);
-
 }
 
 
@@ -256,7 +236,6 @@ function handleFilmSearch() {
         searchResults.innerHTML = "";
 
         return;
-
     }
 
 
@@ -265,7 +244,6 @@ function handleFilmSearch() {
         searchTMDB(recherche);
 
     }, filmSearchDelay);
-
 }
 
 
@@ -331,9 +309,7 @@ async function searchTMDB(recherche) {
 
         searchResults.innerHTML =
             errorMessage;
-
     }
-
 }
 
 
@@ -356,7 +332,6 @@ function displaySearchResults(resultats) {
             message;
 
         return;
-
     }
 
 
@@ -382,6 +357,7 @@ function displaySearchResults(resultats) {
 
 
             return `
+
                 <article class="search-result">
 
                     <img
@@ -422,6 +398,7 @@ function displaySearchResults(resultats) {
                     </button>
 
                 </article>
+
             `;
 
         })
@@ -430,11 +407,13 @@ function displaySearchResults(resultats) {
 
 
     const searchResultsHTML = `
+
         <div class="search-results-list">
 
             ${searchResultsList}
 
         </div>
+
     `;
 
 
@@ -456,13 +435,13 @@ function displaySearchResults(resultats) {
         );
 
     });
-
 }
 
 
-// Prépare l'ajout d'un film.
+// Ajoute directement le film
+// dans la base de données.
 
-function handleAddFilm(event) {
+async function handleAddFilm(event) {
 
     const button =
         event.currentTarget;
@@ -472,57 +451,17 @@ function handleAddFilm(event) {
         Number(button.dataset.tmdbId);
 
 
-    currentFilmToAdd =
-        tmdbId;
-
-
-    addModal.style.display =
-        modalDisplay;
-
-}
-
-
-// Ferme la fenêtre d'ajout
-// et réinitialise le film sélectionné.
-
-function handleCancelAdd() {
-
-    addModal.style.display =
-        modalHiddenDisplay;
-
-    currentFilmToAdd = null;
-
-}
-
-
-cancelAddButton.addEventListener(
-    "click",
-    handleCancelAdd
-);
-
-
-// Confirme l'ajout d'un film
-// et l'enregistre dans la base de données.
-
-async function handleConfirmAdd() {
-
-    const tmdbId =
-        currentFilmToAdd;
-
-
     if (!tmdbId) {
 
         return;
-
     }
 
 
-    // Ferme immédiatement la fenêtre.
+    // Évite plusieurs clics pendant l'ajout.
 
-    addModal.style.display =
-        modalHiddenDisplay;
+    button.disabled = true;
 
-    currentFilmToAdd = null;
+    button.textContent = "Ajout...";
 
 
     try {
@@ -532,26 +471,15 @@ async function handleConfirmAdd() {
             tmdbId;
 
 
-        const requestOptions = {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type":
-                    "application/json",
-
-            },
-
-            body: JSON.stringify({}),
-
-        };
-
-
         const response =
             await fetch(
+
                 url,
-                requestOptions
+
+                {
+                    method: "POST"
+                }
+
             );
 
 
@@ -581,6 +509,8 @@ async function handleConfirmAdd() {
         }
 
 
+        // Recharge la bibliothèque.
+
         await loadFilms();
 
 
@@ -597,23 +527,28 @@ async function handleConfirmAdd() {
         }, filmAnimationDelay);
 
 
+        // Efface les résultats TMDB
+        // après l'ajout.
+
+        filmSearch.value = "";
+
+        searchResults.innerHTML = "";
+
+
     } catch (error) {
 
         console.error(error);
 
         alert(
-            "Erreur pendant l'ajout."
+            "Erreur pendant l'ajout du film."
         );
 
+
+        button.disabled = false;
+
+        button.textContent = "Ajouter";
     }
-
 }
-
-
-confirmAddButton.addEventListener(
-    "click",
-    handleConfirmAdd
-);
 
 
 // Ferme les recherches lorsqu'un clic
@@ -653,7 +588,6 @@ function handleDocumentClick(event) {
         filmSearch.value = "";
 
         searchResults.innerHTML = "";
-
     }
 
 
@@ -664,67 +598,13 @@ function handleDocumentClick(event) {
         librarySearch.value = "";
 
         displayFilms("");
-
     }
-
 }
 
 
 document.addEventListener(
     "click",
     handleDocumentClick
-);
-
-
-// Gère les touches Entrée et Échap
-// lorsque la fenêtre d'ajout est ouverte.
-
-function handleDocumentKeydown(event) {
-
-    const modalOuvert =
-        addModal &&
-        addModal.style.display ===
-            modalDisplay;
-
-
-    if (!modalOuvert) {
-
-        return;
-
-    }
-
-
-    const toucheEntree =
-        event.key === "Enter";
-
-
-    const toucheEchap =
-        event.key === "Escape";
-
-
-    if (toucheEntree) {
-
-        event.preventDefault();
-
-        confirmAddButton.click();
-
-    }
-
-
-    if (toucheEchap) {
-
-        event.preventDefault();
-
-        cancelAddButton.click();
-
-    }
-
-}
-
-
-document.addEventListener(
-    "keydown",
-    handleDocumentKeydown
 );
 
 
@@ -746,14 +626,12 @@ function animerFilmAjoute(filmId) {
     if (!card) {
 
         return;
-
     }
 
 
     card.classList.add(
         "magic-card"
     );
-
 }
 
 
