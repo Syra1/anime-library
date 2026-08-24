@@ -48,6 +48,13 @@
                 </p>
             {% endif %}
 
+            {% if film.realisateur %}
+                <p class="film-info">
+                    <strong>Réalisateur :</strong>
+                    {{ film.realisateur }}
+                </p>
+            {% endif %}
+
             {% if film.genres %}
                 <p class="film-info">
                     <strong>Genres :</strong>

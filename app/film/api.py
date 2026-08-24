@@ -2,6 +2,7 @@ import json
 import urllib.request
 import urllib.error
 import urllib.parse
+import os
 
 
 TMDB_API_URL = "https://api.themoviedb.org/3"
@@ -14,7 +15,9 @@ TMDB_HEADERS = {
 }
 
 TMDB_TIMEOUT = 10
+
 MAX_SEARCH_RESULTS = 20
+
 NO_SCORE = 999
 
 IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
@@ -32,6 +35,7 @@ def creer_requete_tmdb(url):
         headers=TMDB_HEADERS,
         method="GET"
     )
+
     return requete
 
 
@@ -41,7 +45,9 @@ def executer_requete_tmdb(requete):
         requete,
         timeout=TMDB_TIMEOUT
     ) as response:
-        resultat = json.loads(response.read())
+        resultat = json.loads(
+            response.read()
+        )
 
     return resultat
 
@@ -57,7 +63,6 @@ def convertir_liste_en_texte(elements):
 
 # Recherche un film dans la base de données TMDB.
 def rechercher_films(recherche):
-
     parametres = preparer_parametres({
         "query": recherche,
         "language": "fr-FR",
@@ -74,7 +79,6 @@ def rechercher_films(recherche):
     requete = creer_requete_tmdb(url)
 
     try:
-
         resultat = executer_requete_tmdb(
             requete
         )
@@ -86,9 +90,9 @@ def rechercher_films(recherche):
 
         recherche_lower = recherche.lower()
 
-        # Attribue un score au film pour trier la recherche.
+        # Attribue un score au film
+        # pour trier la recherche.
         def score_film(film):
-
             titres = [
                 film.get("title"),
                 film.get("original_title")
@@ -133,16 +137,22 @@ def rechercher_films(recherche):
         return [
             {
                 "id": film["id"],
-                "title": film.get("title"),
+
+                "title": film.get(
+                    "title"
+                ),
+
                 "original_title": film.get(
                     "original_title"
                 ),
+
                 "image": (
                     f"{IMAGE_BASE_URL}"
                     f"{film['poster_path']}"
                     if film.get("poster_path")
                     else None
                 ),
+
                 "annee": (
                     film["release_date"][:4]
                     if film.get("release_date")
@@ -194,9 +204,9 @@ def rechercher_films(recherche):
 
 # Récupère un film depuis TMDB.
 def recuperer_film(film_id):
-
     parametres = preparer_parametres({
-        "language": "fr-FR"
+        "language": "fr-FR",
+        "append_to_response": "credits"
     })
 
     url = (
@@ -207,7 +217,6 @@ def recuperer_film(film_id):
     requete = creer_requete_tmdb(url)
 
     try:
-
         media = executer_requete_tmdb(
             requete
         )
@@ -240,7 +249,6 @@ def recuperer_film(film_id):
         annee = None
 
         if media.get("release_date"):
-
             annee = int(
                 media["release_date"][:4]
             )
@@ -257,6 +265,24 @@ def recuperer_film(film_id):
 
         duree = media.get("runtime")
 
+        # Récupération du réalisateur.
+        realisateur = None
+
+        credits = media.get(
+            "credits",
+            {}
+        )
+
+        crew = credits.get(
+            "crew",
+            []
+        )
+
+        for personne in crew:
+            if personne.get("job") == "Director":
+                realisateur = personne.get("name")
+                break
+
         return {
             "titre": titre,
             "titre_original": titre_original,
@@ -264,11 +290,11 @@ def recuperer_film(film_id):
             "description": description,
             "annee": annee,
             "genres": genres,
-            "duree": duree
+            "duree": duree,
+            "realisateur": realisateur
         }
 
     except urllib.error.HTTPError as error:
-
         print(
             f"Erreur HTTP TMDB : {error.code}"
         )
@@ -280,7 +306,6 @@ def recuperer_film(film_id):
         return None
 
     except urllib.error.URLError as error:
-
         print(
             "Erreur de connexion à TMDB :"
         )
@@ -290,7 +315,6 @@ def recuperer_film(film_id):
         return None
 
     except TimeoutError:
-
         print(
             "TMDB a mis trop de temps à répondre."
         )
@@ -298,7 +322,6 @@ def recuperer_film(film_id):
         return None
 
     except Exception as erreur:
-
         print(
             "Erreur récupération TMDB :",
             erreur
