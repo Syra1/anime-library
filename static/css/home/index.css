@@ -68,43 +68,17 @@
 
 .category-card-info {
     padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .category-card-info h2 {
-    margin: 0 0 8px;
+    margin: 0;
 }
 
 .category-card-info p {
     margin: 0;
-
     opacity: 0.7;
-}
-
-
-/* ============================================================
-   Cards désactivées
-   ============================================================ */
-
-.category-card-disabled {
-    cursor: not-allowed;
-
-    opacity: 0.55;
-
-    filter: grayscale(70%);
-}
-
-.category-card-badge {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    padding: 6px 10px;
-
-    border-radius: 8px;
-
-    background: rgba(0, 0, 0, 0.75);
-
-    font-size: 13px;
-    font-weight: 600;
 }
