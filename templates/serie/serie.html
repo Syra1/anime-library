@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/static/css/serie/serie.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="serie-page">
+
+    <div class="serie-header">
+
+        <!-- Image + suppression -->
+        <div class="serie-cover">
+
+            <img
+                src="{{ serie.image }}"
+                alt="{{ serie.titre }}"
+            />
+
+            <button
+                type="button"
+                class="delete-serie-button"
+                data-serie-id="{{ serie.id }}"
+            >
+                Supprimer
+            </button>
+
+        </div>
+
+        <!-- Informations du serie -->
+        <div class="serie-details">
+
+            <h2>
+                {{ serie.titre }}
+            </h2>
+
+            {% if serie.titre_original %}
+                <p class="serie-detail-original-title">
+                    {{ serie.titre_original }}
+                </p>
+            {% endif %}
+
+            {% if serie.annee %}
+                <p class="serie-info">
+                    <strong>Année :</strong>
+                    {{ serie.annee }}
+                </p>
+            {% endif %}
+
+            {% if serie.realisateur %}
+                <p class="serie-info">
+                    <strong>Réalisateur :</strong>
+                    {{ serie.realisateur }}
+                </p>
+            {% endif %}
+
+            {% if serie.genres %}
+                <p class="serie-info">
+                    <strong>Genres :</strong>
+                    {{ serie.genres }}
+                </p>
+            {% endif %}
+
+            {% if serie.studios %}
+                <p class="serie-info">
+                    <strong>Studio :</strong>
+                    {{ serie.studios }}
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Description -->
+    {% if serie.description %}
+
+        <p class="serie-description">
+            {{ serie.description | safe }}
+        </p>
+
+    {% else %}
+
+        <p class="serie-description">
+            Aucune description disponible.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/serie/serie.js"></script>
+{% endblock %}

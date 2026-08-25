@@ -1,0 +1,168 @@
+.serie-page {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* =========================
+   En-tête du serie
+   ========================= */
+
+.serie-header {
+    display: flex;
+    gap: 40px;
+
+    min-height: 500px;
+
+    padding: 30px;
+
+    background: white;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================
+   Image
+   ========================= */
+
+.serie-cover {
+    flex-shrink: 0;
+
+    width: 280px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.serie-cover img {
+    width: 280px;
+    height: 400px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+}
+
+/* =========================
+   Bouton supprimer
+   ========================= */
+
+.delete-serie-button {
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #dc2626;
+    border-radius: 7px;
+
+    background: transparent;
+    color: #dc2626;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.delete-serie-button:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-serie-button:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   Informations
+   ========================= */
+
+.serie-details {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.serie-details h2 {
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.serie-detail-original-title {
+    margin: 0;
+    padding-bottom: 20px;
+    color: #71717a;
+    font-size: 15px;
+    font-style: italic;
+}
+
+
+/* =========================
+   Description
+   ========================= */
+
+.serie-description {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    line-height: 1.7;
+
+    text-align: justify;
+
+    color: #52525b;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .serie-header {
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 25px;
+    }
+
+    .serie-cover {
+        width: 220px;
+    }
+
+    .serie-cover img {
+        width: 220px;
+        height: 315px;
+    }
+
+    .serie-details {
+        width: 100%;
+    }
+
+    .serie-details h2 {
+        font-size: 26px;
+    }
+
+    .seasons {
+        justify-content: center;
+    }
+
+    .season-controls {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

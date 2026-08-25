@@ -19,7 +19,8 @@ def compter_contenus():
     resultats = connection.execute("""
         SELECT
             (SELECT COUNT(*) FROM film) AS films,
-            (SELECT COUNT(*) FROM anime) AS animes
+            (SELECT COUNT(*) FROM anime) AS animes,
+            (SELECT COUNT(*) FROM serie) AS series
     """).fetchone()
 
     connection.close()
@@ -27,6 +28,7 @@ def compter_contenus():
     return {
         "films": resultats["films"],
         "animes": resultats["animes"],
+        "series": resultats["series"],
         "total": (
             resultats["films"]
             + resultats["animes"]
