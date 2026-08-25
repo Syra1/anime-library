@@ -1,28 +1,41 @@
 import json
+
 import urllib.request
 import urllib.error
 import urllib.parse
+
 from app.config import TMDB_ACCESS_TOKEN
 
+
 TMDB_API_URL = "https://api.themoviedb.org/3"
+
 TMDB_HEADERS = {
     "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
     "Accept": "application/json"
 }
 
 TMDB_TIMEOUT = 10
+
 MAX_SEARCH_RESULTS = 20
+
 NO_SCORE = 999
 
 IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
+
 # Prépare les paramètres pour l'API TMDB.
+
 def preparer_parametres(parametres):
-    return urllib.parse.urlencode(parametres)
+
+    return urllib.parse.urlencode(
+        parametres
+    )
 
 
 # Crée une requête pour l'API TMDB.
+
 def creer_requete_tmdb(url):
+
     requete = urllib.request.Request(
         url,
         headers=TMDB_HEADERS,
@@ -33,11 +46,14 @@ def creer_requete_tmdb(url):
 
 
 # Exécute la requête pour l'API TMDB.
+
 def executer_requete_tmdb(requete):
+
     with urllib.request.urlopen(
         requete,
         timeout=TMDB_TIMEOUT
     ) as response:
+
         resultat = json.loads(
             response.read()
         )
@@ -46,7 +62,9 @@ def executer_requete_tmdb(requete):
 
 
 # Convertit une liste en texte.
+
 def convertir_liste_en_texte(elements):
+
     return ", ".join(
         element
         for element in elements
@@ -54,8 +72,10 @@ def convertir_liste_en_texte(elements):
     )
 
 
-# Recherche un serie dans la base de données TMDB.
+# Recherche une série dans la base de données TMDB.
+
 def rechercher_series(recherche):
+
     parametres = preparer_parametres({
         "query": recherche,
         "language": "fr-FR",
@@ -71,6 +91,7 @@ def rechercher_series(recherche):
     requete = creer_requete_tmdb(url)
 
     try:
+
         resultat = executer_requete_tmdb(
             requete
         )
@@ -82,7 +103,9 @@ def rechercher_series(recherche):
 
         recherche_lower = recherche.lower()
 
+
         def score_serie(serie):
+
             titres = [
                 serie.get("name"),
                 serie.get("original_name")
@@ -99,15 +122,21 @@ def rechercher_series(recherche):
             for titre in titres:
 
                 if titre == recherche_lower:
+
                     score = 0
 
-                elif titre.startswith(recherche_lower):
+                elif titre.startswith(
+                    recherche_lower
+                ):
+
                     score = 10
 
                 elif recherche_lower in titre:
+
                     score = 100
 
                 else:
+
                     score = NO_SCORE
 
                 meilleur_score = min(
@@ -117,12 +146,15 @@ def rechercher_series(recherche):
 
             return meilleur_score
 
+
         series = sorted(
             series,
             key=score_serie
         )
 
+
         return [
+
             {
                 "id": serie["id"],
 
@@ -147,10 +179,16 @@ def rechercher_series(recherche):
                     else None
                 )
             }
-            for serie in series[:MAX_SEARCH_RESULTS]
+
+            for serie in series[
+                :MAX_SEARCH_RESULTS
+            ]
+
         ]
 
+
     except urllib.error.HTTPError as error:
+
         print(
             f"Erreur HTTP TMDB : {error.code}"
         )
@@ -161,7 +199,9 @@ def rechercher_series(recherche):
 
         return []
 
+
     except urllib.error.URLError as error:
+
         print(
             "Erreur de connexion à TMDB :"
         )
@@ -170,14 +210,18 @@ def rechercher_series(recherche):
 
         return []
 
+
     except TimeoutError:
+
         print(
             "TMDB a mis trop de temps à répondre."
         )
 
         return []
 
+
     except Exception as erreur:
+
         print(
             "Erreur recherche TMDB :",
             erreur
@@ -186,8 +230,10 @@ def rechercher_series(recherche):
         return []
 
 
-# Récupère un serie depuis TMDB.
+# Récupère une série depuis TMDB.
+
 def recuperer_serie(serie_id):
+
     parametres = preparer_parametres({
         "language": "fr-FR",
         "append_to_response": "credits"
@@ -201,12 +247,19 @@ def recuperer_serie(serie_id):
     requete = creer_requete_tmdb(url)
 
     try:
+
         media = executer_requete_tmdb(
             requete
         )
 
         if not media:
+
             return None
+
+
+        # --------------------------------------------------
+        # Informations générales
+        # --------------------------------------------------
 
         titre = (
             media.get("name")
@@ -230,12 +283,23 @@ def recuperer_serie(serie_id):
             or ""
         )
 
+
+        # --------------------------------------------------
+        # Année de sortie
+        # --------------------------------------------------
+
         annee = None
 
         if media.get("first_air_date"):
+
             annee = int(
                 media["first_air_date"][:4]
             )
+
+
+        # --------------------------------------------------
+        # Genres
+        # --------------------------------------------------
 
         genres = convertir_liste_en_texte(
             [
@@ -247,38 +311,71 @@ def recuperer_serie(serie_id):
             ]
         )
 
-        duree = media.get("runtime")
 
-        realisateur = None
+        # --------------------------------------------------
+        # Durée d'un épisode
+        # --------------------------------------------------
 
+        duree = None
 
-        credits = media.get(
-            "credits",
-            {}
-        )
-
-        crew = credits.get(
-            "crew",
+        durees_episodes = media.get(
+            "episode_run_time",
             []
         )
 
-        for personne in crew:
-            if personne.get("job") == "Director":
-                realisateur = personne.get("name")
-                break
+        if durees_episodes:
+
+            duree = durees_episodes[0]
+
+
+        # --------------------------------------------------
+        # Créateur de la série
+        #
+        # On garde le nom de variable
+        # "realisateur" dans ton projet.
+        # --------------------------------------------------
+
+        realisateur = None
+
+        createurs = media.get(
+            "created_by",
+            []
+        )
+
+        if createurs:
+
+            realisateur = createurs[0].get(
+                "name"
+            )
+
+
+        # --------------------------------------------------
+        # Résultat
+        # --------------------------------------------------
 
         return {
+
             "titre": titre,
+
             "titre_original": titre_original,
+
             "image": image,
+
             "description": description,
+
             "annee": annee,
+
             "genres": genres,
+
             "duree": duree,
+
             "realisateur": realisateur,
+
         }
 
+
     except urllib.error.HTTPError as error:
+
         print(
             f"Erreur HTTP TMDB : {error.code}"
         )
@@ -289,7 +386,9 @@ def recuperer_serie(serie_id):
 
         return None
 
+
     except urllib.error.URLError as error:
+
         print(
             "Erreur de connexion à TMDB :"
         )
@@ -298,14 +397,18 @@ def recuperer_serie(serie_id):
 
         return None
 
+
     except TimeoutError:
+
         print(
             "TMDB a mis trop de temps à répondre."
         )
 
         return None
 
+
     except Exception as erreur:
+
         print(
             "Erreur récupération TMDB :",
             erreur

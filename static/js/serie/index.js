@@ -93,6 +93,9 @@ function createSérieCard(serie) {
         serie.titre_original ||
         unknownOriginalTitle;
 
+    const realisateur =
+        serie.realisateur;
+
 
     const image =
         serie.image;

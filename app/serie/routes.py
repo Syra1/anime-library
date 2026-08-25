@@ -85,7 +85,7 @@ async def serie_page(
 
     if serie is None:
         return HTMLResponse(
-            "Film introuvable",
+            "Série introuvable",
             status_code=404
         )
 
