@@ -11,20 +11,23 @@ body {
 }
 
 .main-header {
-    position: relative;
-    top: 0;
-    z-index: 1;
-    width: 100%;
-    height: 55px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+
     padding: 0 20px;
     background-color: #323232;
 }
 
 .main-header span {
     color: white;
+}
+
+.bar-header {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 55px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 main {
@@ -40,19 +43,15 @@ main {
 .back-home-button {
     display: flex;
     align-items: center;
+    width: fit-content;
     gap: 6px;
-
     font-size: 16px;
     font-weight: 600;
     color: white;
-
     text-decoration: none;
-
     padding: 8px 10px;
     border-radius: 6px;
-
     background: transparent;
-
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
@@ -139,25 +138,12 @@ main {
     color: #18181b;
 }
 
-.library-submenu-button.disabled {
-    color: #a1a1aa;
-    cursor: default;
-}
-
-.library-submenu-button.disabled:hover {
-    background: #ffffff;
-}
-
 .site-title {
     display: flex;
     align-items: center;
+    width: fit-content;
     gap: 8px;
     font-size: 16px;
     font-weight: 600;
     color: #18181b;
-}
-
-.site-title img {
-    width: 20px;
-    height: 20px;
 }
