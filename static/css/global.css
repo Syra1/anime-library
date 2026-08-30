@@ -19,11 +19,12 @@ main {
 .main-header {
     position: relative;
     width: 100%;
-    height: 55px;
+    height: 60px;
 }
 
 .main-header span {
     color: white;
+    margin-right: 20px;
 }
 
 .bar-header {
@@ -84,7 +85,7 @@ main {
     font-weight: 600;
     color: white;
     text-decoration: none;
-    padding: 8px 10px;
+    margin-left: 20px;
     border-radius: 6px;
     background: transparent;
     transition:
