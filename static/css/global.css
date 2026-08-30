@@ -8,17 +8,20 @@ body {
     font-family: Arial, sans-serif;
     background: black;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
     max-width: 1500px;
     margin: 40px auto;
     padding: 0 20px;
+
 }
 
 .main-header {
     position: relative;
-    width: calc(100% - 200px);
+    width: calc(100% - 100px);
     height: 60px;
     margin: 50px auto;
 }
