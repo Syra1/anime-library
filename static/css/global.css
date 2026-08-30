@@ -18,8 +18,9 @@ main {
 
 .main-header {
     position: relative;
-    width: 100%;
+    width: calc(100% - 200px);
     height: 60px;
+    margin: 50px auto;
 }
 
 .main-header span {
@@ -37,6 +38,7 @@ main {
     align-items: center;
     justify-content: space-between;
     background-color: #323232;
+    border-radius: 16px;
 }
 
 @property --angle{
@@ -55,6 +57,7 @@ main {
     left: 50%;
     translate: -50% -50%;
     z-index: -1;
+    border-radius: 16px;
     animation: 3s spin linear infinite;
 }
 
@@ -108,8 +111,6 @@ main {
     transform: scale(0.95);
 }
 
-/* Sous-menu */
-
 .library-submenu {
     position: absolute;
 
@@ -139,8 +140,6 @@ main {
         transform 0.2s ease,
         visibility 0.2s ease;
 }
-
-/* Le survol de tout le menu affiche le sous-menu */
 
 .library-menu:hover .library-submenu {
     opacity: 1;
