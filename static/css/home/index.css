@@ -10,7 +10,7 @@
     margin-top: 150px;
 }
 
-.category-card {
+.category-card-anime, .category-card-film, .category-card-serie {
     position: relative;
     z-index: 1;
     width: 100%;
@@ -24,7 +24,7 @@
         box-shadow 0.2s ease;
 }
 
-.category-card:hover {
+.category-card-anime:hover, .category-card-film:hover, .category-card-serie:hover {
     transform: scale(1.05);
 }
 
@@ -34,7 +34,22 @@
     inherits: false;
 
 }
-.category-card::after, .category-card::before {
+.category-card-anime::after, .category-card-anime::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), red, white, red);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 5px;
+    border-radius: 16px;
+    animation: 3s spin linear infinite;
+}
+
+.category-card-film::after, .category-card-film::before {
     content: '';
     position: absolute;
     height: 100%;
@@ -49,7 +64,22 @@
     animation: 3s spin linear infinite;
 }
 
-.category-card::before {
+.category-card-serie::after, .category-card-serie::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), blue, white, blue);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 5px;
+    border-radius: 16px;
+    animation: 3s spin linear infinite;
+}
+
+.category-card-anime::before, .category-card-film:before, .category-card-serie::before {
     filter: blur(1.5rem);
     opacity: 1;
 }

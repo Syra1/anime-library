@@ -55,7 +55,7 @@ main {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), green, white, green);
+    background-image: conic-gradient(from var(--angle), white, black, white);
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -97,15 +97,17 @@ main {
     color: white;
     padding: 5px;
     border-radius: 16px;
-    border-left: 3px solid green;
-    border-right: 3px solid green;
+    border-left: 3px solid white;
+    border-right: 3px solid white;
 }
 
 .button:hover {
-    color: green;
-    border-left: 3px solid white;
-    border-right: 3px solid white;
-
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    border-radius: 16px;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
 }
 
 .button + .button {
