@@ -55,13 +55,13 @@ main {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), white, black, white);
+    background-image: conic-gradient(from var(--angle), white);
     top: 50%;
     left: 50%;
     translate: -50% -50%;
     z-index: -1;
     border-radius: 16px;
-    animation: 3s spin linear infinite;
+    /* animation: 3s spin linear infinite; */
 }
 
 .main-header:before {
