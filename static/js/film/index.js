@@ -103,36 +103,37 @@ function createFilmCard(film) {
 
 
     return `
+        <div class="film-card-background">
+            <a
+                href="/film/${filmId}"
+                class="film-card"
+                data-film-id="${filmId}"
+            >
 
-        <a
-            href="/film/${filmId}"
-            class="film-card"
-            data-film-id="${filmId}"
-        >
+                <div class="film-image">
 
-            <div class="film-image">
+                    <img
+                        src="${image || ""}"
+                        alt="${titre}"
+                    >
 
-                <img
-                    src="${image || ""}"
-                    alt="${titre}"
-                >
-
-            </div>
+                </div>
 
 
-            <div class="film-info">
+                <div class="film-info">
 
-                <h2>
-                    ${titre}
-                </h2>
+                    <h2>
+                        ${titre}
+                    </h2>
 
-                <p class="original-title">
-                    ${titreOriginal}
-                </p>
+                    <p class="original-title">
+                        ${titreOriginal}
+                    </p>
 
-            </div>
+                </div>
 
-        </a>
+            </a>
+        </div>
 
     `;
 }

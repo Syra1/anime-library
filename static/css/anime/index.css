@@ -243,6 +243,7 @@
 }
 
 .anime-image {
+    position: relative;
     display: flex;
     justify-content: center;
     order: 1;
@@ -358,14 +359,6 @@
 .search-icon img {
     width: 100%;
     height: 100%;
-}
-
-.anime-image {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    order: 1;
-    width: 100%;
 }
 
 .season-progress {

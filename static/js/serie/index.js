@@ -106,36 +106,37 @@ function createSérieCard(serie) {
 
 
     return `
+        <div class="serie-card-background">
+            <a
+                href="/serie/${serieId}"
+                class="serie-card"
+                data-serie-id="${serieId}"
+            >
 
-        <a
-            href="/serie/${serieId}"
-            class="serie-card"
-            data-serie-id="${serieId}"
-        >
+                <div class="serie-image">
 
-            <div class="serie-image">
+                    <img
+                        src="${image || ""}"
+                        alt="${titre}"
+                    >
 
-                <img
-                    src="${image || ""}"
-                    alt="${titre}"
-                >
-
-            </div>
+                </div>
 
 
-            <div class="serie-info">
+                <div class="serie-info">
 
-                <h2>
-                    ${titre}
-                </h2>
+                    <h2>
+                        ${titre}
+                    </h2>
 
-                <p class="original-title">
-                    ${titreOriginal}
-                </p>
+                    <p class="original-title">
+                        ${titreOriginal}
+                    </p>
 
-            </div>
+                </div>
 
-        </a>
+            </a>
+        </div>
 
     `;
 }
