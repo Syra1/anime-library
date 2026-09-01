@@ -1,5 +1,5 @@
 :root {
-    --mon_gris: #323232;
+    --couleur_fond_barre: #323232;
     --couleur_fond: black;
     --couleur_barre: white;
     --couleur_anime: red;
@@ -38,7 +38,6 @@ main {
 }
 
 .main-header span {
-    color: white;
     margin-right: 20px;
 }
 
@@ -51,7 +50,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--mon_gris);
+    background-color: var(--couleur_fond_barre);
     border-radius: 16px;
 }
 
@@ -66,7 +65,7 @@ main {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), white);
+    background-image: conic-gradient(from var(--angle), var(--couleur_barre));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -95,7 +94,7 @@ main {
     gap: 8px;
     font-size: 16px;
     font-weight: 600;
-    color: #18181b;
+    color: var(--couleur_barre);
 }
 
 .library-menu {
@@ -104,11 +103,11 @@ main {
 
 .button {
     text-decoration: none;
-    color: white;
+    color: var(--couleur_barre);
     padding: 5px;
     border-radius: 16px;
-    border-left: 3px solid white;
-    border-right: 3px solid white;
+    border-left: 3px solid var(--couleur_barre);
+    border-right: 3px solid var(--couleur_barre);
 }
 
 .button:hover {
@@ -116,8 +115,8 @@ main {
     color: black;
     padding: 5px;
     border-radius: 16px;
-    border-left: 3px solid black;
-    border-right: 3px solid black;
+    border-left: 3px solid var(--couleur_fond);
+    border-right: 3px solid var(--couleur_fond);
 }
 
 .button + .button {

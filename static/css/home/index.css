@@ -99,8 +99,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #323232;
+    background-color: var();
     border-radius: 0 0 16px 16px;
+    background-color: #323232;
 }
 
 .category-card-info h2 {
