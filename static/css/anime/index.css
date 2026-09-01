@@ -25,7 +25,6 @@
 
 .add-anime::before, .toolbar::before {
     filter: blur(1.5rem);
-    opacity: 1;
 }
 
 .add-anime h2 {
@@ -61,8 +60,6 @@
     justify-content: space-between;
     align-items: center;
     height: 120px;
-    min-height: 120px;
-    max-height: 120px;
     padding: 15px;
     margin-bottom: 10px;
     border: 3px solid var(--couleur_anime);
@@ -112,28 +109,6 @@
     margin-right: 15px;
 }
 
-.filters {
-    display: flex;
-    gap: 10px;
-}
-
-.filter {
-    border: none;
-    background: var(--couleur_barre);
-    padding: 10px 18px;
-    border-radius: 16px;
-    cursor: pointer;
-}
-
-.filter:hover {
-    background: var(--couleur_barre);
-}
-
-.filter.active {
-    background-color: var(--couleur_fond);
-    color: var(--couleur_barre);
-}
-
 #anime-list {
     display: grid;
     grid-template-columns: repeat(7, max-content);
@@ -167,7 +142,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_barre), var(--couleur_anime));
+    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_fond), var(--couleur_anime));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -179,7 +154,6 @@
 
 .anime-card-background::before {
     filter: blur(1.5rem);
-    opacity: 1;
 }
 
 .anime-card-background:hover {
