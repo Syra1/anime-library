@@ -16,7 +16,7 @@
 
     padding: 30px;
 
-    background: white;
+    background: var(--couleur_barre);
     border-radius: 16px;
 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
