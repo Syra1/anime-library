@@ -28,12 +28,6 @@
     transform: scale(1.05);
 }
 
-@property --angle{
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-
-}
 .category-card-anime::after, .category-card-anime::before {
     content: '';
     position: absolute;
@@ -82,15 +76,6 @@
 .category-card-anime::before, .category-card-film:before, .category-card-serie::before {
     filter: blur(1.5rem);
     opacity: 1;
-}
-
-@keyframes spin {
-    from {
-        --angle: 0deg;
-    }
-    to {
-        --angle: 360deg;
-    }
 }
 
 .category-card-image {
