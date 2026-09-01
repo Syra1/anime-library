@@ -112,7 +112,7 @@ main {
 
 .button:hover {
     text-decoration: none;
-    color: black;
+    color: var(--couleur_fond);
     padding: 5px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_fond);

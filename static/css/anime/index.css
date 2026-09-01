@@ -3,10 +3,9 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto 30px auto;
-    background-color: var();
+    background-color: var(--couleur_barre);
     padding: 20px;
     border-radius: 16px;
-    background-color: white;
 }
 
 .add-anime::after, .add-anime::before {
@@ -14,7 +13,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), red, white, red);
+    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_barre), var(--couleur_anime));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -36,19 +35,19 @@
 #anime-search {
     width: 100%;
     padding: 12px 15px 12px 35px;
-    border: 3px solid red;
+    border: 3px solid var(--couleur_anime);
     border-radius: 16px;
     font-size: 16px;
     outline: none;
 }
 
 .search-results-list {
-    color: black;
+    color: var(--couleur_fond);
     height: 380px;
     overflow-y: auto;
     margin-top: 15px;
     padding-right: 10px;
-    scrollbar-color: red transparent;
+    scrollbar-color: var(--couleur_anime) transparent;
 }
 
 .search-result {
@@ -60,9 +59,9 @@
     max-height: 120px;
     padding: 15px;
     margin-bottom: 10px;
-    border: 3px solid red;
+    border: 3px solid var(--couleur_anime);
     border-radius: 16px;
-    background-color: white;
+    background-color: var(--couleur_barre);
 }
 
 .search-result-info {
@@ -81,24 +80,24 @@
 
 .add-anime-button, #cancel-add, #confirm-add {
     border: none;
-    background-color: white;
-    color: red;
+    background-color: var(--couleur_barre);
+    color: var(--couleur_anime);
     margin-right: 10px;
     padding: 5px;
     border-radius: 16px;
-    border-left: 3px solid red;
-    border-right: 3px solid red;
+    border-left: 3px solid var(--couleur_anime);
+    border-right: 3px solid var(--couleur_anime);
     cursor: pointer;
 }
 
 .add-anime-button:hover, #cancel-add:hover, #confirm-add:hover {
     border: none;
-    background-color: white;
-    color: black;
+    background-color: var(--couleur_barre);
+    color: var(--couleur_fond);
     padding: 5px;
     border-radius: 16px;
-    border-left: 3px solid black;
-    border-right: 3px solid black;
+    border-left: 3px solid var(--couleur_fond);
+    border-right: 3px solid var(--couleur_fond);
     cursor: pointer;
 }
 
@@ -113,7 +112,7 @@
     position: relative;
     max-width: 800px;
     margin: 0 auto 30px auto;
-    background: white;
+    background: var(--couleur_barre);
     padding: 20px;
     border-radius: 16px;
 }
@@ -123,7 +122,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), red, white, red);
+    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_fond), var(--couleur_anime));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -141,7 +140,7 @@
 #search {
     width: 100%;
     padding: 12px 15px 12px 35px;
-    border: 3px solid red;
+    border: 3px solid var(--couleur_anime);
     border-radius: 16px;
     font-size: 16px;
     outline: none;
@@ -154,19 +153,19 @@
 
 .filter {
     border: none;
-    background: white;
+    background: var(--couleur_barre);
     padding: 10px 18px;
     border-radius: 16px;
     cursor: pointer;
 }
 
 .filter:hover {
-    background: white;
+    background: var(--couleur_barre);
 }
 
 .filter.active {
-    background: #18181b;
-    color: white;
+    background-color: var(--couleur_fond);
+    color: var(--couleur_barre);
 }
 
 #anime-list {
@@ -179,7 +178,7 @@
 
 .anime-card {
     width: fit-content;
-    background: white;
+    background-color: var(--couleur_barre);
     padding: 10px;
     border-radius: 16px;
     display: flex;
@@ -202,7 +201,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), red, white, red);
+    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_barre), var(--couleur_anime));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -260,7 +259,7 @@
 }
 
 .original-title {
-    color: #71717a;
+    color: var(--couleur_fond_barre);
     font-size: 12px;
     font-style: italic;
     text-align: left;
@@ -288,7 +287,7 @@
 .modal-content {
     width: 100%;
     max-width: 420px;
-    background: white;
+    background: var(--couleur_barre);
     border-radius: 16px;
     padding: 25px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
@@ -300,13 +299,13 @@
 
 .modal-content p {
     margin-bottom: 20px;
-    color: #52525b;
+    color: var(--couleur_fond_barre);
 }
 
 #season-count {
     width: 100%;
     padding: 10px 12px;
-    border: 3px solid red;
+    border: 3px solid var(--couleur_anime);
     border-radius: 16px;
     font-size: 16px;
     margin-bottom: 25px;
@@ -366,7 +365,7 @@
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    color: white;
+    color: var(--couleur_barre);
     border-radius: 6px;
     font-size: 10px;
     font-weight: bold;
