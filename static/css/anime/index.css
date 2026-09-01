@@ -39,6 +39,12 @@
     border-radius: 16px;
     font-size: 16px;
     outline: none;
+    color: var(--couleur_fond);
+    background-color: var(--couleur_barre);
+}
+
+#anime-search::placeholder{
+    color: var(--couleur_fond_barre);
 }
 
 .search-results-list {
@@ -144,6 +150,12 @@
     border-radius: 16px;
     font-size: 16px;
     outline: none;
+    color: var(--couleur_fond);
+    background-color: var(--couleur_barre);
+}
+
+#search::placeholder {
+    color: var(--couleur_fond_barre);
 }
 
 .filters {

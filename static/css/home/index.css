@@ -15,8 +15,8 @@
     z-index: 1;
     width: 100%;
     border-radius: 16px;
-    background: #18181b;
-    color: white;
+    background-color: var(--couleur_fond_barre);
+    color: var(--couleur_barre);
     text-decoration: none;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     transition:
@@ -33,7 +33,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), red, white, red);
+    background-image: conic-gradient(from var(--angle), var(--couleur_anime), var(--couleur_barre), var(--couleur_anime));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -48,7 +48,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), green, white, green);
+    background-image: conic-gradient(from var(--angle), var(--couleur_film), var(--couleur_barre), var(--couleur_film));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -63,7 +63,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle), blue, white, blue);
+    background-image: conic-gradient(from var(--angle), var(--couleur_serie), var(--couleur_barre), var(--couleur_serie));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
@@ -101,7 +101,7 @@
     align-items: center;
     background-color: var();
     border-radius: 0 0 16px 16px;
-    background-color: #323232;
+    background-color: var(--couleur_fond_barre);
 }
 
 .category-card-info h2 {
