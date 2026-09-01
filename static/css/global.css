@@ -61,7 +61,6 @@ main {
     translate: -50% -50%;
     z-index: -1;
     border-radius: 16px;
-    /* animation: 3s spin linear infinite; */
 }
 
 .main-header:before {
