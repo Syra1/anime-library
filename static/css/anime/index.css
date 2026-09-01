@@ -42,10 +42,12 @@
 }
 
 .search-results-list {
+    color: black;
     height: 380px;
     overflow-y: auto;
     margin-top: 15px;
     padding-right: 10px;
+    scrollbar-color: red transparent;
 }
 
 .search-result {
@@ -74,9 +76,6 @@
     margin: 5px 0;
 }
 
-.search-result small {
-    color: #666;
-}
 
 
 .add-anime-button, #cancel-add, #confirm-add {

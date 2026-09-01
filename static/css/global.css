@@ -1,3 +1,12 @@
+:root {
+    --mon_gris: #323232;
+    --couleur_fond: black;
+    --couleur_barre: white;
+    --couleur_anime: red;
+    --couleur_film: green;
+    --couleur_serie: blue;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,17 +15,19 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: black;
+    background: var(--couleur_fond);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 main {
+    width: 1500px;
+    min-width: 1500px;
     max-width: 1500px;
     margin: 40px auto;
     padding: 0 20px;
-
+    box-sizing: border-box;
 }
 
 .main-header {
@@ -40,7 +51,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #323232;
+    background-color: var(--mon_gris);
     border-radius: 16px;
 }
 
