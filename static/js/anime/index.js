@@ -75,26 +75,28 @@ function displayAnimes(search = "") {
             const titreOriginal = anime.titre_original || unknownOriginalTitle;
             const image = anime.image;
             const animeId = anime.id;
-            return `<a href="/anime/${animeId}" class="anime-card" data-anime-id="${animeId}">
-                    <div class="anime-image">
-                        <img src="${image}" alt="${titre}">
-                        <span class="season-progress">
-                            ${derniereSaisonVue} / ${nombreSaisons}
-                        </span>
-                        ${
-                            animeTermine? `<img class="anime-complete-badge" src="/static/icons/check.svg" alt="Anime terminé">`: ""
-                        }
+            return `<div class="anime-card-background">
+                        <a href="/anime/${animeId}" class="anime-card" data-anime-id="${animeId}">
+                        <div class="anime-image">
+                            <img src="${image}" alt="${titre}">
+                            <span class="season-progress">
+                                ${derniereSaisonVue} / ${nombreSaisons}
+                            </span>
+                            ${
+                                animeTermine? `<img class="anime-complete-badge" src="/static/icons/check.svg" alt="Anime terminé">`: ""
+                            }
 
-                    </div>
-                    <div class="anime-info">
-                        <h2>
-                            ${titre}
-                        </h2>
-                        <p class="original-title">
-                            ${titreOriginal}
-                        </p>
-                    </div>
-                </a>`;
+                        </div>
+                        <div class="anime-info">
+                            <h2>
+                                ${titre}
+                            </h2>
+                            <p class="original-title">
+                                ${titreOriginal}
+                            </p>
+                        </div>
+                    </a>
+                </div>`;
         })
         .join("");
     animeList.innerHTML = animeCards;

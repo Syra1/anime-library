@@ -157,8 +157,6 @@
 }
 
 .anime-card {
-    position: relative;
-    z-index: 1;
     width: fit-content;
     background: white;
     padding: 10px;
@@ -173,7 +171,12 @@
     transition: transform 0.2s ease;
 }
 
-.anime-card:hover::after, .anime-card:hover::before {
+.anime-card-background {
+    position: relative;
+    z-index: 1;
+}
+
+.anime-card-background:hover::after, .anime-card-background:hover::before {
     content: '';
     position: absolute;
     height: 100%;
@@ -188,7 +191,7 @@
     animation: 3s spin linear infinite;
 }
 
-.anime-card:hover {
+.anime-card-background:hover {
     text-decoration: none;
     color: inherit;
     transform: scale(1.03);
