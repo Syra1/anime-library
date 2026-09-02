@@ -348,28 +348,50 @@ def recuperer_serie(serie_id):
                 "name"
             )
 
+        nombre_saisons = media.get(
+            "number_of_seasons",
+            0
+        )
+
+        saisons = []
+
+        for saison in media.get(
+            "seasons",
+            []
+        ):
+
+            numero = saison.get(
+                "season_number"
+            )
+
+        # On ignore les épisodes spéciaux
+        # qui correspondent à la saison 0.
+            if numero == 0:
+                continue
+
+            saisons.append({
+                "numero": numero,
+                "nombre_episodes": saison.get(
+                    "episode_count",
+                    0
+                ),
+            })
 
         # --------------------------------------------------
         # Résultat
         # --------------------------------------------------
 
         return {
-
             "titre": titre,
-
             "titre_original": titre_original,
-
             "image": image,
-
             "description": description,
-
             "annee": annee,
-
             "genres": genres,
-
             "duree": duree,
-
             "realisateur": realisateur,
+            "nombre_saisons": nombre_saisons,
+            "saisons": saisons,
 
         }
 

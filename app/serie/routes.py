@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
 from starlette.requests import Request
 
 from app.config import TEMPLATES_DIR
@@ -50,6 +49,7 @@ async def add_serie(tmdb_id: int):
 
     serie = recuperer_serie(tmdb_id)
 
+
     if serie is None:
         return {
             "success": False
@@ -64,6 +64,8 @@ async def add_serie(tmdb_id: int):
         genres=serie["genres"],
         duree=serie["duree"],
         realisateur=serie["realisateur"],
+        nombre_saisons=serie["nombre_saisons"],
+        saisons=serie["saisons"],
     )
 
     return {
@@ -82,6 +84,9 @@ async def serie_page(
 ):
 
     serie = recuperer_serie_database(serie_id)
+
+
+    print("SERIE :", serie)
 
     if serie is None:
         return HTMLResponse(
