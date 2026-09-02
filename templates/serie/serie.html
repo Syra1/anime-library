@@ -71,31 +71,20 @@
             {% endif %}
 
             {% if serie.saisons %}
-
                 <div class="season-list">
-
                     {% for saison in serie.saisons %}
-
                         <div class="season-item">
-
-                            <strong>
+                            <strong class="numero_saison">
                                 Saison {{ saison.numero }}
                             </strong>
-
-                            <span>
+                            <span class="nombre_episodes">
                                 {{ saison.nombre_episodes }} épisodes
                             </span>
-
                         </div>
-
                     {% endfor %}
-
                 </div>
-
             {% endif %}
-
         </div>
-
     </div>
 
     <!-- Description -->
