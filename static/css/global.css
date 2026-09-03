@@ -7,6 +7,18 @@
     --couleur_serie: blue;
 }
 
+.page-anime-index {
+    --couleur_media: var(--couleur_anime);
+}
+
+.page-serie-index {
+    --couleur_media: var(--couleur_serie);
+}
+
+.page-film-index {
+    --couleur_media: var(--couleur_film);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
