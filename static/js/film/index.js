@@ -103,14 +103,14 @@ function createFilmCard(film) {
 
 
     return `
-        <div class="film-card-background">
+        <div class="media-card-background">
             <a
                 href="/film/${filmId}"
-                class="film-card"
+                class="film-card media-card"
                 data-film-id="${filmId}"
             >
 
-                <div class="film-image">
+                <div class="media-image">
 
                     <img
                         src="${image || ""}"
@@ -120,7 +120,7 @@ function createFilmCard(film) {
                 </div>
 
 
-                <div class="film-info">
+                <div class="media-info">
 
                     <h2>
                         ${titre}
@@ -446,7 +446,7 @@ function displaySearchResults(
 
 
                             <button
-                                class="add-film-button"
+                                class="add-film-button add-media-button"
                                 data-tmdb-id="${tmdbId}"
                             >
                                 Ajouter

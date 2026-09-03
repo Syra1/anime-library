@@ -14,8 +14,7 @@ const librarySearch =
 const serieSearch =
     document.getElementById("serie-search");
 
-const searchResults =
-    document.getElementById("search-results");
+const searchResults = document.getElementById("search-results");
 
 const minimumSearchLength = 3;
 
@@ -106,14 +105,14 @@ function createSérieCard(serie) {
 
 
     return `
-        <div class="serie-card-background">
+        <div class="media-card-background">
             <a
                 href="/serie/${serieId}"
-                class="serie-card"
+                class="serie-card media-card"
                 data-serie-id="${serieId}"
             >
 
-                <div class="serie-image">
+                <div class="media-image">
 
                     <img
                         src="${image || ""}"
@@ -123,7 +122,7 @@ function createSérieCard(serie) {
                 </div>
 
 
-                <div class="serie-info">
+                <div class="media-info">
 
                     <h2>
                         ${titre}
@@ -449,7 +448,7 @@ function displaySearchResults(
 
 
                             <button
-                                class="add-serie-button"
+                                class="add-serie-button add-media-button"
                                 data-tmdb-id="${tmdbId}"
                             >
                                 Ajouter

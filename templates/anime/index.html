@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Animés
+    Séries
 {% endblock %}
 
 {% block styles %}
@@ -10,57 +10,39 @@
 {% endblock %}
 
 {% block content %}
-<!-- Recherche d'un anime sur AniList -->
-<section class="add-anime">
-    <div class="search-input">
-        <span class="search-icon">
-            <img src="/static/icons/search.svg" alt="" > 
-        </span>
-        <input type="text" id="anime-search" placeholder="Rechercher un anime...">
-    </div>
-    <section id="search-results">
-        <!-- Les résultats AniList apparaîtront ici -->
-    </section>
-</section>
-
-<!-- Recherche dans ma bibliothèque -->
-<section class="toolbar">
-    <div class="search-input">
-        <span class="search-icon">
-            <img src="/static/icons/search.svg" alt="" >
-        </span>
-        <input type="text" id="search" placeholder="Rechercher dans ma bibliothèque...">
-    </div>
-</section>
-
-
-<!-- Liste de ma bibliothèque -->
-<section id="anime-list">
-    <p>
-        Chargement des animés...
-    </p>
-</section>
-
-<!-- Modale ajout d'un anime -->
-<div id="add-modal" class="modal">
-    <div class="modal-content">
-        <h2 id="add-modal-title">
-            Ajouter un anime
-        </h2>
-        <p>
-            Combien de saisons possède cet anime ?
-        </p>
-        <input type="text" inputmode="numeric" id="season-count" min="1" max="30" value="1">
-        <div class="modal-actions">
-            <button id="cancel-add">
-                Annuler
-            </button>
-            <button id="confirm-add">
-                Ajouter
-            </button>
+<div class="page-anime-index">
+    <!-- Recherche d'un anime sur TMDB -->
+    <section class="add-media">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="" > 
+            </span>
+            <input type="text" id="anime-search" class="media-search" placeholder="Rechercher un anime...">
         </div>
-    </div>
+        <section id="search-results" class="media-results">
+            <!-- Les résultats TMDB apparaîtront ici -->
+        </section>
+    </section>
+
+    <!-- Recherche dans ma bibliothèque -->
+    <section class="toolbar">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="" >
+            </span>
+            <input type="text" id="search" class="API-search" placeholder="Rechercher dans ma bibliothèque...">
+        </div>
+    </section>
+
+
+    <!-- Liste de ma bibliothèque -->
+    <section id="anime-list" class="media-list">
+        <p>
+            Chargement des animes...
+        </p>
+    </section>
 </div>
+
 {% endblock %}
 
 {% block scripts %}

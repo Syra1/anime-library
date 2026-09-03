@@ -106,14 +106,14 @@ function createSérieCard(anime) {
 
 
     return `
-        <div class="anime-card-background">
+        <div class="media-card-background">
             <a
                 href="/anime/${animeId}"
-                class="anime-card"
+                class="anime-card media-card"
                 data-anime-id="${animeId}"
             >
 
-                <div class="anime-image">
+                <div class="media-image">
 
                     <img
                         src="${image || ""}"
@@ -123,7 +123,7 @@ function createSérieCard(anime) {
                 </div>
 
 
-                <div class="anime-info">
+                <div class="media-info">
 
                     <h2>
                         ${titre}
@@ -449,7 +449,7 @@ function displaySearchResults(
 
 
                             <button
-                                class="add-anime-button"
+                                class="add-anime-button add-media-button"
                                 data-tmdb-id="${tmdbId}"
                             >
                                 Ajouter

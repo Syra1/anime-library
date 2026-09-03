@@ -10,37 +10,38 @@
 {% endblock %}
 
 {% block content %}
-<!-- Recherche d'un serie sur TMDB -->
-<section class="add-serie">
-    <div class="search-input">
-        <span class="search-icon">
-            <img src="/static/icons/search.svg" alt="" > 
-        </span>
-        <input type="text" id="serie-search" placeholder="Rechercher une serie...">
-    </div>
-    <section id="search-results">
-        <!-- Les résultats TMDB apparaîtront ici -->
+<div class="page-serie-index">
+    <!-- Recherche d'un serie sur TMDB -->
+    <section class="add-media">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="" > 
+            </span>
+            <input type="text" id="serie-search" class="media-search" placeholder="Rechercher une serie...">
+        </div>
+        <section id="search-results" class="media-results">
+            <!-- Les résultats TMDB apparaîtront ici -->
+        </section>
     </section>
-</section>
 
-<!-- Recherche dans ma bibliothèque -->
-<section class="toolbar">
-    <div class="search-input">
-        <span class="search-icon">
-            <img src="/static/icons/search.svg" alt="" >
-        </span>
-        <input type="text" id="search" placeholder="Rechercher dans ma bibliothèque...">
-    </div>
-</section>
+    <!-- Recherche dans ma bibliothèque -->
+    <section class="toolbar">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="" >
+            </span>
+            <input type="text" id="search" class="API-search" placeholder="Rechercher dans ma bibliothèque...">
+        </div>
+    </section>
 
 
-<!-- Liste de ma bibliothèque -->
-<section id="serie-list">
-    <p>
-        Chargement des series...
-    </p>
-</section>
-
+    <!-- Liste de ma bibliothèque -->
+    <section id="serie-list" class="media-list">
+        <p>
+            Chargement des series...
+        </p>
+    </section>
+</div>
 
 {% endblock %}
 
