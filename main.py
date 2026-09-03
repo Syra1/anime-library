@@ -7,7 +7,7 @@ from app.home.routes import router as home_router
 from app.anime.routes import router as anime_router
 from app.film.routes import router as film_router
 from app.serie.routes import router as serie_router
-from app.anime.database import create_tables
+from app.anime.database import create_tables as create_anime_tables
 from app.film.database import create_tables as create_film_tables
 from app.serie.database import create_tables as create_serie_tables
 
@@ -26,7 +26,7 @@ templates = Jinja2Templates(
 )
 
 # Base de données
-create_tables()
+create_anime_tables()
 create_film_tables()
 create_serie_tables()
 
