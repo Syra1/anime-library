@@ -92,6 +92,80 @@ def determiner_type_media(media):
     return "anime"
 
 
+# Récupère les titres alternatifs d'un anime depuis TMDB.
+
+def recuperer_titre_romanise(anime_id):
+
+    url = (
+        f"{TMDB_API_URL}/tv/"
+        f"{anime_id}/alternative_titles"
+    )
+
+    requete = creer_requete_tmdb(url)
+
+    try:
+
+        resultat = executer_requete_tmdb(
+            requete
+        )
+
+        titres = resultat.get(
+            "results",
+            []
+        )
+
+        for titre in titres:
+
+            if titre.get("iso_3166_1") != "JP":
+                continue
+
+            if titre.get("type") != "romaji":
+                continue
+
+            if titre.get("title"):
+
+                return titre["title"]
+
+
+        return None
+
+
+    except urllib.error.HTTPError as error:
+
+        print(
+            f"Erreur HTTP TMDB : {error.code}"
+        )
+
+        return None
+
+
+    except urllib.error.URLError as error:
+
+        print(
+            "Erreur de connexion à TMDB :"
+        )
+
+        return None
+
+
+    except TimeoutError:
+
+        print(
+            "TMDB a mis trop de temps à répondre."
+        )
+
+        return None
+
+
+    except Exception as erreur:
+
+        print(
+            "Erreur titres alternatifs TMDB :",
+            erreur
+        )
+
+        return None
+
 # Recherche une série dans la base de données TMDB.
 
 def rechercher_animes(recherche):
@@ -197,35 +271,20 @@ def rechercher_animes(recherche):
 
             {
                 "id": anime["id"],
-
-                "title": anime.get(
-                    "name"
-                ),
-
-                "original_title": anime.get(
-                    "original_name"
-                ),
-
-                "image": (
-                    f"{IMAGE_BASE_URL}"
-                    f"{anime['poster_path']}"
+                "title": anime.get("name"),
+                "original_title": recuperer_titre_romanise(anime["id"]) or anime.get("original_name"),
+                "image": (f"{IMAGE_BASE_URL}" f"{anime['poster_path']}"
                     if anime.get("poster_path")
-                    else None
-                ),
-
-                "annee": (
-                    anime["first_air_date"][:4]
+                    else None),
+                "annee": (anime["first_air_date"][:4]
                     if anime.get("first_air_date")
-                    else None
-                )
+                    else None)
             }
 
             for anime in animes[
                 :MAX_SEARCH_RESULTS
             ]
-
         ]
-
 
     except urllib.error.HTTPError as error:
 
@@ -285,7 +344,9 @@ def recuperer_anime(anime_id):
             return None
         type_media = determiner_type_media(media)
         titre = (media.get("name") or media.get("original_name"))
-        titre_original = (media.get("original_name") or media.get("name"))
+        titre_original = recuperer_titre_romanise(anime_id)
+        if titre_original is None :
+            titre_original = (media.get("original_name") or media.get("name"))
         image = (
             f"{IMAGE_BASE_URL}"
             f"{media['poster_path']}"
