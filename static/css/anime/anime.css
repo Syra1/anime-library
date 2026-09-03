@@ -5,7 +5,7 @@
 }
 
 /* =========================
-   En-tête de l'anime
+   En-tête du anime
    ========================= */
 
 .anime-header {
@@ -16,7 +16,7 @@
 
     padding: 30px;
 
-    background: var(--couleur_barre);
+    background: white;
     border-radius: 16px;
 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
@@ -105,100 +105,6 @@
     font-style: italic;
 }
 
-/* =========================
-   Saisons
-   ========================= */
-
-.seasons {
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 10px;
-
-    margin-top: 25px;
-}
-
-.season-button {
-    width: 90px;
-    height: 36px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 6px 10px;
-
-    border: none;
-    border-radius: 8px;
-
-    font-size: 13px;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
-}
-
-.season-button.watched {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.season-button.unwatched {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.season-button:hover {
-    transform: translateY(-2px);
-}
-
-.season-button:active {
-    transform: scale(0.95);
-}
-
-/* =========================
-   Boutons + / -
-   ========================= */
-
-.season-controls {
-    display: inline-flex;
-
-    width: fit-content;
-
-    margin-top: 15px;
-
-    overflow: hidden;
-
-    border: 1px solid #3f3f46;
-    border-radius: 8px;
-}
-
-.season-control-btn {
-    width: 42px;
-    height: 38px;
-
-    border: none;
-
-    background: #27272a;
-    color: white;
-
-    font-size: 20px;
-
-    cursor: pointer;
-
-    transition: background-color 0.15s ease;
-}
-
-.season-control-btn:hover {
-    background: #3f3f46;
-}
-
-.remove-season-btn {
-    border-right: 1px solid #3f3f46;
-}
 
 /* =========================
    Description
@@ -218,6 +124,26 @@
     text-align: justify;
 
     color: #52525b;
+}
+
+.season-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nombre_episodes {
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+.season-item:hover .nombre_episodes {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* =========================

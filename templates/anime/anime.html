@@ -29,7 +29,7 @@
 
         </div>
 
-        <!-- Informations de l'anime -->
+        <!-- Informations du anime -->
         <div class="anime-details">
 
             <h2>
@@ -49,6 +49,13 @@
                 </p>
             {% endif %}
 
+            {% if anime.realisateur %}
+                <p class="anime-info">
+                    <strong>Réalisateur :</strong>
+                    {{ anime.realisateur }}
+                </p>
+            {% endif %}
+
             {% if anime.genres %}
                 <p class="anime-info">
                     <strong>Genres :</strong>
@@ -63,49 +70,21 @@
                 </p>
             {% endif %}
 
-            <!-- Saisons -->
-            <div class="seasons">
-
-                {% for saison in anime.saisons %}
-
-                    <button
-                        type="button"
-                        class="season-button {% if saison.vue %}watched{% else %}unwatched{% endif %}"
-                        data-anime-id="{{ anime.id }}"
-                        data-season-id="{{ saison.id }}"
-                        data-season-number="{{ saison.numero }}"
-                    >
-                        Saison {{ saison.numero }}
-                    </button>
-
-                {% endfor %}
-
-            </div>
-
-            <!-- Ajouter / retirer une saison -->
-            <div
-                class="season-controls"
-                data-anime-id="{{ anime.id }}"
-            >
-
-                <button
-                    type="button"
-                    class="season-control-btn remove-season-btn"
-                >
-                    −
-                </button>
-
-                <button
-                    type="button"
-                    class="season-control-btn add-season-btn"
-                >
-                    +
-                </button>
-
-            </div>
-
+            {% if anime.saisons %}
+                <div class="season-list">
+                    {% for saison in anime.saisons %}
+                        <div class="season-item">
+                            <strong class="numero_saison">
+                                Saison {{ saison.numero }}
+                            </strong>
+                            <span class="nombre_episodes">
+                                {{ saison.nombre_episodes }} épisodes
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-
     </div>
 
     <!-- Description -->
@@ -122,6 +101,8 @@
         </p>
 
     {% endif %}
+
+
 
 </div>
 

@@ -1,292 +1,550 @@
 // Déclaration des variables
-let animes = [];
-let currentAnimeToAdd = null;
-let librarySearchTimeout = null;
-let searchTimeout = null;
-const addModal = document.getElementById("add-modal");
-const seasonCountInput = document.getElementById("season-count");
-const cancelAddButton = document.getElementById("cancel-add");
-const confirmAddButton = document.getElementById("confirm-add");
-const animeList = document.getElementById("anime-list");
-const librarySearch = document.getElementById("search");
-const animeSearch = document.getElementById("anime-search");
-const searchResults = document.getElementById("search-results");
-const minimumSearchLength = 3;
-const animeSearchDelay = 300;
-const animeAnimationDelay = 100;
-const modalDisplay = "flex";
-const modalHiddenDisplay = "none";
-const unknownOriginalTitle = "Titre original inconnu";
 
-// Charge les animés depuis la base de donnée.
-async function loadAnimes() {
+let animes = [];
+
+
+let searchTimeout = null;
+
+const animeList =
+    document.getElementById("anime-list");
+
+const librarySearch =
+    document.getElementById("search");
+
+const animeSearch =
+    document.getElementById("anime-search");
+
+const searchResults =
+    document.getElementById("search-results");
+
+const minimumSearchLength = 3;
+
+const animeSearchDelay = 300;
+
+const animeAnimationDelay = 100;
+
+const unknownOriginalTitle =
+    "Titre original inconnu";
+
+
+// Charge les animes depuis la base de données.
+
+async function loadSéries() {
+
     try {
-        const response = await fetch("/anime/api");
+
+        const response =
+            await fetch("/anime/api");
+
         if (!response.ok) {
-            throw new Error("Erreur lors du chargement des animés");
+
+            throw new Error(
+                "Erreur lors du chargement des animes"
+            );
+
         }
-        const resultats = await response.json();
-        animes = resultats;
-        displayAnimes();
+
+        const resultats =
+            await response.json();
+
+        animes = Array.isArray(resultats)
+            ? resultats
+            : [];
+
+        displaySéries();
+
     } catch (error) {
-        console.error(error);
-        const message = `<p>Impossible de charger les animés.</p>`;
+
+        console.error(
+            "Erreur chargement animes :",
+            error
+        );
+
+        const message = `
+            <p>Impossible de charger les animes.</p>
+        `;
+
         animeList.innerHTML = message;
     }
 }
 
-// Normalise les noms pour la recherche, sans accents ni majuscules.
+
+// Normalise les noms pour la recherche
+// et le tri, sans accents ni majuscules.
+
 function normalizeText(text) {
+
     return (text || "")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
 }
 
-// Filtre les animés, génère leurs cartes et les affiche dans la bibliothèque.
-function displayAnimes(search = "") {
-    const recherche = normalizeText(search);
-    const filteredAnimes = animes.filter(anime => {
-        const titre = normalizeText(anime.titre);
-        const titre_original = normalizeText(anime.titre_original);
-        return titre.includes(recherche) || titre_original.includes(recherche);
-    });
+// Génère une carte de anime.
 
-    const aucunResultat = filteredAnimes.length === 0;
-    if (aucunResultat) {
-        const message = `<p>Aucun anime trouvé.</p>`;
-        animeList.innerHTML = message;
+function createSérieCard(anime) {
+
+    const titre =
+        anime.titre || "Titre inconnu";
+
+
+    const titreOriginal =
+        anime.titre_original ||
+        unknownOriginalTitle;
+
+    const realisateur =
+        anime.realisateur;
+
+
+    const image =
+        anime.image;
+
+
+    const animeId =
+        anime.id;
+
+
+    return `
+        <div class="anime-card-background">
+            <a
+                href="/anime/${animeId}"
+                class="anime-card"
+                data-anime-id="${animeId}"
+            >
+
+                <div class="anime-image">
+
+                    <img
+                        src="${image || ""}"
+                        alt="${titre}"
+                    >
+
+                </div>
+
+
+                <div class="anime-info">
+
+                    <h2>
+                        ${titre}
+                    </h2>
+
+                    <p class="original-title">
+                        ${titreOriginal}
+                    </p>
+
+                </div>
+
+            </a>
+        </div>
+
+    `;
+}
+
+
+// Filtre les animes, les trie par nom,
+// génère leurs cartes et les affiche
+// dans la bibliothèque.
+
+// Filtre les animes,
+// génère leurs cartes et les affiche
+// dans la bibliothèque.
+
+function displaySéries(search = "") {
+
+    const recherche =
+        normalizeText(search);
+
+
+    const filteredSéries =
+        animes.filter(
+            anime => {
+
+                const titre =
+                    normalizeText(
+                        anime.titre
+                    );
+
+
+                const titreOriginal =
+                    normalizeText(
+                        anime.titre_original
+                    );
+
+
+                return (
+                    titre.includes(recherche) ||
+                    titreOriginal.includes(recherche)
+                );
+
+            }
+        );
+
+
+    if (filteredSéries.length === 0) {
+
+        animeList.innerHTML = `
+            <p>Aucun anime trouvé.</p>
+        `;
+
         return;
     }
-    const animeCards = filteredAnimes
-        .map(anime => {
-            const derniereSaisonVue = anime.saisons.reduce((max, saison) => {
-                const saisonVue = saison.vue;
-                const numeroSaison = saison.numero;
-                if (saisonVue) {
-                    return Math.max(max, numeroSaison);
-                }
-                return max;
-            }, 0);
 
-            const nombreSaisons = anime.saisons.length;
-            const animeTermine = nombreSaisons > 0 && derniereSaisonVue === nombreSaisons;
-            const titre = anime.titre;
-            const titreOriginal = anime.titre_original || unknownOriginalTitle;
-            const image = anime.image;
-            const animeId = anime.id;
-            return `<div class="anime-card-background">
-                        <a href="/anime/${animeId}" class="anime-card" data-anime-id="${animeId}">
-                        <div class="anime-image">
-                            <img src="${image}" alt="${titre}">
-                            <span class="season-progress">
-                                ${derniereSaisonVue} / ${nombreSaisons}
-                            </span>
-                            ${
-                                animeTermine? `<img class="anime-complete-badge" src="/static/icons/check.svg" alt="Anime terminé">`: ""
-                            }
 
-                        </div>
-                        <div class="anime-info">
-                            <h2>
-                                ${titre}
-                            </h2>
-                            <p class="original-title">
-                                ${titreOriginal}
-                            </p>
-                        </div>
-                    </a>
-                </div>`;
-        })
-        .join("");
-    animeList.innerHTML = animeCards;
+    const animeCards =
+        filteredSéries
+            .map(createSérieCard)
+            .join("");
+
+
+    animeList.innerHTML =
+        animeCards;
 }
 
-// Gère la saisie dans le champ de recherche de la bibliothèque.
+
+// Gère la saisie dans le champ de recherche
+// de la bibliothèque.
+
 function handleLibrarySearch() {
-    clearTimeout(librarySearchTimeout);
-    const recherche = librarySearch.value.trim();
-    const rechercheTropCourte = recherche.length < minimumSearchLength;
+
+
+    const recherche =
+        librarySearch.value.trim();
+
+
+    const rechercheTropCourte =
+        recherche.length <
+        minimumSearchLength;
+
+
     if (rechercheTropCourte) {
-        displayAnimes("");
+
+        displaySéries("");
+
         return;
     }
-    displayAnimes(recherche);
 
+
+    displaySéries(
+        recherche
+    );
 }
 
-librarySearch.addEventListener("input", handleLibrarySearch);
 
-// Gère la saisie dans le champ de recherche AniList.
-function handleAnimeSearch() {
-    const recherche = animeSearch.value.trim();
-    clearTimeout(searchTimeout);
-    const rechercheTropCourte = recherche.length < minimumSearchLength;
+librarySearch.addEventListener(
+    "input",
+    handleLibrarySearch
+);
+
+
+// Gère la saisie dans le champ
+// de recherche TMDB.
+
+function handleSérieSearch() {
+
+    const recherche =
+        animeSearch.value.trim();
+
+
+    clearTimeout(
+        searchTimeout
+    );
+
+
+    const rechercheTropCourte =
+        recherche.length <
+        minimumSearchLength;
+
+
     if (rechercheTropCourte) {
-        searchResults.innerHTML = "";
+
+        searchResults.innerHTML =
+            "";
+
         return;
     }
-    searchTimeout = setTimeout(() => {
-        searchAniList(recherche);
-    }, animeSearchDelay);
+
+
+    searchTimeout =
+        setTimeout(
+            () => {
+
+                searchTMDB(
+                    recherche
+                );
+
+            },
+            animeSearchDelay
+        );
 }
 
-animeSearch.addEventListener("input", handleAnimeSearch);
 
-// Recherche un anime via l'API AniList.
-async function searchAniList(recherche) {
-    const loadingMessage = `<p>Recherche en cours...</p>`;
-    searchResults.innerHTML = loadingMessage;
+animeSearch.addEventListener(
+    "input",
+    handleSérieSearch
+);
+
+
+// Recherche un anime via l'API TMDB.
+
+async function searchTMDB(
+    recherche
+) {
+
+    const loadingMessage = `
+        <p>Recherche en cours...</p>
+    `;
+
+
+    searchResults.innerHTML =
+        loadingMessage;
+
+
     try {
-        const encodedRecherche = encodeURIComponent(recherche);
-        const url = "/anime/search-anime?q=" + encodedRecherche;
-        const response = await fetch(url);
+
+        const encodedRecherche =
+            encodeURIComponent(
+                recherche
+            );
+
+
+        const url =
+            "/anime/search-anime?q=" +
+            encodedRecherche;
+
+
+        const response =
+            await fetch(url);
+
+
         if (!response.ok) {
-            throw new Error("Erreur lors de la recherche");
+
+            throw new Error(
+                "Erreur lors de la recherche"
+            );
+
         }
-        const resultats = await response.json();
-        displaySearchResults(resultats);
+
+
+        const resultats =
+            await response.json();
+
+
+        displaySearchResults(
+            resultats
+        );
+
     } catch (error) {
-        console.error(error);
-        const errorMessage = `<p>Impossible de rechercher cet anime.</p>`;
-        searchResults.innerHTML = errorMessage;
+
+        console.error(
+            "Erreur recherche TMDB :",
+            error
+        );
+
+
+        const errorMessage = `
+            <p>
+                Impossible de rechercher ce anime.
+            </p>
+        `;
+
+
+        searchResults.innerHTML =
+            errorMessage;
     }
 }
 
-// Affiche les résultats de la recherche via l'API AniList.
-function displaySearchResults(resultats) {
-    const aucunResultat = !resultats || resultats.length === 0;
+
+// Affiche les résultats de la recherche TMDB.
+
+function displaySearchResults(
+    resultats
+) {
+
+    const aucunResultat =
+        !Array.isArray(resultats) ||
+        resultats.length === 0;
+
+
     if (aucunResultat) {
-        const message = `<p>Aucun anime trouvé.</p>`;
-        searchResults.innerHTML = message;
+
+        const message = `
+            <p>Aucun anime trouvé.</p>
+        `;
+
+
+        searchResults.innerHTML =
+            message;
+
+
         return;
     }
-    const searchResultsList = resultats
-        .map(anime => {
-            const titreEnglish = anime.title.english;
-            const titreRomaji = anime.title.romaji;
-            const titrePrincipal = titreEnglish || titreRomaji;
-            const titreSecondaire = titreRomaji;
-            const image = anime.image;
-            const anilistId = anime.id;
-            return `<article class="search-result">
-                    <img class="search-result-image" src="${image}" alt="${titrePrincipal}">
-                    <div class="search-result-info">
-                        <h3>
-                            ${titrePrincipal}
-                        </h3>
-                        <p>
-                            ${titreSecondaire}
-                        </p>
-                    </div>
-                    <button class="add-anime-button" data-anilist-id="${anilistId}">
-                        Ajouter
-                    </button>
-                </article>`;
-        })
-        .join("");
-    const searchResultsHTML = `<div class="search-results-list">
-        ${searchResultsList}
-    </div>`;
-    searchResults.innerHTML = searchResultsHTML;
-    const addAnimeButtons = document.querySelectorAll(".add-anime-button");
-    addAnimeButtons.forEach(button => {
-        button.addEventListener("click", handleAddAnime);
-    });
+
+
+    const searchResultsList =
+        resultats
+            .map(
+                anime => {
+
+                    const titre =
+                        anime.title ||
+                        "Titre inconnu";
+
+
+                    const titreOriginal =
+                        anime.original_title ||
+                        unknownOriginalTitle;
+
+
+                    const image =
+                        anime.image;
+
+
+                    const annee =
+                        anime.annee;
+
+
+                    const tmdbId =
+                        anime.id;
+
+
+                    return `
+
+                        <article
+                            class="search-result"
+                        >
+
+                            <img
+                                class="search-result-image"
+                                src="${image || ""}"
+                                alt="${titre}"
+                            >
+
+
+                            <div
+                                class="search-result-info"
+                            >
+
+                                <h3>
+                                    ${titre}
+                                </h3>
+
+
+                                <p>
+                                    ${titreOriginal}
+                                </p>
+
+
+                                ${
+                                    annee
+                                        ? `
+                                            <p>
+                                                ${annee}
+                                            </p>
+                                        `
+                                        : ""
+                                }
+
+                            </div>
+
+
+                            <button
+                                class="add-anime-button"
+                                data-tmdb-id="${tmdbId}"
+                            >
+                                Ajouter
+                            </button>
+
+                        </article>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    const searchResultsHTML = `
+
+        <div
+            class="search-results-list"
+        >
+
+            ${searchResultsList}
+
+        </div>
+
+    `;
+
+
+    searchResults.innerHTML =
+        searchResultsHTML;
+
+
+    const addSérieButtons =
+        document.querySelectorAll(
+            ".add-anime-button"
+        );
+
+
+    addSérieButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                handleAddSérie
+            );
+
+        }
+    );
 }
 
-// Prépare l'ajout d'un anime
-function handleAddAnime(event) {
-    const button = event.currentTarget;
-    const anilistId = Number(button.dataset.anilistId);
-    currentAnimeToAdd = anilistId;
-    seasonCountInput.value = 1;
-    addModal.style.display = modalDisplay;
-    seasonCountInput.focus();
-    seasonCountInput.select();
-}
 
-// Ferme la fenêtre d'ajout et réinitialise l'anime sélectionné.
-function handleCancelAdd() {
-    addModal.style.display = modalHiddenDisplay;
-    currentAnimeToAdd = null;
-}
-
-cancelAddButton.addEventListener("click", handleCancelAdd);
-
-// Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
-// Confirme l'ajout d'un anime et l'enregistre dans la base de donnée.
-// Confirme l'ajout d'un anime et l'enregistre
+// Ajoute directement le anime
 // dans la base de données.
 
-async function handleConfirmAdd() {
+async function handleAddSérie(event) {
 
-    const nombreSaisons =
-        Number(seasonCountInput.value);
-
-    const nombreSaisonsInvalide =
-        !nombreSaisons ||
-        nombreSaisons < 1;
+    const button =
+        event.currentTarget;
 
 
-    if (nombreSaisonsInvalide) {
-
-        alert("Nombre de saisons invalide.");
-
-        return;
-    }
+    const tmdbId =
+        Number(
+            button.dataset.tmdbId
+        );
 
 
-    const anilistId =
-        currentAnimeToAdd;
-
-
-    if (!anilistId) {
+    if (!tmdbId) {
 
         return;
     }
 
 
-    // Ferme la modale.
+    // Évite plusieurs clics
+    // pendant l'ajout.
 
-    addModal.style.display =
-        modalHiddenDisplay;
+    button.disabled =
+        true;
 
-    currentAnimeToAdd = null;
+
+    button.textContent =
+        "Ajout...";
 
 
     try {
 
         const url =
             "/anime/add-anime/" +
-            anilistId;
-
-
-        const requestOptions = {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type":
-                    "application/json",
-
-            },
-
-            body: JSON.stringify({
-
-                nombre_saisons:
-                    nombreSaisons,
-
-            }),
-
-        };
+            tmdbId;
 
 
         const response =
             await fetch(
                 url,
-                requestOptions
+                {
+                    method: "POST"
+                }
             );
 
 
@@ -306,7 +564,7 @@ async function handleConfirmAdd() {
         if (!resultat.success) {
 
             throw new Error(
-                "L'ajout de l'anime a échoué"
+                "L'ajout du anime a échoué"
             );
 
         }
@@ -314,86 +572,143 @@ async function handleConfirmAdd() {
 
         // Recharge la bibliothèque.
 
-        await loadAnimes();
+        await loadSéries();
 
 
         const animeId =
             resultat.anime_id;
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            animerAnimeAjoute(
-                animeId
-            );
+                animerSérieAjoute(
+                    animeId
+                );
 
-        }, animeAnimationDelay);
+            },
+            animeAnimationDelay
+        );
+
+
+        button.textContent =
+            "Ajouté";
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur ajout anime :",
+            error
+        );
+
 
         alert(
-            "Erreur pendant l'ajout."
+            "Erreur pendant l'ajout du anime."
         );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "Ajouter";
     }
 }
 
-confirmAddButton.addEventListener("click", handleConfirmAdd);
 
-// Ferme les recherches lorsqu'un clic est effectué en dehors de la barre de recherche.
+// Ferme les recherches lorsqu'un clic
+// est effectué en dehors des barres.
+
 function handleDocumentClick(event) {
-    if (event.target.closest(".add-anime-button")) {
-        return;
+
+    const clicDansRecherche =
+        animeSearch.contains(
+            event.target
+        );
+
+
+    const clicDansResultats =
+        searchResults.contains(
+            event.target
+        );
+
+
+    const clicDansLibrarySearch =
+        librarySearch.contains(
+            event.target
+        );
+
+
+    const clicEnDehorsRechercheSérie =
+        !clicDansRecherche &&
+        !clicDansResultats;
+
+
+    const clicEnDehorsRechercheBibliotheque =
+        !clicDansLibrarySearch;
+
+
+    if (clicEnDehorsRechercheSérie) {
+
+        animeSearch.value =
+            "";
+
+        searchResults.innerHTML =
+            "";
     }
-    const clicDansRecherche = animeSearch.contains(event.target);
-    const clicDansResultats = searchResults.contains(event.target);
-    const clicDansLibrarySearch = librarySearch.contains(event.target);
-    const clicDansModal = addModal && addModal.contains(event.target);
-    const clicEnDehorsRechercheAnime = !clicDansRecherche && !clicDansResultats && !clicDansModal;
-    const clicEnDehorsRechercheBibliotheque = !clicDansLibrarySearch && !clicDansModal;
-    if (clicEnDehorsRechercheAnime) {
-        animeSearch.value = "";
-        searchResults.innerHTML = "";
-    }
+
+
     if (clicEnDehorsRechercheBibliotheque) {
-        librarySearch.value = "";
-        displayAnimes("");
+
+        if (librarySearch.value !== "") {
+
+            librarySearch.value = "";
+
+            displaySéries("");
+
     }
 }
-
-document.addEventListener("click", handleDocumentClick);
-
-// Gère les touches Entrée et Échap lorsque la fenêtre d'ajout est ouverte.
-function handleDocumentKeydown(event) {
-    const modalOuvert = addModal && addModal.style.display === modalDisplay;
-    if (!modalOuvert) {
-        return;
-    }
-    const toucheEntree = event.key === "Enter";
-    const toucheEchap = event.key === "Escape";
-    if (toucheEntree) {
-        event.preventDefault();
-        confirmAddButton.click();
-    }
-    if (toucheEchap) {
-        event.preventDefault();
-        cancelAddButton.click();
-    }
 }
 
-document.addEventListener("keydown", handleDocumentKeydown);
 
-// Prépare la nouvelle card pour l'animation CSS.
-function animerAnimeAjoute(animeId) {
-    const selector = `.anime-card[data-anime-id="${animeId}"]`;
-    const card = document.querySelector(selector);
+document.addEventListener(
+    "click",
+    handleDocumentClick
+);
+
+
+// Prépare la nouvelle card
+// pour l'animation CSS.
+
+function animerSérieAjoute(
+    animeId
+) {
+
+    const selector =
+        `.anime-card[data-anime-id="${animeId}"]`;
+
+
+    const card =
+        document.querySelector(
+            selector
+        );
+
+
     if (!card) {
+
         return;
     }
-    card.classList.add("magic-card");
+
+
+    card.classList.add(
+        "magic-card"
+    );
 }
 
-// Recharge la liste des animés de la base de donnée.
-loadAnimes();
+
+// Recharge la liste des animes
+// depuis la base de données.
+
+loadSéries();
