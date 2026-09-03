@@ -85,9 +85,6 @@ async def anime_page(
 
     anime = recuperer_anime_database(anime_id)
 
-
-    print("ANIME :", anime)
-
     if anime is None:
         return HTMLResponse(
             "Anime introuvable",
