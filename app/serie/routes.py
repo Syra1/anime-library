@@ -85,9 +85,6 @@ async def serie_page(
 
     serie = recuperer_serie_database(serie_id)
 
-
-    print("SERIE :", serie)
-
     if serie is None:
         return HTMLResponse(
             "Série introuvable",
