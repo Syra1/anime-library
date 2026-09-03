@@ -1,0 +1,38 @@
+{% macro media_index(
+    media_type,
+    search_id,
+    search_placeholder,
+    list_id,
+    loading_text
+) %}
+
+<div class="page-{{ media_type }}-index">
+    <section class="add-media">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="">
+            </span>
+            <input type="text" id="{{ search_id }}" class="media-search" placeholder="{{ search_placeholder }}">
+        </div>
+        <section id="search-results" class="media-results">
+            <!-- Les résultats TMDB apparaîtront ici -->
+        </section>
+    </section>
+
+    <section class="toolbar">
+        <div class="search-input">
+            <span class="search-icon">
+                <img src="/static/icons/search.svg" alt="">
+            </span>
+            <input type="text" id="search" class="API-search" placeholder="Rechercher dans ma bibliothèque...">
+        </div>
+    </section>
+
+    <section id="{{ list_id }}" class="media-list">
+        <p>
+            {{ loading_text }}
+        </p>
+    </section>
+</div>
+
+{% endmacro %}

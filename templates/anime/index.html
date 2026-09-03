@@ -1,50 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Séries
-{% endblock %}
-
-{% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/anime/index.css">
+    Animés
 {% endblock %}
 
 {% block content %}
-<div class="page-anime-index">
-    <!-- Recherche d'un anime sur TMDB -->
-    <section class="add-media">
-        <div class="search-input">
-            <span class="search-icon">
-                <img src="/static/icons/search.svg" alt="" > 
-            </span>
-            <input type="text" id="anime-search" class="media-search" placeholder="Rechercher un anime...">
-        </div>
-        <section id="search-results" class="media-results">
-            <!-- Les résultats TMDB apparaîtront ici -->
-        </section>
-    </section>
+    {% from "media.html" import media_index %}
 
-    <!-- Recherche dans ma bibliothèque -->
-    <section class="toolbar">
-        <div class="search-input">
-            <span class="search-icon">
-                <img src="/static/icons/search.svg" alt="" >
-            </span>
-            <input type="text" id="search" class="API-search" placeholder="Rechercher dans ma bibliothèque...">
-        </div>
-    </section>
-
-
-    <!-- Liste de ma bibliothèque -->
-    <section id="anime-list" class="media-list">
-        <p>
-            Chargement des animes...
-        </p>
-    </section>
-</div>
+    {{ media_index(
+        "anime",
+        "anime-search",
+        "Rechercher un anime...",
+        "anime-list",
+        "Chargement des animes..."
+    ) }}
 
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/js/anime/index.js"></script>
+    <script src="/static/js/anime/index.js"></script>
 {% endblock %}
