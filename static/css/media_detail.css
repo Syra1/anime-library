@@ -65,8 +65,7 @@
 }
 
 .original-title-media-detail {
-    margin: 0;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
     color: var(--couleur_fond_barre);
     font-size: 15px;
     font-style: italic;
@@ -125,4 +124,22 @@
 .season-item-media-detail:hover .nombre-episodes-media-detail {
     opacity: 1;
     visibility: visible;
+}
+
+.info-media-detail,
+.season-list-media-detail {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    gap: 20px;
+    margin-bottom: 40px;
+    color: var(--couleur_fond);
+}
+
+.info-media-detail p,
+.season-item-media-detail {
+    padding: 5px 10px;
+    border-radius: 16px;
+    border-left: 3px solid var(--couleur_fond);
+    border-right: 3px solid var(--couleur_fond);
 }

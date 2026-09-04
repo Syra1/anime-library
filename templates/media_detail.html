@@ -21,32 +21,34 @@
                 {{ media.titre_original }}
                 </p>
             {% endif %}
-            {% if media.annee %}
-                <p class="info-media-detail">
-                    <strong>Année :</strong>
-                    {{ media.annee }}
-                </p>
-            {% endif %}
-            {% if media.realisateur %}
-                <p class="info-media-detail">
-                    <strong>Réalisateur :</strong>
-                    {{ media.realisateur }}
-                </p>
-            {% endif %}
-            {% if media.genres %}
-                <p class="info-media-detail">
-                    <strong>Genres :</strong>
-                    {{ media.genres }}
-                </p>
-            {% endif %}
-            {% if media.studios %}
-                <p class="info-media-detail">
-                    <strong>Studio :</strong>
-                    {{ media.studios }}
-                </p>
-            {% endif %}
+            <div class="info-media-detail">
+                {% if media.annee %}
+                    <p>
+                        <strong>Année de sortie :</strong>
+                        {{ media.annee }}
+                    </p>
+                {% endif %}
+                {% if media.realisateur %}
+                    <p>
+                        <strong>Réalisateur :</strong>
+                        {{ media.realisateur }}
+                    </p>
+                {% endif %}
+                {% if media.genres %}
+                    <p>
+                        <strong>Genres :</strong>
+                        {{ media.genres }}
+                    </p>
+                {% endif %}
+                {% if media.studios %}
+                    <p>
+                        <strong>Studio :</strong>
+                        {{ media.studios }}
+                    </p>
+                {% endif %}
+            </div>
             {% if media.saisons %}
-                <div class="season-list">
+                <div class="season-list-media-detail">
                     {% for saison in media.saisons %}
                         <div class="season-item-media-detail">
                             <strong class="numero_saison">
