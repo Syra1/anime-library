@@ -7,12 +7,12 @@
 
 {% block content %}
 
-<div class="page-anime-anime">
+<div class="page-media-detail">
 
-    <div class="anime-header">
+    <div class="header-media-detail">
 
         <!-- Image + suppression -->
-        <div class="anime-cover">
+        <div class="cover-media-detail">
 
             <img
                 src="{{ anime.image }}"
@@ -21,7 +21,7 @@
 
             <button
                 type="button"
-                class="delete-anime-button"
+                class="delete-anime-button delete-button-media-detail"
                 data-anime-id="{{ anime.id }}"
             >
                 Supprimer
@@ -30,20 +30,20 @@
         </div>
 
         <!-- Informations du anime -->
-        <div class="anime-details">
+        <div class="details-media-detail">
 
-            <h2>
+            <h2 class="title-media-detail">
                 {{ anime.titre }}
             </h2>
 
             {% if anime.titre_original %}
-                <p class="anime-detail-original-title">
+                <p class="original-title-media-detail">
                     {{ anime.titre_original }}
                 </p>
             {% endif %}
 
             {% if anime.annee %}
-                <p class="anime-info">
+                <p class="info-media-detail">
                     <strong>Année :</strong>
                     {{ anime.annee }}
                 </p>
@@ -73,11 +73,11 @@
             {% if anime.saisons %}
                 <div class="season-list">
                     {% for saison in anime.saisons %}
-                        <div class="season-item">
+                        <div class="season-item-media-detail">
                             <strong class="numero_saison">
                                 Saison {{ saison.numero }}
                             </strong>
-                            <span class="nombre_episodes">
+                            <span class="nombre-episodes-media-detail">
                                 {{ saison.nombre_episodes }} épisodes
                             </span>
                         </div>
@@ -90,13 +90,13 @@
     <!-- Description -->
     {% if anime.description %}
 
-        <p class="anime-description">
+        <p class="description-media-detail">
             {{ anime.description | safe }}
         </p>
 
     {% else %}
 
-        <p class="anime-description">
+        <p class="description-media-detail">
             Aucune description disponible.
         </p>
 
