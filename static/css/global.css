@@ -8,17 +8,17 @@
 }
 
 .page-anime-index,
-.page-anime-anime {
+.page-anime-detail {
     --couleur_media: var(--couleur_anime);
 }
 
 .page-serie-index,
-.page-serie-serie {
+.page-serie-detail {
     --couleur_media: var(--couleur_serie);
 }
 
 .page-film-index,
-.page-film-film {
+.page-film-detail {
     --couleur_media: var(--couleur_film);
 }
 

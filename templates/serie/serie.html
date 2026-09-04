@@ -1,111 +1,15 @@
 {% extends "base.html" %}
 
-{% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/media_detail.css">
+{% block title %}
+    {{ serie.titre }}
 {% endblock %}
 
 {% block content %}
-
-<div class="page-media-detail">
-
-    <div class="header-media-detail">
-
-        <!-- Image + suppression -->
-        <div class="cover-media-detail">
-
-            <img
-                src="{{ serie.image }}"
-                alt="{{ serie.titre }}"
-            />
-
-            <button
-                type="button"
-                class="delete-serie-button delete-button-media-detail"
-                data-serie-id="{{ serie.id }}"
-            >
-                Supprimer
-            </button>
-
-        </div>
-
-        <!-- Informations du serie -->
-        <div class="details-media-detail">
-
-            <h2 class="title-media-detail">
-                {{ serie.titre }}
-            </h2>
-
-            {% if serie.titre_original %}
-                <p class="original-title-media-detail">
-                    {{ serie.titre_original }}
-                </p>
-            {% endif %}
-
-            {% if serie.annee %}
-                <p class="info-media-detail">
-                    <strong>Année :</strong>
-                    {{ serie.annee }}
-                </p>
-            {% endif %}
-
-            {% if serie.realisateur %}
-                <p class="serie-info">
-                    <strong>Réalisateur :</strong>
-                    {{ serie.realisateur }}
-                </p>
-            {% endif %}
-
-            {% if serie.genres %}
-                <p class="serie-info">
-                    <strong>Genres :</strong>
-                    {{ serie.genres }}
-                </p>
-            {% endif %}
-
-            {% if serie.studios %}
-                <p class="serie-info">
-                    <strong>Studio :</strong>
-                    {{ serie.studios }}
-                </p>
-            {% endif %}
-
-            {% if serie.saisons %}
-                <div class="season-list">
-                    {% for saison in serie.saisons %}
-                        <div class="season-item-media-detail">
-                            <strong class="numero_saison">
-                                Saison {{ saison.numero }}
-                            </strong>
-                            <span class="nombre-episodes-media-detail">
-                                {{ saison.nombre_episodes }} épisodes
-                            </span>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Description -->
-    {% if serie.description %}
-
-        <p class="description-media-detail">
-            {{ serie.description | safe }}
-        </p>
-
-    {% else %}
-
-        <p class="description-media-detail">
-            Aucune description disponible.
-        </p>
-
-    {% endif %}
-
-
-
-</div>
-
+    {% from "media_detail.html" import media_detail %}
+    {{ media_detail(
+        serie,
+        "serie"
+    ) }}
 {% endblock %}
 
 {% block scripts %}
