@@ -6,7 +6,6 @@
 
 .header-media-detail {
     position: relative;
-    z-index: 1;
     display: flex;
     gap: 40px;
     min-height: 500px;
@@ -17,7 +16,9 @@
 }
 
 .header-media-detail::after,
-.header-media-detail::before {
+.header-media-detail::before,
+.description-media-detail::after,
+.description-media-detail::before {
     content: '';
     position: absolute;
     height: 100%;
@@ -32,7 +33,8 @@
     animation: 3s spin linear infinite;
 }
 
-.header-media-detail::before {
+.header-media-detail::before,
+.description-media-detail::before {
     filter: blur(1.5rem);
 }
 
@@ -71,6 +73,7 @@
 }
 
 .description-media-detail {
+    position: relative;
     margin-top: 30px;
     padding: 25px;
     background: var(--couleur_barre);
