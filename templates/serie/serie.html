@@ -2,17 +2,17 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="/static/css/serie/serie.css">
+    <link rel="stylesheet" href="/static/css/media_detail.css">
 {% endblock %}
 
 {% block content %}
 
-<div class="page-serie-serie">
+<div class="page-media-detail">
 
-    <div class="serie-header">
+    <div class="header-media-detail">
 
         <!-- Image + suppression -->
-        <div class="serie-cover">
+        <div class="cover-media-detail">
 
             <img
                 src="{{ serie.image }}"
@@ -21,7 +21,7 @@
 
             <button
                 type="button"
-                class="delete-serie-button"
+                class="delete-serie-button delete-button-media-detail"
                 data-serie-id="{{ serie.id }}"
             >
                 Supprimer
@@ -30,20 +30,20 @@
         </div>
 
         <!-- Informations du serie -->
-        <div class="serie-details">
+        <div class="details-media-detail">
 
-            <h2>
+            <h2 class="title-media-detail">
                 {{ serie.titre }}
             </h2>
 
             {% if serie.titre_original %}
-                <p class="serie-detail-original-title">
+                <p class="original-title-media-detail">
                     {{ serie.titre_original }}
                 </p>
             {% endif %}
 
             {% if serie.annee %}
-                <p class="serie-info">
+                <p class="info-media-detail">
                     <strong>Année :</strong>
                     {{ serie.annee }}
                 </p>
@@ -73,11 +73,11 @@
             {% if serie.saisons %}
                 <div class="season-list">
                     {% for saison in serie.saisons %}
-                        <div class="season-item">
+                        <div class="season-item-media-detail">
                             <strong class="numero_saison">
                                 Saison {{ saison.numero }}
                             </strong>
-                            <span class="nombre_episodes">
+                            <span class="nombre-episodes-media-detail">
                                 {{ saison.nombre_episodes }} épisodes
                             </span>
                         </div>
@@ -90,13 +90,13 @@
     <!-- Description -->
     {% if serie.description %}
 
-        <p class="serie-description">
+        <p class="description-media-detail">
             {{ serie.description | safe }}
         </p>
 
     {% else %}
 
-        <p class="serie-description">
+        <p class="description-media-detail">
             Aucune description disponible.
         </p>
 

@@ -1,0 +1,103 @@
+.page-media-detail {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.header-media-detail {
+    display: flex;
+    gap: 40px;
+    min-height: 500px;
+    padding: 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.cover-media-detail {
+    flex-shrink: 0;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cover-media-detail img {
+    width: 280px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.details-media-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-media-detail {
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.original-title-media-detail {
+    margin: 0;
+    padding-bottom: 20px;
+    color: #71717a;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.description-media-detail {
+    margin-top: 30px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    line-height: 1.7;
+    text-align: justify;
+    color: var(--couleur_fond_barre);
+}
+
+.delete-button-media-detail {
+    width: 100%;
+    margin-top: 15px;
+    padding: 9px 12px;
+    border: 1px solid #dc2626;
+    border-radius: 7px;
+    background: transparent;
+    color: #dc2626;
+    font-size: 13px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.delete-button-media-detail:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-button-media-detail:active {
+    transform: scale(0.97);
+}
+
+.season-item-media-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nombre-episodes-media-detail {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+.season-item-media-detail:hover .nombre-episodes-media-detail {
+    opacity: 1;
+    visibility: visible;
+}
