@@ -50,7 +50,7 @@
     width: 280px;
     height: 400px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 16px;
 }
 
 .details-media-detail {
@@ -76,10 +76,10 @@
     margin-top: 30px;
     padding: 25px;
     background: var(--couleur_barre);
-    border-radius: 12px;
+    border-radius: 16px;
     line-height: 1.7;
     text-align: justify;
-    color: var(--couleur_fond_barre);
+    color: var(--couleur_fond);
 }
 
 .delete-button-media-detail {
@@ -87,7 +87,7 @@
     margin-top: 15px;
     padding: 9px 12px;
     border: 1px solid var(--couleur_media);
-    border-radius: 7px;
+    border-radius: 16px;
     background: transparent;
     color: var(--couleur_media);
     font-size: 13px;
@@ -136,10 +136,45 @@
     color: var(--couleur_fond);
 }
 
-.info-media-detail p,
-.season-item-media-detail {
+.info-media-detail p {
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_fond);
     border-right: 3px solid var(--couleur_fond);
+}
+
+.season-item-media-detail {
+    width: 130px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 16px;
+    border-left: 3px solid var(--couleur_media);
+    border-right: 3px solid var(--couleur_media);
+}
+
+.nombre-episodes-media-detail {
+    display: none;
+}
+
+.season-item-media-detail:hover .numero_saison {
+    display: none;
+}
+
+.season-item-media-detail:hover .nombre-episodes-media-detail {
+    display: inline;
+    font-weight: bold;
+}
+
+.season-item-media-detail:hover {
+    border-left: 3px solid var(--couleur_fond);
+    border-right: 3px solid var(--couleur_fond);
+}
+
+.numero_saison {
+    color: var(--couleur_media);
+}
+.season-item-media-detail:hover .nombre-episodes-media-detail {
+    display: inline;
+    font-weight: bold;
 }
