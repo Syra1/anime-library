@@ -129,7 +129,7 @@
     background-color: var(--couleur_barre);
     color: var(--couleur_media);
     margin-right: 10px;
-    padding: 5px;
+    padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
     border-right: 3px solid var(--couleur_media);
@@ -139,10 +139,15 @@
 .add-media-button:hover,
 #cancel-add:hover,
 #confirm-add:hover {
+    border: none;
     background-color: var(--couleur_barre);
     color: var(--couleur_fond);
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 16px;
     border-left: 3px solid var(--couleur_fond);
     border-right: 3px solid var(--couleur_fond);
+    cursor: pointer;
 }
 
 .search-result-image {
