@@ -122,9 +122,7 @@
     margin: 5px 0;
 }
 
-.add-media-button,
-#cancel-add,
-#confirm-add {
+.add-media-button {
     border: none;
     background-color: var(--couleur_barre);
     color: var(--couleur_media);
@@ -136,9 +134,7 @@
     cursor: pointer;
 }
 
-.add-media-button:hover,
-#cancel-add:hover,
-#confirm-add:hover {
+.add-media-button:hover {
     border: none;
     background-color: var(--couleur_barre);
     color: var(--couleur_fond);
@@ -158,7 +154,6 @@
 }
 
 .search-input {
-
     position: relative;
     width: 100%;
 }
