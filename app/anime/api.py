@@ -1,96 +1,17 @@
-import json
+from app.common.tmdb import (
+    TMDB_API_URL,
+    MAX_SEARCH_RESULTS,
+    NO_SCORE,
+    IMAGE_BASE_URL,
+    preparer_parametres,
+    creer_requete_tmdb,
+    executer_requete_tmdb,
+)
 
-import urllib.request
-import urllib.error
-import urllib.parse
-
-from app.config import TMDB_ACCESS_TOKEN
-
-
-TMDB_API_URL = "https://api.themoviedb.org/3"
-
-TMDB_HEADERS = {
-    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
-    "Accept": "application/json"
-}
-
-TMDB_TIMEOUT = 10
-
-MAX_SEARCH_RESULTS = 20
-
-NO_SCORE = 999
-
-IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
-
-
-# Prépare les paramètres pour l'API TMDB.
-
-def preparer_parametres(parametres):
-
-    return urllib.parse.urlencode(
-        parametres
-    )
-
-
-# Crée une requête pour l'API TMDB.
-
-def creer_requete_tmdb(url):
-
-    requete = urllib.request.Request(
-        url,
-        headers=TMDB_HEADERS,
-        method="GET"
-    )
-
-    return requete
-
-
-# Exécute la requête pour l'API TMDB.
-
-def executer_requete_tmdb(requete):
-
-    with urllib.request.urlopen(
-        requete,
-        timeout=TMDB_TIMEOUT
-    ) as response:
-
-        resultat = json.loads(
-            response.read()
-        )
-
-    return resultat
-
-
-# Convertit une liste en texte.
-
-def convertir_liste_en_texte(elements):
-
-    return ", ".join(
-        element
-        for element in elements
-        if element
-    )
-
-
-# Determiner si anime ou serie
-
-def determiner_type_media(media):
-
-    genres = media.get(
-        "genres",
-        []
-    )
-
-    genre_ids = [
-        genre.get("id")
-        for genre in genres
-    ]
-
-    if 16 not in genre_ids:
-        return "serie"
-
-    return "anime"
-
+from app.common.media import (
+    convertir_liste_en_texte,
+    determiner_type_media,
+)
 
 # Récupère les titres alternatifs d'un anime depuis TMDB.
 
