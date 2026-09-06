@@ -10,7 +10,8 @@ def rechercher_animes(recherche):
         "search/tv",
         "name",
         "original_name",
-        "first_air_date"
+        "first_air_date",
+        "anime"
     )
 
 # Récupère un anime depuis TMDB.
@@ -20,5 +21,5 @@ def recuperer_anime(anime_id):
         "tv",
         "name",
         "original_name",
-        "first_air_date"
+        "first_air_date",
     )

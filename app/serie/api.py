@@ -11,7 +11,8 @@ def rechercher_series(recherche):
         "search/tv",
         "name",
         "original_name",
-        "first_air_date"
+        "first_air_date",
+        "serie"
     )
 
 
@@ -22,5 +23,5 @@ def recuperer_serie(serie_id):
         "tv",
         "name",
         "original_name",
-        "first_air_date"
+        "first_air_date",
     )

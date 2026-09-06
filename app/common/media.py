@@ -2,7 +2,6 @@
 def convertir_liste_en_texte(elements):
     if not elements:
         return ""
-
     return ", ".join(str(element) for element in elements)
 
 
@@ -12,5 +11,4 @@ def determiner_type_media(media):
 
     if 16 in genre_ids:
         return "anime"
-
     return "serie"
