@@ -1,15 +1,12 @@
-import urllib.error
-from app.common.tmdb import (
-    IMAGE_BASE_URL,
-    rechercher_medias,
-    recuperer_media,
-)
-
 from app.common.media import (
     convertir_liste_en_texte,
     determiner_type_media,
 )
 
+from app.common.tmdb import (
+    rechercher_medias,
+    recuperer_media,
+)
 
 # Recherche une série dans la base de données TMDB.
 
@@ -54,7 +51,6 @@ def recuperer_serie(serie_id):
         if saison["season_number"] != 0
     ]
 
-    serie["type"] = determiner_type_media(media)
     serie["realisateur"] = createurs
     serie["nombre_saisons"] = media.get("number_of_seasons")
     serie["saisons"] = saisons

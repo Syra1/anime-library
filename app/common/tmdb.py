@@ -161,7 +161,14 @@ def recuperer_media(
                 else None
             ),
             "genres": genres,
-            "duree": media.get("runtime"),
+            "duree": (
+                media.get("runtime")
+                or (
+                    media["episode_run_time"][0]
+                    if media.get("episode_run_time")
+                    else None
+                )
+            ),
             "realisateur": realisateur,
             "media": media
         }

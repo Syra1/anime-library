@@ -1,13 +1,11 @@
-import urllib.error
-from app.common.tmdb import (
-    IMAGE_BASE_URL,
-    rechercher_medias,
-    recuperer_media,
-)
-
 from app.common.media import (
     convertir_liste_en_texte,
     determiner_type_media,
+)
+
+from app.common.tmdb import (
+    rechercher_medias,
+    recuperer_media,
 )
 
 
