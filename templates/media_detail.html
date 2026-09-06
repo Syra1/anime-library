@@ -13,8 +13,10 @@
             </button>
         </div>
         <div class="details-media-detail">
+            {% if media.titre %}
             <h2 class="title-media-detail">
             {{ media.titre }}
+            {% endif %}
             </h2>
             {% if media.titre_original %}
                 <p class="original-title-media-detail">

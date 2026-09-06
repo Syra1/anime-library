@@ -1,8 +1,3 @@
-from app.common.media import (
-    convertir_liste_en_texte,
-    determiner_type_media,
-)
-
 from app.common.tmdb import (
     rechercher_medias,
     recuperer_media,
@@ -29,24 +24,3 @@ def recuperer_film(film_id):
         "original_title",
         "release_date"
     )
-
-    if not film:
-        return None
-
-    media = film["media"]
-
-    collection = media.get("belongs_to_collection")
-
-    film["collection_id"] = (
-        collection.get("id")
-        if collection
-        else None
-    )
-
-    film["collection_nom"] = (
-        collection.get("name")
-        if collection
-        else None
-    )
-
-    return film

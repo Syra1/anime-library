@@ -186,10 +186,43 @@ def recuperer_media(
 
         realisateur = None
 
-        for personne in media.get("credits", {}).get("crew", []):
-            if personne.get("job") == "Director":
-                realisateur = personne.get("name")
-                break
+        if endpoint == "tv":
+            realisateur = convertir_liste_en_texte(
+                createur["name"]
+                for createur in media.get("created_by", [])
+            )
+        else:
+            for personne in media.get("credits", {}).get("crew", []):
+                if personne.get("job") == "Director":
+                    realisateur = personne.get("name")
+                    break
+
+        saisons = []
+
+        if endpoint == "tv":
+            saisons = [
+                {
+                    "numero": saison["season_number"],
+                    "titre": saison["name"],
+                    "nombre_episodes": saison["episode_count"]
+                }
+                for saison in media.get("seasons", [])
+                if saison["season_number"] != 0
+            ]
+
+        collection = media.get("belongs_to_collection")
+
+        collection_id = (
+            collection.get("id")
+            if collection
+            else None
+        )
+
+        collection_nom = (
+            collection.get("name")
+            if collection
+            else None
+        )
 
         return {
             "id": media["id"],
@@ -218,7 +251,15 @@ def recuperer_media(
             "auteur": auteurs,
             "realisateur": realisateur,
             "media": media,
-            "aggregate_credits": aggregate_credits
+            "aggregate_credits": aggregate_credits,
+            "nombre_saisons": (
+                media.get("number_of_seasons")
+                if endpoint == "tv"
+                else None
+            ),
+            "saisons": saisons,
+            "collection_id": collection_id,
+            "collection_nom": collection_nom,
         }
 
     except urllib.error.HTTPError as error:
