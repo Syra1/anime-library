@@ -4,7 +4,10 @@ import urllib.request
 import urllib.parse
 
 from app.config import TMDB_ACCESS_TOKEN
-
+from app.common.media import (
+    convertir_liste_en_texte,
+    determiner_type_media,
+)
 
 TMDB_API_URL = "https://api.themoviedb.org/3"
 
@@ -109,7 +112,13 @@ def rechercher_medias(
         print("Erreur recherche TMDB :", erreur)
         return []
 
-def recuperer_media(media_id, endpoint):
+def recuperer_media(
+    media_id,
+    endpoint,
+    titre,
+    titre_original,
+    date
+):
     parametres = preparer_parametres({
         "language": "fr-FR",
         "append_to_response": "credits"
@@ -124,7 +133,38 @@ def recuperer_media(media_id, endpoint):
         if not media:
             return None
 
-        return media
+        genres = convertir_liste_en_texte(
+            genre["name"]
+            for genre in media.get("genres", [])
+        )
+
+        realisateur = None
+
+        for personne in media.get("credits", {}).get("crew", []):
+            if personne.get("job") == "Director":
+                realisateur = personne.get("name")
+                break
+
+        return {
+            "id": media["id"],
+            "titre": media.get(titre),
+            "titre_original": media.get(titre_original),
+            "image": (
+                f"{IMAGE_BASE_URL}{media['poster_path']}"
+                if media.get("poster_path")
+                else None
+            ),
+            "description": media.get("overview") or "",
+            "annee": (
+                int(media[date][:4])
+                if media.get(date)
+                else None
+            ),
+            "genres": genres,
+            "duree": media.get("runtime"),
+            "realisateur": realisateur,
+            "media": media
+        }
 
     except urllib.error.HTTPError as error:
         print(f"Erreur HTTP TMDB : {error.code}")
