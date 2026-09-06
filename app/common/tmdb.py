@@ -53,6 +53,32 @@ def executer_requete_tmdb(requete):
 
     return resultat
 
+def recuperer_aggregate_credits(media_id):
+    url = f"{TMDB_API_URL}/tv/{media_id}/aggregate_credits"
+
+    requete = creer_requete_tmdb(url)
+
+    try:
+        return executer_requete_tmdb(requete)
+
+    except urllib.error.HTTPError as error:
+        print(f"Erreur HTTP TMDB : {error.code}")
+        print(error.read().decode("utf-8"))
+        return {}
+
+    except urllib.error.URLError as error:
+        print("Erreur de connexion à TMDB :")
+        print(error.reason)
+        return {}
+
+    except TimeoutError:
+        print("TMDB a mis trop de temps à répondre.")
+        return {}
+
+    except Exception as erreur:
+        print("Erreur crédits agrégés TMDB :", erreur)
+        return {}
+
 def rechercher_medias(
     recherche,
     endpoint,
@@ -125,6 +151,7 @@ def recuperer_media(
     })
 
     url = f"{TMDB_API_URL}/{endpoint}/{media_id}?{parametres}"
+
     requete = creer_requete_tmdb(url)
 
     try:
@@ -132,6 +159,25 @@ def recuperer_media(
 
         if not media:
             return None
+
+        aggregate_credits = None
+
+        if endpoint == "tv":
+            aggregate_credits = recuperer_aggregate_credits(
+                media_id
+            )
+
+        auteurs = ""
+
+        if aggregate_credits:
+            auteurs = convertir_liste_en_texte(
+                personne["name"]
+                for personne in aggregate_credits.get("crew", [])
+                if any(
+                    job.get("job") in ["Comic Book", "Author"]
+                    for job in personne.get("jobs", [])
+                )
+            )
 
         genres = convertir_liste_en_texte(
             genre["name"]
@@ -169,8 +215,10 @@ def recuperer_media(
                     else None
                 )
             ),
+            "auteur": auteurs,
             "realisateur": realisateur,
-            "media": media
+            "media": media,
+            "aggregate_credits": aggregate_credits
         }
 
     except urllib.error.HTTPError as error:

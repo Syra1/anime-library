@@ -23,6 +23,7 @@ def create_tables():
             annee INTEGER,
             genres TEXT,
             duree INTEGER,
+            auteur TEXT,
             realisateur TEXT,
             nombre_saisons INTEGER
         )
@@ -42,13 +43,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_anime(titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons, saisons):
+def ajouter_anime(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     connection = get_connection()
     cursor = connection.execute(
         """
-        INSERT INTO anime (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons,)
+        INSERT INTO anime (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
     anime_id = cursor.lastrowid
 
@@ -66,7 +67,7 @@ def lister_animes():
     connection = get_connection()
     animes = connection.execute(
         """
-        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.duree, anime.realisateur, anime.nombre_saisons
+        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.auteur, anime.duree, anime.realisateur, anime.nombre_saisons
         FROM anime
         ORDER BY anime.titre COLLATE NOCASE ASC, anime.annee ASC
     """).fetchall()
@@ -81,6 +82,7 @@ def lister_animes():
             "annee": anime["annee"],
             "genres": anime["genres"],
             "duree": anime["duree"],
+            "auteur": anime["auteur"],
             "realisateur": anime["realisateur"],
             "nombre_saisons": anime["nombre_saisons"],
         }
@@ -102,7 +104,7 @@ def recuperer_anime(anime_id):
     connection = get_connection()
     anime = connection.execute(
         """
-        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.duree, anime.realisateur, anime.nombre_saisons
+        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.duree, anime.auteur, anime.realisateur, anime.nombre_saisons
         FROM anime
         WHERE anime.id = ?
         """, (anime_id,)
@@ -129,6 +131,7 @@ def recuperer_anime(anime_id):
         "annee": anime["annee"],
         "genres": anime["genres"],
         "duree": anime["duree"],
+        "auteur": anime["auteur"],
         "realisateur": anime["realisateur"],
         "nombre_saisons": anime["nombre_saisons"],
         "saisons": [

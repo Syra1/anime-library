@@ -63,6 +63,7 @@ async def add_anime(tmdb_id: int):
         annee=anime["annee"],
         genres=anime["genres"],
         duree=anime["duree"],
+        auteur=anime["auteur"],
         realisateur=anime["realisateur"],
         nombre_saisons=anime["nombre_saisons"],
         saisons=anime["saisons"],
