@@ -1,3 +1,4 @@
+import urllib.error
 import json
 import urllib.request
 import urllib.parse
@@ -48,3 +49,97 @@ def executer_requete_tmdb(requete):
         )
 
     return resultat
+
+def rechercher_medias(
+    recherche,
+    endpoint,
+    titre,
+    titre_original,
+    date
+):
+    parametres = preparer_parametres({
+        "query": recherche,
+        "language": "fr-FR",
+        "include_adult": "false",
+        "page": 1
+    })
+
+    url = f"{TMDB_API_URL}/{endpoint}?{parametres}"
+    requete = creer_requete_tmdb(url)
+
+    try:
+        resultat = executer_requete_tmdb(requete)
+
+        medias = resultat.get("results", [])
+
+        return [
+            {
+                "id": media["id"],
+                "title": media.get(titre),
+                "original_title": media.get(titre_original),
+                "image": (
+                    f"{IMAGE_BASE_URL}{media['poster_path']}"
+                    if media.get("poster_path")
+                    else None
+                ),
+                "annee": (
+                    media[date][:4]
+                    if media.get(date)
+                    else None
+                )
+            }
+            for media in medias[:MAX_SEARCH_RESULTS]
+        ]
+
+    except urllib.error.HTTPError as error:
+        print(f"Erreur HTTP TMDB : {error.code}")
+        print(error.read().decode("utf-8"))
+        return []
+
+    except urllib.error.URLError as error:
+        print("Erreur de connexion à TMDB :")
+        print(error.reason)
+        return []
+
+    except TimeoutError:
+        print("TMDB a mis trop de temps à répondre.")
+        return []
+
+    except Exception as erreur:
+        print("Erreur recherche TMDB :", erreur)
+        return []
+
+def recuperer_media(media_id, endpoint):
+    parametres = preparer_parametres({
+        "language": "fr-FR",
+        "append_to_response": "credits"
+    })
+
+    url = f"{TMDB_API_URL}/{endpoint}/{media_id}?{parametres}"
+    requete = creer_requete_tmdb(url)
+
+    try:
+        media = executer_requete_tmdb(requete)
+
+        if not media:
+            return None
+
+        return media
+
+    except urllib.error.HTTPError as error:
+        print(f"Erreur HTTP TMDB : {error.code}")
+        print(error.read().decode("utf-8"))
+        return None
+
+    except urllib.error.URLError as error:
+        print("Erreur de connexion à TMDB :")
+        print(error.reason)
+        return None
+
+    except TimeoutError:
+        print("TMDB a mis trop de temps à répondre.")
+        return None
+
+    except Exception as erreur:
+        print("Erreur récupération TMDB :", erreur)
+        return None
