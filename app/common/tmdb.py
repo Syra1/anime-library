@@ -156,6 +156,7 @@ def recuperer_media(media_id, endpoint, titre, titre_original, date):
         collection = media.get("belongs_to_collection")
         collection_id = (collection.get("id") if collection else None)
         collection_nom = (collection.get("name") if collection else None)
+        
         resultat = {
             "id": media["id"],
             "titre": media.get(titre),
