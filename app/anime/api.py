@@ -3,7 +3,6 @@ from app.common.tmdb import (
     recuperer_media,
 )
 
-
 # Recherche un anime dans la base de données TMDB.
 def rechercher_animes(recherche):
     return rechercher_medias(
@@ -13,7 +12,6 @@ def rechercher_animes(recherche):
         "original_name",
         "first_air_date"
     )
-
 
 # Récupère un anime depuis TMDB.
 def recuperer_anime(anime_id):

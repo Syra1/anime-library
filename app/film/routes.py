@@ -1,11 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
 from starlette.requests import Request
-
 from app.config import TEMPLATES_DIR
-
 from app.film.api import (
     rechercher_films,
     recuperer_film,
@@ -18,9 +15,7 @@ from app.film.database import (
     recuperer_film as recuperer_film_database,
 )
 
-
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
-
 router = APIRouter()
 
 @router.get(
@@ -34,16 +29,13 @@ async def index(request: Request):
         context={}
     )
 
-
 @router.get("/api")
 async def get_films():
     return lister_films()
 
-
 @router.get("/search-film")
 async def search_film(q: str):
     return rechercher_films(q)
-
 
 @router.post("/add-film/{tmdb_id}")
 async def add_film(tmdb_id: int):
@@ -72,7 +64,6 @@ async def add_film(tmdb_id: int):
         "success": True,
         "film_id": film_id
     }
-
 
 @router.get(
     "/{film_id}",
