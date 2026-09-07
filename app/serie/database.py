@@ -1,14 +1,4 @@
-import sqlite3
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATABASE_PATH = BASE_DIR / "data" / "anime.db"
-
-def get_connection():
-    connection = sqlite3.connect(DATABASE_PATH)
-    connection.row_factory = sqlite3.Row
-    connection.execute("PRAGMA foreign_keys = ON")
-    return connection
+from app.common.database import (get_connection, execute_query)
 
 def create_tables():
     connection = get_connection()
@@ -42,24 +32,65 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_serie(titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons, saisons):
-    connection = get_connection()
-    cursor = connection.execute(
+def ajouter_serie(
+    titre,
+    titre_original,
+    image,
+    description,
+    annee,
+    genres,
+    duree,
+    realisateur,
+    nombre_saisons,
+    saisons
+):
+    cursor = execute_query(
         """
-        INSERT INTO serie (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons)
+        INSERT INTO serie (
+            titre,
+            titre_original,
+            image,
+            description,
+            annee,
+            genres,
+            duree,
+            realisateur,
+            nombre_saisons
+        )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons,)
+        """,
+        (
+            titre,
+            titre_original,
+            image,
+            description,
+            annee,
+            genres,
+            duree,
+            realisateur,
+            nombre_saisons,
+        )
     )
+
     serie_id = cursor.lastrowid
 
     for saison in saisons:
-        connection.execute(
+        execute_query(
             """
-            INSERT INTO saison_serie (serie_id, numero, nombre_episodes)
+            INSERT INTO saison_serie (
+                serie_id,
+                numero,
+                nombre_episodes
+            )
             VALUES (?, ?, ?)
-            """, (serie_id, saison["numero"], saison["nombre_episodes"], ) )
-    connection.commit()
-    connection.close()
+            """,
+            (
+                serie_id,
+                saison["numero"],
+                saison["nombre_episodes"],
+            )
+        )
+
     return serie_id
 
 def lister_series():
@@ -88,15 +119,10 @@ def lister_series():
     ]
 
 def supprimer_serie(serie_id):
-    connection = get_connection()
-    connection.execute(
-        """
+    execute_query("""
         DELETE FROM serie
         WHERE id = ?
-        """, (serie_id,)
-    )
-    connection.commit()
-    connection.close()
+    """, (serie_id,))
 
 def recuperer_serie(serie_id):
     connection = get_connection()

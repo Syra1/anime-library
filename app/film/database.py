@@ -1,16 +1,4 @@
-import sqlite3
-from pathlib import Path
-
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATABASE_PATH = BASE_DIR / "data" / "anime.db"
-
-
-def get_connection():
-    connection = sqlite3.connect(DATABASE_PATH)
-    connection.row_factory = sqlite3.Row
-    return connection
-
+from app.common.database import (get_connection, execute_query)
 
 def create_tables():
     connection = get_connection()
@@ -35,7 +23,6 @@ def create_tables():
     connection.commit()
     connection.close()
 
-
 def ajouter_film(
     titre,
     titre_original,
@@ -48,9 +35,7 @@ def ajouter_film(
     collection_id,
     collection_nom,
 ):
-    connection = get_connection()
-
-    cursor = connection.execute(
+    cursor = execute_query(
         """
         INSERT INTO film (
             titre,
@@ -80,13 +65,7 @@ def ajouter_film(
         )
     )
 
-    film_id = cursor.lastrowid
-
-    connection.commit()
-    connection.close()
-
-    return film_id
-
+    return cursor.lastrowid
 
 def lister_films():
     connection = get_connection()
@@ -127,24 +106,11 @@ def lister_films():
         for film in films
     ]
 
-
-
 def supprimer_film(film_id):
-    connection = get_connection()
-
-
-    connection.execute(
-        """
+    execute_query("""
         DELETE FROM film
         WHERE id = ?
-        """,
-        (
-            film_id,
-        )
-    )
-
-    connection.commit()
-    connection.close()
+    """, (film_id,))
 
 
 def recuperer_film(film_id):
