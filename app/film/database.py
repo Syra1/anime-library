@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one)
 
 def create_tables():
     connection = get_connection()
@@ -68,9 +68,8 @@ def ajouter_film(
     return cursor.lastrowid
 
 def lister_films():
-    connection = get_connection()
-
-    films = connection.execute("""
+    films = fetch_all(
+        """
         SELECT
             film.id,
             film.titre,
@@ -84,10 +83,11 @@ def lister_films():
             film.collection_id,
             film.collection_nom
         FROM film
-        ORDER BY COALESCE(film.collection_nom, film.titre) COLLATE NOCASE ASC, film.annee ASC, film.titre COLLATE NOCASE ASC
-    """).fetchall()
-
-    connection.close()
+        ORDER BY COALESCE(film.collection_nom, film.titre) COLLATE NOCASE ASC,
+                 film.annee ASC,
+                 film.titre COLLATE NOCASE ASC
+        """
+    )
 
     return [
         {
@@ -114,9 +114,7 @@ def supprimer_film(film_id):
 
 
 def recuperer_film(film_id):
-    connection = get_connection()
-
-    film = connection.execute(
+    film = fetch_one(
         """
         SELECT
             film.id,
@@ -133,12 +131,8 @@ def recuperer_film(film_id):
         FROM film
         WHERE film.id = ?
         """,
-        (
-            film_id,
-        )
-    ).fetchone()
-
-    connection.close()
+        (film_id,)
+    )
 
     if film is None:
         return None

@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one)
 
 def create_tables():
     connection = get_connection()
@@ -94,14 +94,24 @@ def ajouter_serie(
     return serie_id
 
 def lister_series():
-    connection = get_connection()
-    series = connection.execute(
+    series = fetch_all(
         """
-        SELECT serie.id, serie.titre, serie.titre_original, serie.image, serie.description, serie.annee, serie.genres,serie.duree, serie.realisateur, serie.nombre_saisons
+        SELECT
+            serie.id,
+            serie.titre,
+            serie.titre_original,
+            serie.image,
+            serie.description,
+            serie.annee,
+            serie.genres,
+            serie.duree,
+            serie.realisateur,
+            serie.nombre_saisons
         FROM serie
         ORDER BY serie.titre COLLATE NOCASE ASC, serie.annee ASC
-    """).fetchall()
-    connection.close()
+        """
+    )
+
     return [
         {
             "id": serie["id"],
@@ -125,26 +135,40 @@ def supprimer_serie(serie_id):
     """, (serie_id,))
 
 def recuperer_serie(serie_id):
-    connection = get_connection()
-    serie = connection.execute(
+    serie = fetch_one(
         """
-        SELECT serie.id, serie.titre, serie.titre_original, serie.image, serie.description, serie.annee, serie.genres, serie.duree, serie.realisateur, serie.nombre_saisons
+        SELECT
+            serie.id,
+            serie.titre,
+            serie.titre_original,
+            serie.image,
+            serie.description,
+            serie.annee,
+            serie.genres,
+            serie.duree,
+            serie.realisateur,
+            serie.nombre_saisons
         FROM serie
         WHERE serie.id = ?
-        """, (serie_id,)
-    ).fetchone()
+        """,
+        (serie_id,)
+    )
+
     if serie is None:
-        connection.close()
         return None
-    saisons = connection.execute(
+
+    saisons = fetch_all(
         """
-        SELECT id, numero, nombre_episodes
+        SELECT
+            id,
+            numero,
+            nombre_episodes
         FROM saison_serie
         WHERE serie_id = ?
         ORDER BY numero ASC
-        """, (serie_id,)
-    ).fetchall()
-    connection.close()
+        """,
+        (serie_id,)
+    )
 
     return {
         "id": serie["id"],

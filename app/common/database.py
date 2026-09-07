@@ -16,3 +16,16 @@ def execute_query(requete, parametres=()):
     connection.commit()
     connection.close()
     return cursor
+
+# Récupère plusieurs résultats d'une requête.
+def fetch_all(requete, parametres=()):
+    connection = get_connection()
+    resultats = connection.execute(requete, parametres).fetchall()
+    connection.close()
+    return resultats
+
+def fetch_one(requete, parametres=()):
+    connection = get_connection()
+    resultat = connection.execute(requete, parametres).fetchone()
+    connection.close()
+    return resultat

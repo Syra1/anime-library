@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one)
 
 def create_tables():
     connection = get_connection()
@@ -98,14 +98,25 @@ def ajouter_anime(
     return anime_id
 
 def lister_animes():
-    connection = get_connection()
-    animes = connection.execute(
+    animes = fetch_all(
         """
-        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.auteur, anime.duree, anime.realisateur, anime.nombre_saisons
+        SELECT
+            anime.id,
+            anime.titre,
+            anime.titre_original,
+            anime.image,
+            anime.description,
+            anime.annee,
+            anime.genres,
+            anime.auteur,
+            anime.duree,
+            anime.realisateur,
+            anime.nombre_saisons
         FROM anime
         ORDER BY anime.titre COLLATE NOCASE ASC, anime.annee ASC
-    """).fetchall()
-    connection.close()
+        """
+    )
+
     return [
         {
             "id": anime["id"],
@@ -130,26 +141,41 @@ def supprimer_anime(anime_id):
     """, (anime_id,))
 
 def recuperer_anime(anime_id):
-    connection = get_connection()
-    anime = connection.execute(
+    anime = fetch_one(
         """
-        SELECT anime.id, anime.titre, anime.titre_original, anime.image, anime.description, anime.annee, anime.genres, anime.duree, anime.auteur, anime.realisateur, anime.nombre_saisons
+        SELECT
+            anime.id,
+            anime.titre,
+            anime.titre_original,
+            anime.image,
+            anime.description,
+            anime.annee,
+            anime.genres,
+            anime.duree,
+            anime.auteur,
+            anime.realisateur,
+            anime.nombre_saisons
         FROM anime
         WHERE anime.id = ?
-        """, (anime_id,)
-    ).fetchone()
+        """,
+        (anime_id,)
+    )
+
     if anime is None:
-        connection.close()
         return None
-    saisons = connection.execute(
+
+    saisons = fetch_all(
         """
-        SELECT id, numero, nombre_episodes
+        SELECT
+            id,
+            numero,
+            nombre_episodes
         FROM saison_anime
         WHERE anime_id = ?
         ORDER BY numero ASC
-        """, (anime_id,)
-    ).fetchall()
-    connection.close()
+        """,
+        (anime_id,)
+    )
 
     return {
         "id": anime["id"],
