@@ -3,7 +3,6 @@ from fastapi.templating import Jinja2Templates
 
 
 def ajouter_media(tmdb_id, recuperer_media, ajouter_media, donnees):
-    print(">>> ajouter_media() appelée")
     media = recuperer_media(tmdb_id)
 
     if media is None:
