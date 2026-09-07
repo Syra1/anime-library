@@ -32,44 +32,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_serie(
-    titre,
-    titre_original,
-    image,
-    description,
-    annee,
-    genres,
-    duree,
-    realisateur,
-    nombre_saisons,
-    saisons
-):
+def ajouter_serie(titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO serie (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            realisateur,
-            nombre_saisons
-        )
+        INSERT INTO serie (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            realisateur,
-            nombre_saisons,
-        )
+        (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons,)
     )
 
     serie_id = cursor.lastrowid

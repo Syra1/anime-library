@@ -33,47 +33,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_anime(
-    titre,
-    titre_original,
-    image,
-    description,
-    annee,
-    genres,
-    duree,
-    auteur,
-    realisateur,
-    nombre_saisons,
-    saisons
-):
+def ajouter_anime(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO anime (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            auteur,
-            realisateur,
-            nombre_saisons
-        )
+        INSERT INTO anime (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            auteur,
-            realisateur,
-            nombre_saisons,
-        )
+        (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     anime_id = cursor.lastrowid
@@ -88,11 +54,7 @@ def ajouter_anime(
             )
             VALUES (?, ?, ?)
             """,
-            (
-                anime_id,
-                saison["numero"],
-                saison["nombre_episodes"],
-            )
+            (anime_id, saison["numero"], saison["nombre_episodes"],)
         )
 
     return anime_id

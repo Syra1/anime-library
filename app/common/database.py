@@ -24,6 +24,7 @@ def fetch_all(requete, parametres=()):
     connection.close()
     return resultats
 
+# Récupère un résultat d'une requête.
 def fetch_one(requete, parametres=()):
     connection = get_connection()
     resultat = connection.execute(requete, parametres).fetchone()

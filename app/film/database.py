@@ -23,46 +23,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_film(
-    titre,
-    titre_original,
-    image,
-    description,
-    annee,
-    genres,
-    duree,
-    realisateur,
-    collection_id,
-    collection_nom,
-):
+def ajouter_film(titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom,):
     cursor = execute_query(
         """
-        INSERT INTO film (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            realisateur,
-            collection_id,
-            collection_nom
-        )
+        INSERT INTO film (titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (
-            titre,
-            titre_original,
-            image,
-            description,
-            annee,
-            genres,
-            duree,
-            realisateur,
-            collection_id,
-            collection_nom,
-        )
+        (titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom,)
     )
 
     return cursor.lastrowid
@@ -83,9 +50,7 @@ def lister_films():
             film.collection_id,
             film.collection_nom
         FROM film
-        ORDER BY COALESCE(film.collection_nom, film.titre) COLLATE NOCASE ASC,
-                 film.annee ASC,
-                 film.titre COLLATE NOCASE ASC
+        ORDER BY COALESCE(film.collection_nom, film.titre) COLLATE NOCASE ASC, film.annee ASC, film.titre COLLATE NOCASE ASC
         """
     )
 
@@ -111,7 +76,6 @@ def supprimer_film(film_id):
         DELETE FROM film
         WHERE id = ?
     """, (film_id,))
-
 
 def recuperer_film(film_id):
     film = fetch_one(
