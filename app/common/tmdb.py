@@ -55,7 +55,7 @@ def recuperer_aggregate_credits(media_id):
         print("Erreur crédits agrégés TMDB :", erreur)
         return {}
 
-def rechercher_medias(recherche, endpoint, titre, titre_original, date, type_media):
+def rechercher_medias(recherche, endpoint, titre, titre_original, date, type_media=None):
     parametres = preparer_parametres({
         "query": recherche,
         "language": "fr-FR",
@@ -68,7 +68,10 @@ def rechercher_medias(recherche, endpoint, titre, titre_original, date, type_med
 
     try:
         resultat = executer_requete_tmdb(requete)
-        medias = [media for media in resultat.get("results", []) if determiner_type_media(media) == type_media]
+        medias = resultat.get("results", [])
+
+        if type_media:
+            medias = [media for media in medias if determiner_type_media(media) == type_media]
 
         return [
             {
