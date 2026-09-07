@@ -20,10 +20,7 @@ from app.film.database import (
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 router = APIRouter()
 
-@router.get(
-    "/",
-    response_class=HTMLResponse
-)
+@router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -52,24 +49,14 @@ async def add_film(tmdb_id: int):
         "realisateur": film["realisateur"],
         "collection_id": film["collection_id"],
         "collection_nom": film["collection_nom"],
-    })
+    }, "film_id")
 
-@router.get(
-    "/{film_id}",
-    response_class=HTMLResponse
-)
-async def film_page(
-    request: Request,
-    film_id: int
-):
-
+@router.get("/{film_id}", response_class=HTMLResponse)
+async def film_page(request: Request, film_id: int):
     film = recuperer_film_database(film_id)
 
     if film is None:
-        return HTMLResponse(
-            "Film introuvable",
-            status_code=404
-        )
+        return HTMLResponse("Film introuvable", status_code=404)
 
     return templates.TemplateResponse(
         request=request,
@@ -81,13 +68,8 @@ async def film_page(
 
 
 @router.delete("/films/{film_id}")
-async def delete_film(
-    film_id: int
-):
-
-    supprimer_film(
-        film_id
-    )
+async def delete_film(film_id: int):
+    supprimer_film(film_id)
 
     return {
         "success": True

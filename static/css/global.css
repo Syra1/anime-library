@@ -75,12 +75,7 @@ main {
     border-radius: 16px;
 }
 
-@property --angle{
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
 
-}
 .main-header::after, .main-header::before {
     content: '';
     position: absolute;
@@ -97,15 +92,6 @@ main {
 .main-header:before {
     filter: blur(1.5rem);
     opacity: 1;
-}
-
-@keyframes spin {
-    from {
-        --angle: 0deg;
-    }
-    to {
-        --angle: 360deg;
-    }
 }
 
 .site-title {

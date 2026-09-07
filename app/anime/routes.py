@@ -59,7 +59,7 @@ async def add_anime(tmdb_id: int):
         "realisateur": anime["realisateur"],
         "nombre_saisons": anime["nombre_saisons"],
         "saisons": anime["saisons"],
-    })
+    }, "anime_id")
 
 
 @router.get(

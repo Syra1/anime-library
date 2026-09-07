@@ -16,6 +16,4 @@ ENV_FILE = BASE_DIR / ".env"
 load_dotenv(ENV_FILE)
 
 # Token TMDB
-TMDB_ACCESS_TOKEN = os.getenv(
-    "TMDB_ACCESS_TOKEN"
-)
+TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")

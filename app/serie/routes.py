@@ -58,7 +58,7 @@ async def add_serie(tmdb_id: int):
         "realisateur": serie["realisateur"],
         "nombre_saisons": serie["nombre_saisons"],
         "saisons": serie["saisons"],
-    })
+    }, "serie_id")
 
 
 @router.get(

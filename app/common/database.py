@@ -30,3 +30,18 @@ def fetch_one(requete, parametres=()):
     resultat = connection.execute(requete, parametres).fetchone()
     connection.close()
     return resultat
+
+def compter_contenus():
+    resultats = fetch_one("""
+        SELECT
+            (SELECT COUNT(*) FROM film) AS films,
+            (SELECT COUNT(*) FROM anime) AS animes,
+            (SELECT COUNT(*) FROM serie) AS series
+    """)
+
+    return {
+        "films": resultats["films"],
+        "animes": resultats["animes"],
+        "series": resultats["series"],
+        "total": (resultats["films"] + resultats["animes"] + resultats["series"])
+    }
