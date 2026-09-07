@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+from app.common.routes import ajouter_media
 
 from app.config import TEMPLATES_DIR
 
@@ -46,33 +47,19 @@ async def search_anime(q: str):
 
 @router.post("/add-anime/{tmdb_id}")
 async def add_anime(tmdb_id: int):
-
-    anime = recuperer_anime(tmdb_id)
-
-
-    if anime is None:
-        return {
-            "success": False
-        }
-
-    anime_id = ajouter_anime(
-        titre=anime["titre"],
-        titre_original=anime["titre_original"],
-        image=anime["image"],
-        description=anime["description"],
-        annee=anime["annee"],
-        genres=anime["genres"],
-        duree=anime["duree"],
-        auteur=anime["auteur"],
-        realisateur=anime["realisateur"],
-        nombre_saisons=anime["nombre_saisons"],
-        saisons=anime["saisons"],
-    )
-
-    return {
-        "success": True,
-        "anime_id": anime_id
-    }
+    return ajouter_media(tmdb_id, recuperer_anime, ajouter_anime, lambda anime: {
+        "titre": anime["titre"],
+        "titre_original": anime["titre_original"],
+        "image": anime["image"],
+        "description": anime["description"],
+        "annee": anime["annee"],
+        "genres": anime["genres"],
+        "duree": anime["duree"],
+        "auteur": anime["auteur"],
+        "realisateur": anime["realisateur"],
+        "nombre_saisons": anime["nombre_saisons"],
+        "saisons": anime["saisons"],
+    })
 
 
 @router.get(

@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+from app.common.routes import ajouter_media
 
 from app.config import TEMPLATES_DIR
 
@@ -46,32 +47,18 @@ async def search_serie(q: str):
 
 @router.post("/add-serie/{tmdb_id}")
 async def add_serie(tmdb_id: int):
-
-    serie = recuperer_serie(tmdb_id)
-
-
-    if serie is None:
-        return {
-            "success": False
-        }
-
-    serie_id = ajouter_serie(
-        titre=serie["titre"],
-        titre_original=serie["titre_original"],
-        image=serie["image"],
-        description=serie["description"],
-        annee=serie["annee"],
-        genres=serie["genres"],
-        duree=serie["duree"],
-        realisateur=serie["realisateur"],
-        nombre_saisons=serie["nombre_saisons"],
-        saisons=serie["saisons"],
-    )
-
-    return {
-        "success": True,
-        "serie_id": serie_id
-    }
+    return ajouter_media(tmdb_id, recuperer_serie, ajouter_serie, lambda serie: {
+        "titre": serie["titre"],
+        "titre_original": serie["titre_original"],
+        "image": serie["image"],
+        "description": serie["description"],
+        "annee": serie["annee"],
+        "genres": serie["genres"],
+        "duree": serie["duree"],
+        "realisateur": serie["realisateur"],
+        "nombre_saisons": serie["nombre_saisons"],
+        "saisons": serie["saisons"],
+    })
 
 
 @router.get(

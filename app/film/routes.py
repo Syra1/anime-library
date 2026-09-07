@@ -3,6 +3,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from app.config import TEMPLATES_DIR
+from app.common.routes import ajouter_media
+
 from app.film.api import (
     rechercher_films,
     recuperer_film,
@@ -39,31 +41,18 @@ async def search_film(q: str):
 
 @router.post("/add-film/{tmdb_id}")
 async def add_film(tmdb_id: int):
-
-    film = recuperer_film(tmdb_id)
-
-    if film is None:
-        return {
-            "success": False
-        }
-
-    film_id = ajouter_film(
-        titre=film["titre"],
-        titre_original=film["titre_original"],
-        image=film["image"],
-        description=film["description"],
-        annee=film["annee"],
-        genres=film["genres"],
-        duree=film["duree"],
-        realisateur=film["realisateur"],
-        collection_id=film["collection_id"],
-        collection_nom=film["collection_nom"],
-    )
-
-    return {
-        "success": True,
-        "film_id": film_id
-    }
+    return ajouter_media(tmdb_id, recuperer_film, ajouter_film, lambda film: {
+        "titre": film["titre"],
+        "titre_original": film["titre_original"],
+        "image": film["image"],
+        "description": film["description"],
+        "annee": film["annee"],
+        "genres": film["genres"],
+        "duree": film["duree"],
+        "realisateur": film["realisateur"],
+        "collection_id": film["collection_id"],
+        "collection_nom": film["collection_nom"],
+    })
 
 @router.get(
     "/{film_id}",
