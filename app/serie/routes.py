@@ -36,6 +36,7 @@ async def search_serie(q: str):
 @router.post("/add-serie/{tmdb_id}")
 async def add_serie(tmdb_id: int):
     return ajouter_media(tmdb_id, recuperer_serie, ajouter_serie, lambda serie: {
+        "tmdb_id": serie["id"],
         "titre": serie["titre"],
         "titre_original": serie["titre_original"],
         "image": serie["image"],

@@ -36,6 +36,7 @@ async def search_film(q: str):
 @router.post("/add-film/{tmdb_id}")
 async def add_film(tmdb_id: int):
     return ajouter_media(tmdb_id, recuperer_film, ajouter_film, lambda film: {
+        "tmdb_id": film["id"],
         "titre": film["titre"],
         "titre_original": film["titre_original"],
         "image": film["image"],

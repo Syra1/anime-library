@@ -1,3 +1,10 @@
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+
+}
+
 @keyframes magic-card-appear {
     0% {
         opacity: 0;
@@ -28,9 +35,7 @@
     }
 }
 
-@property --angle{
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-
+@keyframes translation_left {
+    from {translate: 0;}
+    to {translate: -100%;}
 }

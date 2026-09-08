@@ -6,6 +6,7 @@ def create_tables():
     """
         CREATE TABLE IF NOT EXISTS anime (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
@@ -33,13 +34,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_anime(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
+def ajouter_anime(tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO anime (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO anime (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
+        (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     anime_id = cursor.lastrowid
@@ -64,6 +65,7 @@ def lister_animes():
         """
         SELECT
             anime.id,
+            anime.tmdb_id,
             anime.titre,
             anime.titre_original,
             anime.image,
@@ -82,6 +84,7 @@ def lister_animes():
     return [
         {
             "id": anime["id"],
+            "tmdb_id": anime["tmdb_id"],
             "titre": anime["titre"],
             "titre_original": anime["titre_original"],
             "image": anime["image"],
@@ -107,6 +110,7 @@ def recuperer_anime(anime_id):
         """
         SELECT
             anime.id,
+            anime.tmdb_id,
             anime.titre,
             anime.titre_original,
             anime.image,
@@ -141,6 +145,7 @@ def recuperer_anime(anime_id):
 
     return {
         "id": anime["id"],
+        "tmdb_id": anime["tmdb_id"],
         "titre": anime["titre"],
         "titre_original": anime["titre_original"],
         "image": anime["image"],

@@ -36,6 +36,7 @@ async def search_anime(q: str):
 @router.post("/add-anime/{tmdb_id}")
 async def add_anime(tmdb_id: int):
     return ajouter_media(tmdb_id, recuperer_anime, ajouter_anime, lambda anime: {
+        "tmdb_id": anime["id"],
         "titre": anime["titre"],
         "titre_original": anime["titre_original"],
         "image": anime["image"],

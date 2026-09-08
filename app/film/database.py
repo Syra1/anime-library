@@ -7,6 +7,7 @@ def create_tables():
     connection.execute("""
         CREATE TABLE IF NOT EXISTS film (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
@@ -24,13 +25,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_film(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom,):
+def ajouter_film(tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom,):
     cursor = execute_query(
         """
-        INSERT INTO film (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO film (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, annee, genres, duree, realisateur, auteur, collection_id, collection_nom,)
+        (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom,)
     )
 
     return cursor.lastrowid
@@ -40,6 +41,7 @@ def lister_films():
         """
         SELECT
             film.id,
+            film.tmdb_id,
             film.titre,
             film.titre_original,
             film.image,
@@ -59,6 +61,7 @@ def lister_films():
     return [
         {
             "id": film["id"],
+            "tmdb_id": film["tmdb_id"],
             "titre": film["titre"],
             "titre_original": film["titre_original"],
             "image": film["image"],
@@ -85,6 +88,7 @@ def recuperer_film(film_id):
         """
         SELECT
             film.id,
+            film.tmdb_id,
             film.titre,
             film.titre_original,
             film.image,
@@ -92,6 +96,7 @@ def recuperer_film(film_id):
             film.annee,
             film.genres,
             film.duree,
+            film.auteur,
             film.realisateur,
             film.collection_id,
             film.collection_nom
@@ -106,6 +111,7 @@ def recuperer_film(film_id):
 
     return {
         "id": film["id"],
+        "tmdb_id": film["tmdb_id"],
         "titre": film["titre"],
         "titre_original": film["titre_original"],
         "image": film["image"],
@@ -113,6 +119,7 @@ def recuperer_film(film_id):
         "annee": film["annee"],
         "genres": film["genres"],
         "duree": film["duree"],
+        "auteur": film["auteur"],
         "realisateur": film["realisateur"],
         "collection_id": film["collection_id"],
         "collection_nom": film["collection_nom"],

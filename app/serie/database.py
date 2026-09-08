@@ -6,6 +6,7 @@ def create_tables():
     """
         CREATE TABLE IF NOT EXISTS serie (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
@@ -33,13 +34,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_serie(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
+def ajouter_serie(tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO serie (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO serie (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
+        (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     serie_id = cursor.lastrowid
@@ -68,6 +69,7 @@ def lister_series():
         """
         SELECT
             serie.id,
+            serie.tmdb_id,
             serie.titre,
             serie.titre_original,
             serie.image,
@@ -86,6 +88,7 @@ def lister_series():
     return [
         {
             "id": serie["id"],
+            "tmdb_id": serie["tmdb_id"],
             "titre": serie["titre"],
             "titre_original": serie["titre_original"],
             "image": serie["image"],
@@ -111,6 +114,7 @@ def recuperer_serie(serie_id):
         """
         SELECT
             serie.id,
+            serie.tmdb_id,
             serie.titre,
             serie.titre_original,
             serie.image,
@@ -118,6 +122,7 @@ def recuperer_serie(serie_id):
             serie.annee,
             serie.genres,
             serie.duree,
+            serie.auteur,
             serie.realisateur,
             serie.nombre_saisons
         FROM serie
@@ -144,6 +149,7 @@ def recuperer_serie(serie_id):
 
     return {
         "id": serie["id"],
+        "tmdb_id": serie["tmdb_id"],
         "titre": serie["titre"],
         "titre_original": serie["titre_original"],
         "image": serie["image"],
@@ -151,6 +157,7 @@ def recuperer_serie(serie_id):
         "annee": serie["annee"],
         "genres": serie["genres"],
         "duree": serie["duree"],
+        "auteur": serie["auteur"],
         "realisateur": serie["realisateur"],
         "nombre_saisons": serie["nombre_saisons"],
         "saisons": [

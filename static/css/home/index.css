@@ -1,6 +1,7 @@
 .home {
     height: 100%;
     display: flex;
+    flex-direction: column;
 }
 
 .category-list {
@@ -111,4 +112,38 @@
 .category-card-info p {
     margin: 0;
     opacity: 0.7;
+}
+
+
+
+
+.carousel {
+    pointer-events: none;
+    margin: 100px auto;
+    width: 90%;
+    border: 5px solid red;
+    display: flex;
+    overflow-x: auto;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+.watch-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-right: 20px;
+    animation: translation_left 15s infinite linear;
+}
+
+.watch-item {
+    color: white;
+    flex: 0 0 5em;
+    padding: 1em;
+    background-color: blue;
+    border-radius: .2em;
+    text-align: center;
+    align-content: center;
 }
