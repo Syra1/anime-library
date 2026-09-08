@@ -13,76 +13,74 @@
 
 <section class="home">
     <section class="watch-list">
-        <div class="carousel">
-            <div class="watch-category">
+        <div class="watch-category">
 
-                {% for serie in a_voir.series %}
+            {% for serie in a_voir.series %}
+                <div class="watch-item">
+                    <strong>{{ serie.titre }}</strong>
+                    <span>
+                        {{ serie.saisons | join(", ") }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% for anime in a_voir.animes %}
+                <div class="watch-item">
+                    <strong>{{ anime.titre }}</strong>
+                    <span>
+                        {{ anime.saisons | join(", ") }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% for collection in a_voir.films %}
+                {% for film in collection.films %}
                     <div class="watch-item">
-                        <strong>{{ serie.titre }}</strong>
-                        <span>
-                            {{ serie.saisons | join(", ") }}
-                        </span>
+                        <strong>{{ film.title }}</strong>
                     </div>
                 {% endfor %}
+            {% endfor %}
 
-                {% for anime in a_voir.animes %}
-                    <div class="watch-item">
-                        <strong>{{ anime.titre }}</strong>
-                        <span>
-                            {{ anime.saisons | join(", ") }}
-                        </span>
-                    </div>
-                {% endfor %}
-
-                {% for collection in a_voir.films %}
-                    {% for film in collection.films %}
-                        <div class="watch-item">
-                            <strong>{{ film.title }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-
-                {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
-                    <p>Aucun contenu à voir.</p>
-                {% endif %}
-
-            </div>
-
-            <div class="watch-category">
-
-                {% for serie in a_voir.series %}
-                    <div class="watch-item">
-                        <strong>{{ serie.titre }}</strong>
-                        <span>
-                            {{ serie.saisons | join(", ") }}
-                        </span>
-                    </div>
-                {% endfor %}
-
-                {% for anime in a_voir.animes %}
-                    <div class="watch-item">
-                        <strong>{{ anime.titre }}</strong>
-                        <span>
-                            {{ anime.saisons | join(", ") }}
-                        </span>
-                    </div>
-                {% endfor %}
-
-                {% for collection in a_voir.films %}
-                    {% for film in collection.films %}
-                        <div class="watch-item">
-                            <strong>{{ film.title }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-
-                {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
-                    <p>Aucun contenu à voir.</p>
-                {% endif %}
-
-            </div>
+            {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
+                <p>Aucun contenu à voir.</p>
+            {% endif %}
 
         </div>
+
+        <div class="watch-category">
+
+            {% for serie in a_voir.series %}
+                <div class="watch-item">
+                    <strong>{{ serie.titre }}</strong>
+                    <span>
+                        {{ serie.saisons | join(", ") }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% for anime in a_voir.animes %}
+                <div class="watch-item">
+                    <strong>{{ anime.titre }}</strong>
+                    <span>
+                        {{ anime.saisons | join(", ") }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% for collection in a_voir.films %}
+                {% for film in collection.films %}
+                    <div class="watch-item">
+                        <strong>{{ film.title }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
+                <p>Aucun contenu à voir.</p>
+            {% endif %}
+
+        </div>
+
 
     </section>
 
@@ -128,4 +126,9 @@
 
 </section>
 
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="/static/js/home/index.js"></script>
 {% endblock %}

@@ -117,16 +117,17 @@
 
 
 
-.carousel {
+.watch-list {
     pointer-events: none;
-    margin: 100px auto;
+    margin: auto;
     width: 90%;
     border: 5px solid red;
+    border-radius: 16px;
     display: flex;
     overflow-x: auto;
 }
 
-.carousel::-webkit-scrollbar {
+.watch-list::-webkit-scrollbar {
     display: none;
 }
 .watch-category {
@@ -140,10 +141,9 @@
 
 .watch-item {
     color: white;
-    flex: 0 0 5em;
+    flex: 0 0 auto;
     padding: 1em;
-    background-color: blue;
     border-radius: .2em;
     text-align: center;
-    align-content: center;
+    white-space: nowrap;
 }
