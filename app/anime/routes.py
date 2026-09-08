@@ -1,11 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from app.common.routes import ajouter_media
-
-from app.config import TEMPLATES_DIR
-
+from app.config import (TEMPLATES_DIR, templates)
 from app.anime.api import (
     rechercher_animes,
     recuperer_anime,
@@ -18,15 +15,9 @@ from app.anime.database import (
     recuperer_anime as recuperer_anime_database,
 )
 
-
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
-
 router = APIRouter()
 
-@router.get(
-    "/",
-    response_class=HTMLResponse
-)
+@router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -34,16 +25,13 @@ async def index(request: Request):
         context={}
     )
 
-
 @router.get("/api")
 async def get_animes():
     return lister_animes()
 
-
 @router.get("/search-anime")
 async def search_anime(q: str):
     return rechercher_animes(q)
-
 
 @router.post("/add-anime/{tmdb_id}")
 async def add_anime(tmdb_id: int):
@@ -61,23 +49,13 @@ async def add_anime(tmdb_id: int):
         "saisons": anime["saisons"],
     }, "anime_id")
 
-
-@router.get(
-    "/{anime_id}",
-    response_class=HTMLResponse
-)
-async def anime_page(
-    request: Request,
-    anime_id: int
-):
+@router.get("/{anime_id}", response_class=HTMLResponse)
+async def anime_page(request: Request, anime_id: int):
 
     anime = recuperer_anime_database(anime_id)
 
     if anime is None:
-        return HTMLResponse(
-            "Anime introuvable",
-            status_code=404
-        )
+        return HTMLResponse("Anime introuvable", status_code=404)
 
     return templates.TemplateResponse(
         request=request,
@@ -87,15 +65,9 @@ async def anime_page(
         }
     )
 
-
 @router.delete("/animes/{anime_id}")
-async def delete_anime(
-    anime_id: int
-):
-
-    supprimer_anime(
-        anime_id
-    )
+async def delete_anime(anime_id: int):
+    supprimer_anime(anime_id)
 
     return {
         "success": True

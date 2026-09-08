@@ -1,12 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from app.common.database import compter_contenus
-
-from app.config import TEMPLATES_DIR
-
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+from app.config import (TEMPLATES_DIR, templates)
 
 # Routeur dédié à la page d'accueil
 router = APIRouter()

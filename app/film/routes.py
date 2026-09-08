@@ -1,10 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
-from app.config import TEMPLATES_DIR
 from app.common.routes import ajouter_media
-
+from app.config import (TEMPLATES_DIR, templates)
 from app.film.api import (
     rechercher_films,
     recuperer_film,
@@ -17,7 +15,6 @@ from app.film.database import (
     recuperer_film as recuperer_film_database,
 )
 
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
 router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)

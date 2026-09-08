@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from fastapi.templating import Jinja2Templates
 
 # Racine du projet
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -17,3 +18,6 @@ load_dotenv(ENV_FILE)
 
 # Token TMDB
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
+
+
+templates = Jinja2Templates(directory=TEMPLATES_DIR)

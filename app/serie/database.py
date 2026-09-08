@@ -13,6 +13,7 @@ def create_tables():
             annee INTEGER,
             genres TEXT,
             duree INTEGER,
+            auteur TEXT,
             realisateur TEXT,
             nombre_saisons INTEGER
         )
@@ -32,13 +33,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_serie(titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons, saisons):
+def ajouter_serie(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO serie (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO serie (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, annee, genres, duree, realisateur, nombre_saisons,)
+        (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     serie_id = cursor.lastrowid
@@ -74,6 +75,7 @@ def lister_series():
             serie.annee,
             serie.genres,
             serie.duree,
+            serie.auteur,
             serie.realisateur,
             serie.nombre_saisons
         FROM serie
@@ -91,6 +93,7 @@ def lister_series():
             "annee": serie["annee"],
             "genres": serie["genres"],
             "duree": serie["duree"],
+            "auteur": serie["auteur"],
             "realisateur": serie["realisateur"],
             "nombre_saisons": serie["nombre_saisons"],
         }

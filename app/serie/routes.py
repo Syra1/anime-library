@@ -1,11 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from app.common.routes import ajouter_media
-
-from app.config import TEMPLATES_DIR
-
+from app.config import (TEMPLATES_DIR, templates)
 from app.serie.api import (
     rechercher_series,
     recuperer_serie,
@@ -18,15 +15,9 @@ from app.serie.database import (
     recuperer_serie as recuperer_serie_database,
 )
 
-
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
-
 router = APIRouter()
 
-@router.get(
-    "/",
-    response_class=HTMLResponse
-)
+@router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -34,16 +25,13 @@ async def index(request: Request):
         context={}
     )
 
-
 @router.get("/api")
 async def get_series():
     return lister_series()
 
-
 @router.get("/search-serie")
 async def search_serie(q: str):
     return rechercher_series(q)
-
 
 @router.post("/add-serie/{tmdb_id}")
 async def add_serie(tmdb_id: int):
@@ -55,28 +43,18 @@ async def add_serie(tmdb_id: int):
         "annee": serie["annee"],
         "genres": serie["genres"],
         "duree": serie["duree"],
+        "auteur": serie["auteur"],
         "realisateur": serie["realisateur"],
         "nombre_saisons": serie["nombre_saisons"],
         "saisons": serie["saisons"],
     }, "serie_id")
 
-
-@router.get(
-    "/{serie_id}",
-    response_class=HTMLResponse
-)
-async def serie_page(
-    request: Request,
-    serie_id: int
-):
-
+@router.get("/{serie_id}", response_class=HTMLResponse)
+async def serie_page(request: Request, serie_id: int):
     serie = recuperer_serie_database(serie_id)
 
     if serie is None:
-        return HTMLResponse(
-            "Série introuvable",
-            status_code=404
-        )
+        return HTMLResponse("Série introuvable", status_code=404)
 
     return templates.TemplateResponse(
         request=request,
@@ -85,7 +63,6 @@ async def serie_page(
             "serie": serie
         }
     )
-
 
 @router.delete("/series/{serie_id}")
 async def delete_serie(
