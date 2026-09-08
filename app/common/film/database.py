@@ -14,6 +14,7 @@ def create_tables():
             annee INTEGER,
             genres TEXT,
             duree INTEGER,
+            auteur TEXT,
             realisateur TEXT,
             collection_id INTEGER,
             collection_nom TEXT
@@ -23,13 +24,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_film(titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom,):
+def ajouter_film(titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom,):
     cursor = execute_query(
         """
-        INSERT INTO film (titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO film (titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, collection_id, collection_nom)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (titre, titre_original, image, description, annee, genres, duree, realisateur, collection_id, collection_nom,)
+        (titre, titre_original, image, description, annee, genres, duree, realisateur, auteur, collection_id, collection_nom,)
     )
 
     return cursor.lastrowid
@@ -46,6 +47,7 @@ def lister_films():
             film.annee,
             film.genres,
             film.duree,
+            film.auteur,
             film.realisateur,
             film.collection_id,
             film.collection_nom
@@ -64,6 +66,7 @@ def lister_films():
             "annee": film["annee"],
             "genres": film["genres"],
             "duree": film["duree"],
+            "auteur": film["auteur"],
             "realisateur": film["realisateur"],
             "collection_id": film["collection_id"],
             "collection_nom": film["collection_nom"],

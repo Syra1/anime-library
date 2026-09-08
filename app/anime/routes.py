@@ -51,7 +51,6 @@ async def add_anime(tmdb_id: int):
 
 @router.get("/{anime_id}", response_class=HTMLResponse)
 async def anime_page(request: Request, anime_id: int):
-
     anime = recuperer_anime_database(anime_id)
 
     if anime is None:

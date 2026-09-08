@@ -65,13 +65,8 @@ async def serie_page(request: Request, serie_id: int):
     )
 
 @router.delete("/series/{serie_id}")
-async def delete_serie(
-    serie_id: int
-):
-
-    supprimer_serie(
-        serie_id
-    )
+async def delete_serie(serie_id: int):
+    supprimer_serie(serie_id)
 
     return {
         "success": True

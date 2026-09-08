@@ -43,6 +43,7 @@ async def add_film(tmdb_id: int):
         "annee": film["annee"],
         "genres": film["genres"],
         "duree": film["duree"],
+        "auteur": film["auteur"],
         "realisateur": film["realisateur"],
         "collection_id": film["collection_id"],
         "collection_nom": film["collection_nom"],
@@ -62,7 +63,6 @@ async def film_page(request: Request, film_id: int):
             "film": film
         }
     )
-
 
 @router.delete("/films/{film_id}")
 async def delete_film(film_id: int):
