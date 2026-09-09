@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue, creer_suivi_media)
 
 def modifier_saison_vue_anime(saison_id, vu):
     modifier_saison_vue("anime", saison_id, vu)
@@ -99,6 +99,7 @@ def lister_animes():
             "auteur": anime["auteur"],
             "realisateur": anime["realisateur"],
             "nombre_saisons": anime["nombre_saisons"],
+            "suivi": creer_suivi_media(compter_saisons_vues(anime["id"]), anime["nombre_saisons"]),
         }
         for anime in animes
     ]
@@ -171,3 +172,18 @@ def recuperer_anime(anime_id):
             for saison in saisons
         ],
     }
+
+def compter_saisons_vues(anime_id):
+    saisons = fetch_all(
+        """
+        SELECT vu
+        FROM saison_anime
+        WHERE anime_id = ?
+        """,
+        (anime_id,)
+    )
+
+    return sum(
+        saison["vu"]
+        for saison in saisons
+    )

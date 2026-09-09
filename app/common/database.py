@@ -54,3 +54,9 @@ def modifier_saison_vue(nom_media, saison_id, vu):
         """,
         (vu, saison_id)
     )
+
+def creer_suivi_media(vus, total):
+    return {
+        "vus": vus,
+        "total": total
+    }

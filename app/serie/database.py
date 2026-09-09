@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue, creer_suivi_media)
 
 def modifier_saison_vue_serie(saison_id, vu):
     modifier_saison_vue("serie", saison_id, vu)
@@ -103,6 +103,7 @@ def lister_series():
             "auteur": serie["auteur"],
             "realisateur": serie["realisateur"],
             "nombre_saisons": serie["nombre_saisons"],
+            "suivi": creer_suivi_media(compter_saisons_vues(serie["id"]), serie["nombre_saisons"]),
         }
         for serie in series
     ]
@@ -175,3 +176,18 @@ def recuperer_serie(serie_id):
             for saison in saisons
         ],
     }
+
+def compter_saisons_vues(serie_id):
+    saisons = fetch_all(
+        """
+        SELECT vu
+        FROM saison_serie
+        WHERE serie_id = ?
+        """,
+        (serie_id,)
+    )
+
+    return sum(
+        saison["vu"]
+        for saison in saisons
+    )
