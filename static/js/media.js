@@ -189,7 +189,6 @@ function handleDocumentClick(event, mediaSearch, searchResults, librarySearch, d
     if (clicEnDehorsRechercheBibliotheque) {
         if (librarySearch.value !== "") {
             librarySearch.value = "";
-
             displayMedias("");
         }
     }
