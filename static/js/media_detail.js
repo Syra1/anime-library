@@ -1,6 +1,4 @@
-const saisons = document.querySelectorAll(
-    ".season-item-media-detail input[type='checkbox']"
-);
+const saisons = document.querySelectorAll(".season-item-media-detail input[type='checkbox']");
 
 saisons.forEach((saison, index) => {
     saison.addEventListener("change", () => {

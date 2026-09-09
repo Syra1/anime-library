@@ -3,8 +3,6 @@
 let animes = [];
 
 
-let searchTimeout = null;
-
 const animeList =
     document.getElementById("anime-list");
 
@@ -17,7 +15,6 @@ const animeSearch =
 const searchResults =
     document.getElementById("search-results");
 
-const minimumSearchLength = 3;
 
 const animeSearchDelay = 300;
 
@@ -29,176 +26,28 @@ const unknownOriginalTitle =
 
 // Charge les animes depuis la base de données.
 
-async function loadSéries() {
-
-    try {
-
-        const response =
-            await fetch("/anime/api");
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Erreur lors du chargement des animes"
-            );
-
-        }
-
-        const resultats =
-            await response.json();
-
-        animes = Array.isArray(resultats)
-            ? resultats
-            : [];
-
-        displaySéries();
-
-    } catch (error) {
-
-        console.error(
-            "Erreur chargement animes :",
-            error
-        );
-
-        const message = `
-            <p>Impossible de charger les animes.</p>
-        `;
-
-        animeList.innerHTML = message;
-    }
-}
+loadMedia(
+    "/anime/api",
+    (medias) => {
+        animes = medias;
+    },
+    animeList,
+    "anime",
+    "animes",
+    unknownOriginalTitle
+);
 
 
-// Normalise les noms pour la recherche
-// et le tri, sans accents ni majuscules.
+function displayAnimes(search = "") {
 
-function normalizeText(text) {
+    displayMedia(
+        animes,
+        search,
+        animeList,
+        "anime",
+        unknownOriginalTitle
+    );
 
-    return (text || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-}
-
-// Génère une carte de anime.
-
-function createSérieCard(anime) {
-
-    const titre =
-        anime.titre || "Titre inconnu";
-
-
-    const titreOriginal =
-        anime.titre_original ||
-        unknownOriginalTitle;
-
-    const realisateur =
-        anime.realisateur;
-
-
-    const image =
-        anime.image;
-
-
-    const animeId =
-        anime.id;
-
-
-    return `
-        <div class="media-card-background">
-            <a
-                href="/anime/${animeId}"
-                class="anime-card media-card"
-                data-anime-id="${animeId}"
-            >
-
-                <div class="media-image">
-
-                    <img
-                        src="${image || ""}"
-                        alt="${titre}"
-                    >
-
-                </div>
-
-
-                <div class="media-info">
-
-                    <h2>
-                        ${titre}
-                    </h2>
-
-                    <p class="original-title">
-                        ${titreOriginal}
-                    </p>
-
-                </div>
-
-            </a>
-        </div>
-
-    `;
-}
-
-
-// Filtre les animes, les trie par nom,
-// génère leurs cartes et les affiche
-// dans la bibliothèque.
-
-// Filtre les animes,
-// génère leurs cartes et les affiche
-// dans la bibliothèque.
-
-function displaySéries(search = "") {
-
-    const recherche =
-        normalizeText(search);
-
-
-    const filteredSéries =
-        animes.filter(
-            anime => {
-
-                const titre =
-                    normalizeText(
-                        anime.titre
-                    );
-
-
-                const titreOriginal =
-                    normalizeText(
-                        anime.titre_original
-                    );
-
-
-                return (
-                    titre.includes(recherche) ||
-                    titreOriginal.includes(recherche)
-                );
-
-            }
-        );
-
-
-    if (filteredSéries.length === 0) {
-
-        animeList.innerHTML = `
-            <p>Aucun anime trouvé.</p>
-        `;
-
-        return;
-    }
-
-
-    const animeCards =
-        filteredSéries
-            .map(createSérieCard)
-            .join("");
-
-
-    animeList.innerHTML =
-        animeCards;
 }
 
 
@@ -207,27 +56,24 @@ function displaySéries(search = "") {
 
 function handleLibrarySearch() {
 
-
     const recherche =
         librarySearch.value.trim();
-
 
     const rechercheTropCourte =
         recherche.length <
         minimumSearchLength;
 
-
     if (rechercheTropCourte) {
 
-        displaySéries("");
+        displayAnimes("");
 
         return;
     }
 
-
-    displaySéries(
+    displayAnimes(
         recherche
     );
+
 }
 
 
@@ -240,119 +86,18 @@ librarySearch.addEventListener(
 // Gère la saisie dans le champ
 // de recherche TMDB.
 
-function handleSérieSearch() {
-
-    const recherche =
-        animeSearch.value.trim();
-
-
-    clearTimeout(
-        searchTimeout
-    );
-
-
-    const rechercheTropCourte =
-        recherche.length <
-        minimumSearchLength;
-
-
-    if (rechercheTropCourte) {
-
-        searchResults.innerHTML =
-            "";
-
-        return;
-    }
-
-
-    searchTimeout =
-        setTimeout(
-            () => {
-
-                searchTMDB(
-                    recherche
-                );
-
-            },
-            animeSearchDelay
-        );
-}
-
-
 animeSearch.addEventListener(
     "input",
-    handleSérieSearch
-);
-
-
-// Recherche un anime via l'API TMDB.
-
-async function searchTMDB(
-    recherche
-) {
-
-    const loadingMessage = `
-        <p>Recherche en cours...</p>
-    `;
-
-
-    searchResults.innerHTML =
-        loadingMessage;
-
-
-    try {
-
-        const encodedRecherche =
-            encodeURIComponent(
-                recherche
-            );
-
-
-        const url =
-            "/anime/search-anime?q=" +
-            encodedRecherche;
-
-
-        const response =
-            await fetch(url);
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Erreur lors de la recherche"
-            );
-
-        }
-
-
-        const resultats =
-            await response.json();
-
-
-        displaySearchResults(
-            resultats
+    () => {
+        handleMediaSearch(
+            animeSearch,
+            searchResults,
+            "/anime/search-anime",
+            displaySearchResults,
+            animeSearchDelay
         );
-
-    } catch (error) {
-
-        console.error(
-            "Erreur recherche TMDB :",
-            error
-        );
-
-
-        const errorMessage = `
-            <p>
-                Impossible de rechercher ce anime.
-            </p>
-        `;
-
-
-        searchResults.innerHTML =
-            errorMessage;
     }
-}
+);
 
 
 // Affiche les résultats de la recherche TMDB.
@@ -572,7 +317,16 @@ async function handleAddSérie(event) {
 
         // Recharge la bibliothèque.
 
-        await loadSéries();
+        await loadMedia(
+            "/anime/api",
+            (medias) => {
+                animes = medias;
+            },
+            animeList,
+            "anime",
+            "animes",
+            unknownOriginalTitle
+        );
 
 
         const animeId =
@@ -666,7 +420,7 @@ function handleDocumentClick(event) {
 
             librarySearch.value = "";
 
-            displaySéries("");
+            displayAnimes("");
 
     }
 }
@@ -706,9 +460,3 @@ function animerSérieAjoute(
         "magic-card"
     );
 }
-
-
-// Recharge la liste des animes
-// depuis la base de données.
-
-loadSéries();

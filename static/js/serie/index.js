@@ -67,19 +67,6 @@ async function loadSéries() {
     }
 }
 
-
-// Normalise les noms pour la recherche
-// et le tri, sans accents ni majuscules.
-
-function normalizeText(text) {
-
-    return (text || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-}
-
 // Génère une carte de serie.
 
 function createSérieCard(serie) {
