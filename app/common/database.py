@@ -1,5 +1,4 @@
 import sqlite3
-from pathlib import Path
 from app.config import DATABASE_PATH
 
 # Ouvre une connexion à la base de données.
