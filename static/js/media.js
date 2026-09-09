@@ -113,12 +113,8 @@ function displaySearchResultsMedia(resultats, searchResults, typeMedia, unknownO
             <article class="search-result">
                 <img class="search-result-image" src="${image || ""}" alt="${titre}">
                 <div class="search-result-info">
-                    <h3>
-                        ${titre}
-                    </h3>
-                    <p>
-                        ${titreOriginal}
-                    </p>
+                    <h3> ${titre} </h3>
+                    <p> ${titreOriginal} </p>
                     ${ annee ? `<p> ${annee} </p>`: ""}
                 </div>
                 <button class="add-${typeMedia}-button add-media-button" data-tmdb-id="${tmdbId}">
@@ -144,23 +140,15 @@ async function handleAddMedia(event, addUrl, loadUrl, setMedia, mediaList, typeM
     button.disabled = true;
     button.textContent = "Ajout...";
     try {
-        const response =
-            await fetch(
-                `${addUrl}/${tmdbId}`,
-                {
-                    method: "POST"
-                }
-            );
+        const response = await fetch(`${addUrl}/${tmdbId}`, {
+            method: "POST"
+        });
         if (!response.ok) {
-            throw new Error(
-                "Erreur HTTP lors de l'ajout"
-            );
+            throw new Error("Erreur HTTP lors de l'ajout");
         }
         const resultat = await response.json();
         if (!resultat.success) {
-            throw new Error(
-                `L'ajout du ${mediaName} a échoué`
-            );
+            throw new Error(`L'ajout du ${mediaName} a échoué`);
         }
         await loadMedia(loadUrl, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle);
         const mediaId = resultat[`${typeMedia}_id`];
