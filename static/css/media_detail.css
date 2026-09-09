@@ -144,37 +144,46 @@
 }
 
 .season-item-media-detail {
-    width: 130px;
+    display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    width: 150px;
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
     border-right: 3px solid var(--couleur_media);
 }
 
-.nombre-episodes-media-detail {
-    display: none;
-}
-
-.season-item-media-detail:hover .numero_saison {
-    display: none;
-}
-
-.season-item-media-detail:hover .nombre-episodes-media-detail {
-    display: inline;
-    font-weight: bold;
-}
-
-.season-item-media-detail:hover {
-    border-left: 3px solid var(--couleur_fond);
-    border-right: 3px solid var(--couleur_fond);
+.season-text {
+    display: flex;
+    justify-content: center;
+    width: 100px;
 }
 
 .numero_saison {
     color: var(--couleur_media);
 }
-.season-item-media-detail:hover .nombre-episodes-media-detail {
+
+.nombre-episodes-media-detail {
+    display: none;
+}
+
+.season-text:hover .numero_saison {
+    display: none;
+}
+
+.season-text:hover .nombre-episodes-media-detail {
     display: inline;
     font-weight: bold;
+}
+
+/* Change la bordure quand le texte est survolé */
+.season-item-media-detail:has(.season-text:hover) {
+    border-left-color: var(--couleur_fond);
+    border-right-color: var(--couleur_fond);
+}
+
+.season-checkbox {
+    
 }

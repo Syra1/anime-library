@@ -1,9 +1,4 @@
-console.log("media_detail.js chargé");
-
-
-const saisons = document.querySelectorAll(
-    ".season-item-media-detail input[type='checkbox']"
-);
+const saisons = document.querySelectorAll(".season-item-media-detail input[type='checkbox']");
 
 saisons.forEach((saison) => {
     saison.addEventListener("change", () => {
@@ -16,13 +11,7 @@ saisons.forEach((saison) => {
     });
 });
 
-
-async function modifierSaisonVue(
-    typeMedia,
-    mediaId,
-    saisonId,
-    vu
-) {
+async function modifierSaisonVue(typeMedia, mediaId, saisonId, vu) {
     await fetch(
         `/${typeMedia}/${mediaId}/saison/${saisonId}/vu?vu=${vu}`,
         {

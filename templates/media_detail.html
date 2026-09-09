@@ -69,17 +69,24 @@
                 <div class="season-list-media-detail">
                     {% for saison in media.saisons %}
                         <div class="season-item-media-detail">
-                            <input type="checkbox" {% if saison.vu %}checked{% endif %}
-                            data-type-media="{{ type_media }}"
-                            data-media-id="{{ media.id }}"
-                            data-saison-id="{{ saison.id }}"
+
+                            <input
+                                type="checkbox"
+                                class="season-checkbox"
+                                {% if saison.vu %}checked{% endif %}
+                                data-type-media="{{ type_media }}"
+                                data-media-id="{{ media.id }}"
+                                data-saison-id="{{ saison.id }}"
                             >
-                            <strong class="numero_saison">
-                                Saison {{ saison.numero }}
-                            </strong>
-                            <span class="nombre-episodes-media-detail">
-                                {{ saison.nombre_episodes }} épisodes
-                            </span>
+                            <div class="season-text">
+                                <strong class="numero_saison">
+                                    Saison {{ saison.numero }}
+                                </strong>
+
+                                <span class="nombre-episodes-media-detail">
+                                    {{ saison.nombre_episodes }} épisodes
+                                </span>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
