@@ -13,6 +13,7 @@ from app.serie.database import (
     ajouter_serie,
     supprimer_serie,
     recuperer_serie as recuperer_serie_database,
+    modifier_saison_vue_serie,
 )
 
 router = APIRouter()
@@ -68,6 +69,14 @@ async def serie_page(request: Request, serie_id: int):
 @router.delete("/series/{serie_id}")
 async def delete_serie(serie_id: int):
     supprimer_serie(serie_id)
+
+    return {
+        "success": True
+    }
+
+@router.post("/{serie_id}/saison/{saison_id}/vu")
+async def modifier_vue_serie(serie_id, saison_id, vu: bool):
+    modifier_saison_vue_serie(saison_id, vu)
 
     return {
         "success": True

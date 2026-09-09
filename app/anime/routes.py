@@ -13,6 +13,7 @@ from app.anime.database import (
     ajouter_anime,
     supprimer_anime,
     recuperer_anime as recuperer_anime_database,
+    modifier_saison_vue_anime,
 )
 
 router = APIRouter()
@@ -68,6 +69,14 @@ async def anime_page(request: Request, anime_id: int):
 @router.delete("/animes/{anime_id}")
 async def delete_anime(anime_id: int):
     supprimer_anime(anime_id)
+
+    return {
+        "success": True
+    }
+
+@router.post("/{anime_id}/saison/{saison_id}/vu")
+async def modifier_vue_anime(anime_id, saison_id, vu: bool):
+    modifier_saison_vue_anime(saison_id, vu)
 
     return {
         "success": True

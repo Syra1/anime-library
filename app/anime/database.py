@@ -1,4 +1,7 @@
-from app.common.database import (get_connection, execute_query, fetch_all, fetch_one)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue)
+
+def modifier_saison_vue_anime(saison_id, vu):
+    modifier_saison_vue("anime", saison_id, vu)
 
 def create_tables():
     connection = get_connection()
@@ -27,6 +30,7 @@ def create_tables():
             anime_id INTEGER NOT NULL,
             numero INTEGER NOT NULL,
             nombre_episodes INTEGER NOT NULL,
+            vu INTEGER NOT NULL DEFAULT 0,
             FOREIGN KEY (anime_id) REFERENCES anime(id) ON DELETE CASCADE
         )
     """)
@@ -135,7 +139,8 @@ def recuperer_anime(anime_id):
         SELECT
             id,
             numero,
-            nombre_episodes
+            nombre_episodes,
+            vu
         FROM saison_anime
         WHERE anime_id = ?
         ORDER BY numero ASC
@@ -161,6 +166,7 @@ def recuperer_anime(anime_id):
                 "id": saison["id"],
                 "numero": saison["numero"],
                 "nombre_episodes": saison["nombre_episodes"],
+                "vu": saison["vu"],
             }
             for saison in saisons
         ],

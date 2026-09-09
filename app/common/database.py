@@ -45,3 +45,13 @@ def compter_contenus():
         "series": resultats["series"],
         "total": (resultats["films"] + resultats["animes"] + resultats["series"])
     }
+
+def modifier_saison_vue(nom_media, saison_id, vu):
+    execute_query(
+        f"""
+        UPDATE saison_{nom_media}
+        SET vu = ?
+        WHERE id = ?
+        """,
+        (vu, saison_id)
+    )
