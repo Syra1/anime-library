@@ -183,3 +183,48 @@
     border-left-color: var(--couleur_fond);
     border-right-color: var(--couleur_fond);
 }
+
+.season-item-media-detail:has(.season-text:hover) {
+    border-left-color: var(--couleur_fond);
+    border-right-color: var(--couleur_fond);
+}
+
+.season-item-media-detail:has(.season-text:hover) .season-checkbox {
+    border-color: var(--couleur_fond);
+}
+
+.season-item-media-detail:has(.season-text:hover) .season-checkbox:checked {
+    background-color: var(--couleur_fond);
+    border-color: var(--couleur_fond);
+}
+
+.season-checkbox {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border: 2px solid var(--couleur_media);
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.season-checkbox:hover {
+    border-color: var(--couleur_media);
+    box-shadow: 0 0 8px var(--couleur_media);
+}
+
+.season-checkbox:checked {
+    background-color: var(--couleur_media);
+    border-color: var(--couleur_media);
+    box-shadow: 0 0 8px var(--couleur_media);
+}
+
+.season-checkbox:active {
+    transform: scale(0.9);
+}
