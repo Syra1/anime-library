@@ -2,7 +2,6 @@
 
 let animes = [];
 
-
 const animeList =
     document.getElementById("anime-list");
 
