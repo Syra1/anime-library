@@ -28,6 +28,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS saison_anime (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             anime_id INTEGER NOT NULL,
+            titre TEXT,
             numero INTEGER NOT NULL,
             nombre_episodes INTEGER NOT NULL,
             vu INTEGER NOT NULL DEFAULT 0,
@@ -54,12 +55,13 @@ def ajouter_anime(tmdb_id, titre, titre_original, image, description, annee, gen
             """
             INSERT INTO saison_anime (
                 anime_id,
+                titre,
                 numero,
                 nombre_episodes
             )
-            VALUES (?, ?, ?)
+            VALUES (?, ?, ?, ?)
             """,
-            (anime_id, saison["numero"], saison["nombre_episodes"],)
+            (anime_id, saison["titre"], saison["numero"], saison["nombre_episodes"],)
         )
 
     return anime_id
@@ -139,6 +141,7 @@ def recuperer_anime(anime_id):
         """
         SELECT
             id,
+            titre,
             numero,
             nombre_episodes,
             vu
@@ -165,6 +168,7 @@ def recuperer_anime(anime_id):
         "saisons": [
             {
                 "id": saison["id"],
+                "titre": saison["titre"],
                 "numero": saison["numero"],
                 "nombre_episodes": saison["nombre_episodes"],
                 "vu": saison["vu"],

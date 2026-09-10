@@ -83,6 +83,9 @@
                             <div class="season-text">
                                 <strong class="numero_saison">
                                     Saison {{ saison.numero }}
+                                    {% if saison.titre and saison.titre|lower != "saison " ~ saison.numero|lower %}
+                                        : {{ saison.titre }}
+                                    {% endif %}
                                 </strong>
 
                                 <span class="nombre-episodes-media-detail">
