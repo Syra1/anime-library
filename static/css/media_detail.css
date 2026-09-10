@@ -136,6 +136,11 @@
     color: var(--couleur_fond);
 }
 
+.season-list-media-detail {
+    flex-direction: column;
+    width: 100%;
+}
+
 .info-media-detail p {
     padding: 5px 10px;
     border-radius: 16px;
@@ -146,9 +151,8 @@
 .season-item-media-detail {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    width: 160px;
+    width: fit-content;
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
@@ -158,7 +162,6 @@
 .season-text {
     display: flex;
     justify-content: center;
-    width: 150px;
 }
 
 .numero_saison {
