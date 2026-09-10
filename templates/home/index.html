@@ -15,22 +15,15 @@
     <div class="watch-list-container">
         <section class="watch-list">
             <div class="watch-category">
-
                 {% for serie in a_voir.series %}
                     <div class="watch-item">
                         <strong>{{ serie.titre }}</strong>
-                        <span>
-                            {{ serie.saisons | join(", ") }}
-                        </span>
                     </div>
                 {% endfor %}
 
                 {% for anime in a_voir.animes %}
                     <div class="watch-item">
                         <strong>{{ anime.titre }}</strong>
-                        <span>
-                            {{ anime.saisons | join(", ") }}
-                        </span>
                     </div>
                 {% endfor %}
 
@@ -53,18 +46,12 @@
                 {% for serie in a_voir.series %}
                     <div class="watch-item">
                         <strong>{{ serie.titre }}</strong>
-                        <span>
-                            {{ serie.saisons | join(", ") }}
-                        </span>
                     </div>
                 {% endfor %}
 
                 {% for anime in a_voir.animes %}
                     <div class="watch-item">
                         <strong>{{ anime.titre }}</strong>
-                        <span>
-                            {{ anime.saisons | join(", ") }}
-                        </span>
                     </div>
                 {% endfor %}
 

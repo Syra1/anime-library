@@ -38,7 +38,6 @@ def comparer_films_collection(films_locaux, films_tmdb):
 def rechercher_saisons_series():
     from app.serie.database import lister_series
     from app.serie.database import recuperer_serie
-    from app.serie.api import recuperer_serie as recuperer_serie_tmdb
 
     series = lister_series()
     resultats = []
@@ -49,33 +48,16 @@ def rechercher_saisons_series():
         if serie is None:
             continue
 
-        saisons_locales = [
+        saisons_a_voir = [
             saison["numero"]
             for saison in serie["saisons"]
+            if not saison["vu"]
         ]
-
-        serie_tmdb = recuperer_serie_tmdb(
-            serie["tmdb_id"]
-        )
-
-        if serie_tmdb is None:
-            continue
-
-        saisons_tmdb = [
-            saison["numero"]
-            for saison in serie_tmdb["saisons"]
-        ]
-
-        saisons_a_voir = comparer_saisons(
-            saisons_locales,
-            saisons_tmdb
-        )
 
         if saisons_a_voir:
             resultats.append({
                 "type": "serie",
-                "titre": serie["titre"],
-                "saisons": saisons_a_voir
+                "titre": serie["titre"]
             })
 
     return resultats
@@ -84,7 +66,6 @@ def rechercher_saisons_series():
 def rechercher_saisons_animes():
     from app.anime.database import lister_animes
     from app.anime.database import recuperer_anime
-    from app.anime.api import recuperer_anime as recuperer_anime_tmdb
 
     animes = lister_animes()
     resultats = []
@@ -95,33 +76,16 @@ def rechercher_saisons_animes():
         if anime is None:
             continue
 
-        saisons_locales = [
+        saisons_a_voir = [
             saison["numero"]
             for saison in anime["saisons"]
+            if not saison["vu"]
         ]
-
-        anime_tmdb = recuperer_anime_tmdb(
-            anime["tmdb_id"]
-        )
-
-        if anime_tmdb is None:
-            continue
-
-        saisons_tmdb = [
-            saison["numero"]
-            for saison in anime_tmdb["saisons"]
-        ]
-
-        saisons_a_voir = comparer_saisons(
-            saisons_locales,
-            saisons_tmdb
-        )
 
         if saisons_a_voir:
             resultats.append({
                 "type": "anime",
-                "titre": anime["titre"],
-                "saisons": saisons_a_voir
+                "titre": anime["titre"]
             })
 
     return resultats
