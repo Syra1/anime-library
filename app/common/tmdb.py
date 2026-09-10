@@ -6,6 +6,7 @@ from app.config import TMDB_ACCESS_TOKEN
 from app.common.media import (
     convertir_liste_en_texte,
     determiner_type_media,
+    formater_duree,
 )
 
 TMDB_API_URL = "https://api.themoviedb.org/3"
@@ -168,7 +169,7 @@ def recuperer_media(media_id, endpoint, titre, titre_original, date):
             "description": media.get("overview") or "",
             "annee": (int(media[date][:4]) if media.get(date) else None),
             "genres": genres,
-            "duree": (media.get("runtime") or (media["episode_run_time"][0] if media.get("episode_run_time") else None)),
+            "duree": formater_duree(media.get("runtime") or (media["episode_run_time"][0] if media.get("episode_run_time") else None)),
             "auteur": auteurs,
             "realisateur": realisateur,
             "media": media,

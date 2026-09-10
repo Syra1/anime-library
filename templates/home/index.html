@@ -10,8 +10,8 @@
 {% endblock %}
 
 {% block content %}
-
 <section class="home">
+    {% if a_voir.series or a_voir.animes or a_voir.films %}
     <div class="watch-list-container">
         <section class="watch-list">
             <div class="watch-category">
@@ -26,7 +26,6 @@
                         <strong>{{ anime.titre }}</strong>
                     </div>
                 {% endfor %}
-
                 {% for collection in a_voir.films %}
                     {% for film in collection.films %}
                         <div class="watch-item">
@@ -34,27 +33,19 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-
-                {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
-                    <p>Aucun contenu à voir.</p>
-                {% endif %}
-
             </div>
 
             <div class="watch-category">
-
                 {% for serie in a_voir.series %}
                     <div class="watch-item">
                         <strong>{{ serie.titre }}</strong>
                     </div>
                 {% endfor %}
-
                 {% for anime in a_voir.animes %}
                     <div class="watch-item">
                         <strong>{{ anime.titre }}</strong>
                     </div>
                 {% endfor %}
-
                 {% for collection in a_voir.films %}
                     {% for film in collection.films %}
                         <div class="watch-item">
@@ -62,62 +53,41 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-
-                {% if not a_voir.series and not a_voir.animes and not a_voir.films %}
-                    <p>Aucun contenu à voir.</p>
-                {% endif %}
-
             </div>
-
-
         </section>
-
     </div>
-
+    {% endif %}
     <div class="category-list">
-
         <a href="/anime" class="category-card-anime">
             <div class="category-card-image">
                 <img src="/static/icons/accueil_anime.jpg" alt="Animés">
             </div>
-
             <div class="category-card-info">
                 <h2>Animés</h2>
                 <span>{{ contenus.animes }}</span>
             </div>
         </a>
-
-
         <a href="/film" class="category-card-film">
             <div class="category-card-image">
                 <img src="/static/icons/accueil_film.webp" alt="Films">
             </div>
-
             <div class="category-card-info">
                 <h2>Films</h2>
                 <span>{{ contenus.films }}</span>
             </div>
         </a>
-
-
         <a href="/serie" class="category-card-serie">
             <div class="category-card-image">
                 <img src="/static/icons/accueil_serie.jpg" alt="Séries">
             </div>
-
             <div class="category-card-info">
                 <h2>Séries</h2>
                 <span>{{ contenus.series }}</span>
             </div>
         </a>
-
     </div>
-
-
 </section>
-
 {% endblock %}
-
 
 {% block scripts %}
     <script src="/static/js/home/index.js"></script>

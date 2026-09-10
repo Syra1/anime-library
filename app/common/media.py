@@ -227,3 +227,18 @@ if __name__ == "__main__":
                 "→ TMDB :",
                 film["id"]
             )
+
+
+def formater_duree(minutes):
+    if not minutes:
+        return None
+
+    heures, minutes_restantes = divmod(minutes, 60)
+
+    if heures and minutes_restantes:
+        return f"{heures}h{minutes_restantes:02d}"
+
+    if heures:
+        return f"{heures}h"
+
+    return f"{minutes_restantes} min"
