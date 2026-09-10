@@ -61,13 +61,13 @@ function createMediaCard(media, typeMedia, unknownOriginalTitle) {
     const titreOriginal = media.titre_original || unknownOriginalTitle;
     const image = media.image;
     const mediaId = media.id;
-    const suivi = typeMedia === "anime" || typeMedia === "serie"
-            ? `
-                <p class="media-progress">
-                    ${media.suivi.vus} / ${media.suivi.total}
-                </p>
-            `
-            : "";
+    const suivi = media.suivi
+        ? `
+            <p class="media-progress">
+                ${media.suivi.vus} / ${media.suivi.total}
+            </p>
+        `
+        : "";
     return `
         <div class="media-card-background">
             <a href="/${typeMedia}/${mediaId}" class="${typeMedia}-card media-card" data-${typeMedia}-id="${mediaId}">

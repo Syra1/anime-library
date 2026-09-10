@@ -1,4 +1,4 @@
-from app.common.database import (get_connection, execute_query, fetch_all, fetch_one)
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, creer_suivi_media)
 
 def create_tables():
     connection = get_connection()
@@ -36,6 +36,37 @@ def ajouter_film(tmdb_id, titre, titre_original, image, description, annee, genr
 
     return cursor.lastrowid
 
+def creer_suivis_collections(films):
+    from app.common.media import recuperer_collection
+    suivis = {}
+    collections_deja_traitees = []
+    for film in films:
+        collection_id = film["collection_id"]
+        if collection_id is None:
+            continue
+        if collection_id in collections_deja_traitees:
+            continue
+
+        collections_deja_traitees.append(collection_id)
+
+        films_tmdb = recuperer_collection(collection_id)
+
+        if films_tmdb is None:
+            continue
+
+        films_locaux = [
+            film_local
+            for film_local in films
+            if film_local["collection_id"] == collection_id
+        ]
+
+        suivis[collection_id] = creer_suivi_media(
+            len(films_locaux),
+            len(films_tmdb)
+        )
+
+    return suivis
+
 def lister_films():
     films = fetch_all(
         """
@@ -58,6 +89,8 @@ def lister_films():
         """
     )
 
+    suivis = creer_suivis_collections(films)
+
     return [
         {
             "id": film["id"],
@@ -73,6 +106,7 @@ def lister_films():
             "realisateur": film["realisateur"],
             "collection_id": film["collection_id"],
             "collection_nom": film["collection_nom"],
+            "suivi": suivis.get(film["collection_id"]),
         }
         for film in films
     ]
