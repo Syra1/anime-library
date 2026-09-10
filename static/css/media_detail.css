@@ -83,13 +83,13 @@
 }
 
 .delete-button-media-detail {
-    width: 100%;
+    width: fit-content;
     margin-top: 15px;
-    padding: 9px 12px;
-    border: 1px solid var(--couleur_media);
+    padding: 9px 20px;
+    border: 2px solid var(--couleur_media);
     border-radius: 16px;
-    background: transparent;
-    color: var(--couleur_media);
+    background-color: var(--couleur_barre);
+    color: var(--couleur_fond);
     font-size: 13px;
     cursor: pointer;
     transition:
@@ -107,38 +107,20 @@
     transform: scale(0.97);
 }
 
-.season-item-media-detail {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nombre-episodes-media-detail {
-    opacity: 0;
-    visibility: hidden;
-    transition:
-        opacity 0.2s ease,
-        visibility 0.2s ease;
-}
-
-.season-item-media-detail:hover .nombre-episodes-media-detail {
-    opacity: 1;
-    visibility: visible;
-}
-
 .info-media-detail,
 .season-list-media-detail {
     display: flex;
     flex-wrap: wrap;
     width: fit-content;
     gap: 20px;
-    margin-bottom: 40px;
     color: var(--couleur_fond);
+    margin-bottom: 20px;
 }
 
 .season-list-media-detail {
     flex-direction: column;
     width: 100%;
+    gap: 5px;
 }
 
 .info-media-detail p {
@@ -154,6 +136,11 @@
     gap: 8px;
     width: fit-content;
     padding: 5px 10px;
+}
+
+.season-text,
+.nombre-episodes-media-detail {
+    padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
     border-right: 3px solid var(--couleur_media);
@@ -165,20 +152,21 @@
 }
 
 .numero_saison {
-    color: var(--couleur_media);
+    color: var(--couleur_fond);
+}
+
+.nombre-episodes-media-detail {
+    font-weight: bold;
 }
 
 .nombre-episodes-media-detail {
     display: none;
-}
-
-.season-text:hover .numero_saison {
-    display: none;
-}
-
-.season-text:hover .nombre-episodes-media-detail {
-    display: inline;
     font-weight: bold;
+}
+
+/* Affiche le nombre d'épisodes au survol de la saison */
+.season-text:hover + .nombre-episodes-media-detail {
+    display: inline;
 }
 
 /* Change la bordure quand le texte est survolé */

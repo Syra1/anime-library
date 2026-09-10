@@ -80,18 +80,22 @@
                                 >
                                 <span class="season-checkbox-mark">✓</span>
                             </label>
+
                             <div class="season-text">
+                                {% if saison.titre and saison.titre != "Saison " ~ saison.numero %}
+                                <strong class="numero_saison">
+                                    Saison {{ saison.numero }} : {{ saison.titre }}
+                                </strong>
+                                {% else %}
                                 <strong class="numero_saison">
                                     Saison {{ saison.numero }}
-                                    {% if saison.titre and saison.titre|lower != "saison " ~ saison.numero|lower %}
-                                        : {{ saison.titre }}
-                                    {% endif %}
                                 </strong>
-
-                                <span class="nombre-episodes-media-detail">
-                                    {{ saison.nombre_episodes }} épisodes
-                                </span>
+                                {% endif %}
                             </div>
+
+                            <span class="nombre-episodes-media-detail">
+                                {{ saison.nombre_episodes }} épisodes
+                            </span>
                         </div>
                     {% endfor %}
                 </div>
