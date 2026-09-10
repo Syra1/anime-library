@@ -1,7 +1,7 @@
 from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue, creer_suivi_media)
 
-def modifier_saison_vue_serie(saison_id, vu):
-    modifier_saison_vue("serie", saison_id, vu)
+def modifier_saison_vue_serie(saisons_ids, vu):
+    modifier_saison_vue("serie", saisons_ids, vu)
 
 def create_tables():
     connection = get_connection()

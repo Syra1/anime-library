@@ -45,14 +45,19 @@ def compter_contenus():
         "total": (resultats["films"] + resultats["animes"] + resultats["series"])
     }
 
-def modifier_saison_vue(nom_media, saison_id, vu):
+def modifier_saison_vue(nom_media, saisons_ids, vu):
+    if not saisons_ids:
+        return
+
+    placeholders = ", ".join("?" for _ in saisons_ids)
+
     execute_query(
         f"""
         UPDATE saison_{nom_media}
         SET vu = ?
-        WHERE id = ?
+        WHERE id IN ({placeholders})
         """,
-        (vu, saison_id)
+        (vu, *saisons_ids)
     )
 
 def creer_suivi_media(vus, total):

@@ -74,10 +74,9 @@ async def delete_serie(serie_id: int):
         "success": True
     }
 
-@router.post("/{serie_id}/saison/{saison_id}/vu")
-async def modifier_vue_serie(serie_id, saison_id, vu: bool):
-    modifier_saison_vue_serie(saison_id, vu)
-
+@router.post("/{anime_id}/saisons/vu")
+async def modifier_vue_serie(anime_id: int, saisons_ids: list[int], vu: bool):
+    modifier_saison_vue_serie(saisons_ids, vu)
     return {
         "success": True
     }

@@ -3,41 +3,30 @@ const saisons = document.querySelectorAll(".season-item-media-detail input[type=
 saisons.forEach((saison, index) => {
     saison.addEventListener("change", () => {
 
+        const saisonsIds = [];
+
         if (saison.checked) {
             // Coche toutes les saisons précédentes.
-            for (let i = 0; i < index; i++) {
-                if (!saisons[i].checked) {
-                    saisons[i].checked = true;
-
-                    modifierSaisonVue(
-                        saisons[i].dataset.typeMedia,
-                        saisons[i].dataset.mediaId,
-                        saisons[i].dataset.saisonId,
-                        true
-                    );
-                }
+            for (let i = 0; i <= index; i++) {
+                saisons[i].checked = true;
+                saisonsIds.push(
+                    saisons[i].dataset.saisonId
+                );
             }
         } else {
             // Décoche toutes les saisons suivantes.
-            for (let i = index + 1; i < saisons.length; i++) {
-                if (saisons[i].checked) {
-                    saisons[i].checked = false;
-
-                    modifierSaisonVue(
-                        saisons[i].dataset.typeMedia,
-                        saisons[i].dataset.mediaId,
-                        saisons[i].dataset.saisonId,
-                        false
-                    );
-                }
+            for (let i = index; i < saisons.length; i++) {
+                saisons[i].checked = false;
+                saisonsIds.push(
+                    saisons[i].dataset.saisonId
+                );
             }
         }
 
-        // Enregistre la saison actuellement cliquée.
         modifierSaisonVue(
             saison.dataset.typeMedia,
             saison.dataset.mediaId,
-            saison.dataset.saisonId,
+            saisonsIds,
             saison.checked
         );
     });
@@ -47,13 +36,17 @@ saisons.forEach((saison, index) => {
 async function modifierSaisonVue(
     typeMedia,
     mediaId,
-    saisonId,
+    saisonsIds,
     vu
 ) {
     await fetch(
-        `/${typeMedia}/${mediaId}/saison/${saisonId}/vu?vu=${vu}`,
+        `/${typeMedia}/${mediaId}/saisons/vu?vu=${vu}`,
         {
-            method: "POST"
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(saisonsIds)
         }
     );
 }
