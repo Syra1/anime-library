@@ -330,21 +330,25 @@
     border: none;
     font-size: 20px;
     color: var(--couleur_barre);
-    background-color: var(--couleur_fond_barre);
+    background-color: var(--couleur_fond);
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_barre);
     border-right: 3px solid var(--couleur_barre);
     cursor: pointer;
-    
 }
 
 .watch-button:hover {
     border: none;
     color: var(--couleur_media);
-    background-color: var(--couleur_fond_barre);
+    background-color: var(--couleur_fond);
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
     border-right: 3px solid var(--couleur_media);
+}
+
+.watch-item {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
