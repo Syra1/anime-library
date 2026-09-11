@@ -3,7 +3,8 @@
     search_id,
     search_placeholder,
     list_id,
-    loading_text
+    loading_text,
+    a_voir
 ) %}
 
 {% block styles %}
@@ -11,6 +12,22 @@
 {% endblock %}
 
 <div class="page-{{ media_type }}-index">
+    <div class="watch-container">
+        <button type="button" id="watch-button-{{ media_type }}" class="watch-button">
+            A voir
+        </button>
+
+        {% if a_voir %}
+        <section id="watch-list-{{ media_type }}" class="watch-list">
+            {% for media in a_voir %}
+                <div class="watch-item">
+                    <strong>{{ media }}</strong>
+                </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+    </div>
+
     <section class="add-media">
         <div class="search-input">
             <span class="search-icon">

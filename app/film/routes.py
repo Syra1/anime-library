@@ -7,7 +7,7 @@ from app.film.api import (
     rechercher_films,
     recuperer_film,
 )
-
+from app.common.media import rechercher_a_voir
 from app.film.database import (
     lister_films,
     ajouter_film,
@@ -19,10 +19,20 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
+    a_voir = rechercher_a_voir()
+
+    noms_a_voir = [
+        film["title"]
+        for collection in a_voir["films"]
+        for film in collection["films"]
+    ]
+
     return templates.TemplateResponse(
         request=request,
         name="film/index.html",
-        context={}
+        context={
+            "a_voir": noms_a_voir
+        }
     )
 
 @router.get("/api")

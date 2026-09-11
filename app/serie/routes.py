@@ -7,7 +7,7 @@ from app.serie.api import (
     rechercher_series,
     recuperer_serie,
 )
-
+from app.common.media import rechercher_a_voir
 from app.serie.database import (
     lister_series,
     ajouter_serie,
@@ -20,10 +20,19 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
+    a_voir = rechercher_a_voir()
+
+    noms_a_voir = [
+        serie["titre"]
+        for serie in a_voir["series"]
+    ]
+
     return templates.TemplateResponse(
         request=request,
         name="serie/index.html",
-        context={}
+        context={
+            "a_voir": noms_a_voir
+        }
     )
 
 @router.get("/api")

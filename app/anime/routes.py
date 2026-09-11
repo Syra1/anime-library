@@ -7,7 +7,7 @@ from app.anime.api import (
     rechercher_animes,
     recuperer_anime,
 )
-
+from app.common.media import rechercher_a_voir
 from app.anime.database import (
     lister_animes,
     ajouter_anime,
@@ -20,10 +20,19 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
+    a_voir = rechercher_a_voir()
+
+    noms_a_voir = [
+        anime["titre"]
+        for anime in a_voir["animes"]
+    ]
+
     return templates.TemplateResponse(
         request=request,
         name="anime/index.html",
-        context={}
+        context={
+            "a_voir": noms_a_voir
+        }
     )
 
 @router.get("/api")
