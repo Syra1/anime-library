@@ -59,56 +59,6 @@ main {
         0 50px 0 var(--couleur_fond);
 }
 
-.main-header span {
-    margin-right: 20px;
-}
-
-.bar-header {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--couleur_fond_barre);
-    border-radius: 16px;
-}
-
-
-.main-header::after, .main-header::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-image: conic-gradient(from var(--angle), var(--couleur_barre));
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    z-index: -1;
-    border-radius: 16px;
-}
-
-.main-header::before {
-    filter: blur(1.5rem);
-    opacity: 1;
-}
-
-.site-title {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    gap: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--couleur_barre);
-}
-
-.library-menu {
-    margin-left: 20px;
-}
-
 .button {
     text-decoration: none;
     color: var(--couleur_barre);
