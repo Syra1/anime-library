@@ -1,49 +1,45 @@
 <!doctype html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
         <title>
             {% block title %}
                 Bibliothèque
             {% endblock %}
         </title>
-        <link rel="icon" href="/static/icons/clapper.svg">
-
         {% block styles %}
         <link rel="stylesheet" href="/static/css/global.css">
         <link rel="stylesheet" href="/static/css/animations.css">
         {% endblock %}
     </head>
     <body>
-        <header class="main-header">
-            <div class="bar-header">
-                <div class="library-menu">
-                    <a href="/" class="button">
-                        Accueil
-                    </a>
-                    <a href="/anime/" class="button">
-                    Animés
-                    </a>
-                    <a href="/film/" class="button">
-                    Films
-                    </a>
-                    <a href="/serie/" class="button">
-                    Séries
-                    </a>
-                </div>
+        <div class="home-page">
+            <header class="header-bar">
                 <div class="site-title">
-                    <span>
-                        Ma Bibliothèque
-                    </span>
+                    Ma Bibliothèque
                 </div>
-            </div>
-        </header>
-
-        <main>
-            {% block content %}
+                <nav class="navbar-button">
+                    <ul class="link_list">
+                        <li><a href="/" title="Accueil">Accueil</a></li>
+                        <li><a href="/anime/" title="Animés">Animés</a></li>
+                        <li><a href="/film/" title="Films">Films</a></li>
+                        <li><a href="/serie/" title="Séries">Séries</a></li>
+                    </ul>
+                </nav>
+                <nav class="navbar-icons">
+                    <ul class="link_icons">
+                        <li><button type="button"> <img src="/static/icons/New_Search.svg" alt="Search"> </button></li>
+                        <li><button type="button"> <img src="/static/icons/New_Menu.svg" alt="Menu"> </button></li>
+                        <li><button type="button"> <img src="/static/icons/New_Close.svg" alt="Close"> </button></li>
+                    </ul>
+                </nav>
+            </header>
+            <main>
+                {% block content %}
+                {% endblock %}
+            </main>
+            {% block scripts %}
             {% endblock %}
-        </main>
-        {% block scripts %}
-        {% endblock %}
+        </div>
     </body>
 </html>

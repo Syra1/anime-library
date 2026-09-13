@@ -5,7 +5,9 @@
     --couleur_anime: #858480;
     --couleur_film: #858480;
     --couleur_serie: #858480;
-    --coueur-border-card: #0b0b0b;
+    --couleur-border-card: #0b0b0b;
+
+    font-family: noto sans;
 }
 
 .page-anime-index,
@@ -25,58 +27,44 @@
 
 * {
     box-sizing: border-box;
+}
+
+.home-page {
+    background-color: var(--couleur_fond);
+}
+
+.header-bar {
+    display: flex;
+    border-bottom: 2px solid var(--couleur-border-card);
+    padding: 1em;
+    justify-content: space-between;
+    background-color: var(--couleur_fond_barre);
+}
+
+.navbar-button {
+    align-items: center;
+}
+.link_list, .link_icons {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1em;
     margin: 0;
     padding: 0;
+    color: var(--couleur_barre);
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: var(--couleur_fond);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    width: 1500px;
-    min-width: 1500px;
-    max-width: 1500px;
-    margin: 40px auto;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-.main-header {
-    position: sticky;
-    top: 50px;
-    width: calc(100% - 100px);
-    height: 60px;
-    margin: 50px auto;
-    z-index: 1000;
-    background-color: var(--couleur_fond);
-    box-shadow:
-        0 -50px 0 var(--couleur_fond),
-        0 50px 0 var(--couleur_fond);
-}
-
-.button {
+.link_list a{
     text-decoration: none;
     color: var(--couleur_barre);
-    padding: 5px 10px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_barre);
-    border-right: 3px solid var(--couleur_barre);
 }
 
-.button:hover {
-    text-decoration: none;
-    color: var(--couleur_fond);
-    padding: 5px 10px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_fond);
-    border-right: 3px solid var(--couleur_fond);
+.link_icons button {
+    all: unset;
+    cursor: pointer;
 }
 
-.button + .button {
-    margin-left: 20px;
+.link_icons  {
+    size: 32px;
 }
