@@ -1,10 +1,11 @@
 :root {
-    --couleur_fond_barre: #323232;
-    --couleur_fond: black;
-    --couleur_barre: white;
-    --couleur_anime: red;
-    --couleur_film: green;
-    --couleur_serie: blue;
+    --couleur_fond_barre: #ffffff;
+    --couleur_fond: #fbf9f2;
+    --couleur_barre: #7b7b7b; /* #858480 */
+    --couleur_anime: #858480;
+    --couleur_film: #858480;
+    --couleur_serie: #858480;
+    --coueur-border-card: #0b0b0b;
 }
 
 .page-anime-index,
