@@ -3,32 +3,29 @@ const cards = [...document.querySelectorAll(".watch-item")];
 
 if (cards.length > 0) {
 
-    // Crée une copie avant les cards originales
-    cards.forEach(card => {
-        const clone = card.cloneNode(true);
-        carrousel.appendChild(clone);
-    });
-
-    // Crée une copie après les cards originales
-    cards.forEach(card => {
-        const clone = card.cloneNode(true);
-        carrousel.appendChild(clone);
-    });
-
-    const toutesLesCards = [...carrousel.querySelectorAll(".watch-item")];
     const nombreCards = cards.length;
 
-    // On commence sur la copie du milieu
-    let index = nombreCards;
+    // Copie des cards à la fin
+    cards.forEach(card => {
+        carrousel.appendChild(card.cloneNode(true));
+    });
 
-    // Place la 4e card au centre
-    toutesLesCards[index + 3].scrollIntoView({
+    // Copie des cards à la fin une deuxième fois
+    cards.forEach(card => {
+        carrousel.appendChild(card.cloneNode(true));
+    });
+
+    const toutesLesCards =
+        [...carrousel.querySelectorAll(".watch-item")];
+
+    // On commence au milieu
+    let index = nombreCards + 3;
+
+    toutesLesCards[index].scrollIntoView({
         behavior: "instant",
         block: "nearest",
         inline: "center"
     });
-
-    index += 3;
 
     function prochaineCard() {
 
@@ -40,22 +37,26 @@ if (cards.length > 0) {
             inline: "center"
         });
 
-        // Si on arrive trop loin vers la droite
         if (index >= nombreCards * 2) {
 
-            setTimeout(() => {
+            carrousel.addEventListener("scrollend", function repositionner() {
 
                 index -= nombreCards;
 
-                toutesLesCards[index].scrollIntoView({
-                    behavior: "instant",
-                    block: "nearest",
-                    inline: "center"
-                });
+                const card = toutesLesCards[index];
 
-            }, 500);
+                carrousel.scrollLeft =
+                    card.offsetLeft -
+                    (carrousel.clientWidth - card.offsetWidth) / 2;
+
+                carrousel.removeEventListener(
+                    "scrollend",
+                    repositionner
+                );
+
+            });
         }
     }
 
-    setInterval(prochaineCard, 4000);
+    setInterval(prochaineCard, 500);
 }
