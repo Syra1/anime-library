@@ -10,53 +10,36 @@
 {% endblock %}
 
 {% block content %}
-<section class="home">
+<section class="carrousel">
     {% if a_voir.series or a_voir.animes or a_voir.films %}
-    <div class="watch-list-container">
-        <section class="watch-list">
-            <div class="watch-category">
-                {% for serie in a_voir.series %}
-                    <div class="watch-item">
-                        <strong>{{ serie.titre }}</strong>
-                    </div>
-                {% endfor %}
-
-                {% for anime in a_voir.animes %}
-                    <div class="watch-item">
-                        <strong>{{ anime.titre }}</strong>
-                    </div>
-                {% endfor %}
-                {% for collection in a_voir.films %}
-                    {% for film in collection.films %}
-                        <div class="watch-item">
-                            <strong>{{ film.title }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
+    <div class="watch-category">
+        {% for serie in a_voir.series %}
+            <div class="watch-item">
+                <img src="{{ serie.image }}" alt="{{ serie.titre }}">
+                <strong>{{ serie.titre }}</strong>
             </div>
+        {% endfor %}
 
-            <div class="watch-category">
-                {% for serie in a_voir.series %}
-                    <div class="watch-item">
-                        <strong>{{ serie.titre }}</strong>
-                    </div>
-                {% endfor %}
-                {% for anime in a_voir.animes %}
-                    <div class="watch-item">
-                        <strong>{{ anime.titre }}</strong>
-                    </div>
-                {% endfor %}
-                {% for collection in a_voir.films %}
-                    {% for film in collection.films %}
-                        <div class="watch-item">
-                            <strong>{{ film.title }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
+        {% for anime in a_voir.animes %}
+            <div class="watch-item">
+                <img src="{{ anime.image }}" alt="{{ anime.titre }}">
+                <strong>{{ anime.titre }}</strong>
             </div>
-        </section>
+        {% endfor %}
+
+        {% for collection in a_voir.films %}
+            {% for film in collection.films %}
+                <div class="watch-item">
+                    <strong>{{ film.title }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
     </div>
     {% endif %}
+</section>
+
+<section class="mini-carrousel">
+
     <div class="category-list">
         <a href="/anime" class="category-card-anime">
             <div class="category-card-image">

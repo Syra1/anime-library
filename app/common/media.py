@@ -57,7 +57,8 @@ def rechercher_saisons_series():
         if saisons_a_voir:
             resultats.append({
                 "type": "serie",
-                "titre": serie["titre"]
+                "titre": serie["titre"],
+                "image": serie["image"]
             })
 
     return resultats
@@ -85,7 +86,8 @@ def rechercher_saisons_animes():
         if saisons_a_voir:
             resultats.append({
                 "type": "anime",
-                "titre": anime["titre"]
+                "titre": anime["titre"],
+                "image": anime["image"]
             })
 
     return resultats
