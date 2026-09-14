@@ -5,10 +5,16 @@
     --couleur_anime: #858480;
     --couleur_film: #858480;
     --couleur_serie: #858480;
-    --couleur-border-card: #0b0b0b;
+    --couleur-border: #000000;
 
     font-family: noto sans;
 }
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 
 .page-anime-index,
 .page-anime-detail {
@@ -35,15 +41,22 @@
 
 .header-bar {
     display: flex;
-    border-bottom: 2px solid var(--couleur-border-card);
+    border-bottom: 2px solid var(--couleur-border);
     padding: 1em;
     justify-content: space-between;
     background-color: var(--couleur_fond_barre);
 }
 
 .navbar-button {
+    display: flex;
     align-items: center;
 }
+
+.site-title {
+    display: flex;
+    align-items: center;
+}
+
 .link_list, .link_icons {
     list-style: none;
     display: flex;
@@ -57,12 +70,14 @@
 
 .link_list a{
     text-decoration: none;
-    color: var(--couleur_barre);
+    color: var(--couleur-border);
 }
 
 .link_icons button {
     all: unset;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .link_icons  {
