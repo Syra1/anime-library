@@ -58,5 +58,5 @@ if (cards.length > 0) {
         }
     }
 
-    setInterval(prochaineCard, 500);
+    setInterval(prochaineCard, 5000);
 }

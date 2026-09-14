@@ -40,7 +40,6 @@
     overflow-x: auto;
     gap: 1rem;
     padding: 1rem;
-    margin: -1rem;
     scroll-snap-type: x proximity;
 }
 
