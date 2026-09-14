@@ -30,6 +30,7 @@
 /* NOUVEAU CSS */
 
 .carrousel {
+    pointer-events: none;
     margin-top: 1rem;
 }
 

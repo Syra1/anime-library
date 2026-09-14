@@ -49,7 +49,7 @@ body {
 
 .link_list a{
     text-decoration: none;
-    color: var(--couleur-border);
+    color: var(--couleur_bordure);
 }
 
 .link_icons button {
