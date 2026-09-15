@@ -13,6 +13,7 @@ def create_tables():
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
+            image_secondaire TEXT,
             description TEXT,
             annee INTEGER,
             genres TEXT,
@@ -39,13 +40,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_serie(tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
+def ajouter_serie(tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO serie (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO serie (tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
+        (tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     serie_id = cursor.lastrowid
@@ -80,6 +81,7 @@ def lister_series():
             serie.titre,
             serie.titre_original,
             serie.image,
+            serie.image_secondaire,
             serie.description,
             serie.annee,
             serie.genres,
@@ -99,6 +101,7 @@ def lister_series():
             "titre": serie["titre"],
             "titre_original": serie["titre_original"],
             "image": serie["image"],
+            "image_secondaire": serie["image_secondaire"],
             "description": serie["description"],
             "annee": serie["annee"],
             "genres": serie["genres"],
@@ -126,6 +129,7 @@ def recuperer_serie(serie_id):
             serie.titre,
             serie.titre_original,
             serie.image,
+            serie.image_secondaire,
             serie.description,
             serie.annee,
             serie.genres,
@@ -163,6 +167,7 @@ def recuperer_serie(serie_id):
         "titre": serie["titre"],
         "titre_original": serie["titre_original"],
         "image": serie["image"],
+        "image_secondaire": serie["image_secondaire"],
         "description": serie["description"],
         "annee": serie["annee"],
         "genres": serie["genres"],

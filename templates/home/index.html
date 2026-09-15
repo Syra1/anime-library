@@ -14,7 +14,7 @@
     {% if a_voir.series or a_voir.animes or a_voir.films %}
     <div class="watch-category">
         {% for serie in a_voir.series %}
-            <div class="watch-item">
+            <div class="watch-item" style="background-image: url('{{ serie.image_secondaire or serie.image }}');">
                 <img src="{{ serie.image }}" alt="{{ serie.titre }}">
                 <!-- <strong>{{ serie.titre }}</strong> -->
             </div>

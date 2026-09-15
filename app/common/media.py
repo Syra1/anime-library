@@ -59,7 +59,7 @@ def rechercher_saisons_series():
                 "type": "serie",
                 "titre": serie["titre"],
                 "image": serie["image"],
-                "image_secondaire": anime["image_secondaire"]
+                "image_secondaire": serie["image_secondaire"]
             })
 
     return resultats

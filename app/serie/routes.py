@@ -50,6 +50,7 @@ async def add_serie(tmdb_id: int):
         "titre": serie["titre"],
         "titre_original": serie["titre_original"],
         "image": serie["image"],
+        "image_secondaire": serie["image_secondaire"],
         "description": serie["description"],
         "annee": serie["annee"],
         "genres": serie["genres"],

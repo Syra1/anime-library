@@ -33,42 +33,7 @@
     cursor: pointer;
 }
 
-.add-media-button:hover {
-    border: none;
-    background-color: var(--couleur_barre);
-    color: var(--couleur_fond);
-    padding: 5px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_fond);
-    border-right: 3px solid var(--couleur_fond);
-    cursor: pointer;
-}
 
-.add-media::after,
-.add-media::before,
-.toolbar::after,
-.toolbar::before,
-.media-card-background:hover::after,
-.media-card-background:hover::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-image: conic-gradient(from var(--angle), var(--couleur_media), var(--couleur_barre), var(--couleur_media));
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    z-index: -1;
-    padding: 5px;
-    border-radius: 16px;
-    animation: 3s spin linear infinite;
-}
-
-.add-media::before,
-.toolbar::before,
-.media-card-background::before {
-    filter: blur(1.5rem);
-}
 
 
 
@@ -80,17 +45,17 @@
     border-radius: 16px;
     font-size: 16px;
     outline: none;
-    color: var(--couleur_fond);
+    color: var(--couleur_bordure);
     background-color: var(--couleur_barre);
 }
 
 .media-search::placeholder,
 .API-search::placeholder {
-    color: var(--couleur_fond_barre);
+    color: var(--couleur_bordure);
 }
 
 .search-results-list {
-    color: var(--couleur_fond);
+    color: var(--couleur_bordure);
     height: 380px;
     overflow-y: auto;
     margin-top: 15px;
@@ -134,17 +99,6 @@
     cursor: pointer;
 }
 
-.add-media-button:hover {
-    border: none;
-    background-color: var(--couleur_barre);
-    color: var(--couleur_fond);
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_fond);
-    border-right: 3px solid var(--couleur_fond);
-    cursor: pointer;
-}
 
 .search-result-image {
     width: 70px;
@@ -245,7 +199,7 @@
 }
 
 .original-title {
-    color: var(--couleur_fond_barre);
+    color: var(--couleur_bordure);
     font-size: 12px;
     font-style: italic;
     text-align: left;
@@ -303,7 +257,7 @@
     border-radius: 16px;
     color: var(--couleur_barre);
     font-size: 0.9rem;
-    text-shadow: 2px 2px 6px var(--couleur_fond);
+    text-shadow: 2px 2px 6px var(--couleur_bordure);
 }
 
 .watch-container {
@@ -330,7 +284,7 @@
     border: none;
     font-size: 20px;
     color: var(--couleur_barre);
-    background-color: var(--couleur_fond);
+    background-color: var(--couleur_bordure);
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_barre);
@@ -341,7 +295,7 @@
 .watch-button:hover {
     border: none;
     color: var(--couleur_media);
-    background-color: var(--couleur_fond);
+    background-color: var(--couleur_bordure);
     padding: 5px 10px;
     border-radius: 16px;
     border-left: 3px solid var(--couleur_media);
