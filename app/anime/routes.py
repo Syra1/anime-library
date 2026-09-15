@@ -50,6 +50,7 @@ async def add_anime(tmdb_id: int):
         "titre": anime["titre"],
         "titre_original": anime["titre_original"],
         "image": anime["image"],
+        "image_secondaire": anime["image_secondaire"],
         "description": anime["description"],
         "annee": anime["annee"],
         "genres": anime["genres"],

@@ -50,18 +50,42 @@
 .watch-item {
     min-width: calc((100% - 5rem) / 6);
     height: 550px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
     scroll-snap-align: center;
+
     background-color: var(--couleur_barre);
+    background-size: cover;
+    background-position: center;
+
     border: 2px solid var(--couleur_bordure);
 
+    position: relative;
+    overflow: hidden;
+
+}
+
+.watch-item::before {
+
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+
+    filter: grayscale(100%);
 }
 
 .watch-item img {
     height: 15em;
+    position: relative;
+    z-index: 1;
 }
 

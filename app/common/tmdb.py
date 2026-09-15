@@ -106,7 +106,8 @@ def rechercher_medias(recherche, endpoint, titre, titre_original, date, type_med
 def recuperer_media(media_id, endpoint, titre, titre_original, date):
     parametres = preparer_parametres({
         "language": "fr-FR",
-        "append_to_response": "credits"
+        "append_to_response": "credits,images",
+        "include_image_language": "fr,en,null"
     })
 
     url = f"{TMDB_API_URL}/{endpoint}/{media_id}?{parametres}"
@@ -161,11 +162,20 @@ def recuperer_media(media_id, endpoint, titre, titre_original, date):
         collection_id = (collection.get("id") if collection else None)
         collection_nom = (collection.get("name") if collection else None)
 
+        posters = media.get("images", {}).get("posters", [])
+        image_secondaire = None
+
+        for poster in posters:
+            if poster["file_path"] != media.get("poster_path"):
+                image_secondaire = f"{IMAGE_BASE_URL}{poster['file_path']}"
+                break
+
         resultat = {
             "id": media["id"],
             "titre": media.get(titre),
             "titre_original": media.get(titre_original),
             "image": (f"{IMAGE_BASE_URL}{media['poster_path']}" if media.get("poster_path") else None),
+            "image_secondaire": image_secondaire,
             "description": media.get("overview") or "",
             "annee": (int(media[date][:4]) if media.get(date) else None),
             "genres": genres,

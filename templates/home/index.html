@@ -16,21 +16,22 @@
         {% for serie in a_voir.series %}
             <div class="watch-item">
                 <img src="{{ serie.image }}" alt="{{ serie.titre }}">
-                <strong>{{ serie.titre }}</strong>
+                <!-- <strong>{{ serie.titre }}</strong> -->
             </div>
         {% endfor %}
 
         {% for anime in a_voir.animes %}
-            <div class="watch-item">
+            <div class="watch-item" style="background-image: url('{{ anime.image_secondaire or anime.image }}');">
                 <img src="{{ anime.image }}" alt="{{ anime.titre }}">
-                <strong>{{ anime.titre }}</strong>
+                <!-- <strong>{{ anime.titre }}</strong> -->
             </div>
         {% endfor %}
 
         {% for collection in a_voir.films %}
             {% for film in collection.films %}
                 <div class="watch-item">
-                    <strong>{{ film.title }}</strong>
+                    <img src="{{ film.image }}" alt="{{ film.titre }}">
+                    <!-- <strong>{{ anime.titre }}</strong> -->
                 </div>
             {% endfor %}
         {% endfor %}

@@ -13,6 +13,7 @@ def create_tables():
             titre TEXT NOT NULL,
             titre_original TEXT,
             image TEXT,
+            image_secondaire TEXT,
             description TEXT,
             annee INTEGER,
             genres TEXT,
@@ -39,13 +40,13 @@ def create_tables():
     connection.commit()
     connection.close()
 
-def ajouter_anime(tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
+def ajouter_anime(tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons):
     cursor = execute_query(
         """
-        INSERT INTO anime (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO anime (tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (tmdb_id, titre, titre_original, image, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
+        (tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons,)
     )
 
     anime_id = cursor.lastrowid
@@ -75,6 +76,7 @@ def lister_animes():
             anime.titre,
             anime.titre_original,
             anime.image,
+            anime.image_secondaire,
             anime.description,
             anime.annee,
             anime.genres,
@@ -94,6 +96,7 @@ def lister_animes():
             "titre": anime["titre"],
             "titre_original": anime["titre_original"],
             "image": anime["image"],
+            "image_secondaire": anime["image_secondaire"],
             "description": anime["description"],
             "annee": anime["annee"],
             "genres": anime["genres"],
@@ -121,6 +124,7 @@ def recuperer_anime(anime_id):
             anime.titre,
             anime.titre_original,
             anime.image,
+            anime.image_secondaire,
             anime.description,
             anime.annee,
             anime.genres,
@@ -158,6 +162,7 @@ def recuperer_anime(anime_id):
         "titre": anime["titre"],
         "titre_original": anime["titre_original"],
         "image": anime["image"],
+        "image_secondaire": anime["image_secondaire"],
         "description": anime["description"],
         "annee": anime["annee"],
         "genres": anime["genres"],
