@@ -1,22 +1,22 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from starlette.requests import Request
+
 from app.common.routes import ajouter_media
-from app.config import (TEMPLATES_DIR, templates)
+from app.config import templates
 from app.serie.api import (
     rechercher_series,
     recuperer_serie,
 )
-from app.common.media import rechercher_a_voir
-from app.common.database_serie_anime import (
-    lister_series,
-    ajouter_serie,
-    supprimer_serie,
-    recuperer_serie as recuperer_serie_database,
-    modifier_saison_vue_serie,
+from app.common.media import (
+    MediaManager,
+    rechercher_a_voir,
 )
 
 router = APIRouter()
+
+media = MediaManager("serie")
+
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
@@ -35,38 +35,51 @@ async def index(request: Request):
         }
     )
 
+
 @router.get("/api")
 async def get_series():
-    return lister_series()
+    return media.lister_medias()
+
 
 @router.get("/search-serie")
 async def search_serie(q: str):
     return rechercher_series(q)
 
+
 @router.post("/add-serie/{tmdb_id}")
 async def add_serie(tmdb_id: int):
-    return ajouter_media(tmdb_id, recuperer_serie, ajouter_serie, lambda serie: {
-        "tmdb_id": serie["id"],
-        "titre": serie["titre"],
-        "titre_original": serie["titre_original"],
-        "image": serie["image"],
-        "image_secondaire": serie["image_secondaire"],
-        "description": serie["description"],
-        "annee": serie["annee"],
-        "genres": serie["genres"],
-        "duree": serie["duree"],
-        "auteur": serie["auteur"],
-        "realisateur": serie["realisateur"],
-        "nombre_saisons": serie["nombre_saisons"],
-        "saisons": serie["saisons"],
-    }, "serie_id")
+    return ajouter_media(
+        tmdb_id,
+        recuperer_serie,
+        media.ajouter_media,
+        lambda serie: {
+            "tmdb_id": serie["id"],
+            "titre": serie["titre"],
+            "titre_original": serie["titre_original"],
+            "image": serie["image"],
+            "image_secondaire": serie["image_secondaire"],
+            "description": serie["description"],
+            "annee": serie["annee"],
+            "genres": serie["genres"],
+            "duree": serie["duree"],
+            "auteur": serie["auteur"],
+            "realisateur": serie["realisateur"],
+            "nombre_saisons": serie["nombre_saisons"],
+            "saisons": serie["saisons"],
+        },
+        "serie_id"
+    )
+
 
 @router.get("/{serie_id}", response_class=HTMLResponse)
 async def serie_page(request: Request, serie_id: int):
-    serie = recuperer_serie_database(serie_id)
+    serie = media.recuperer_media(serie_id)
 
     if serie is None:
-        return HTMLResponse("Série introuvable", status_code=404)
+        return HTMLResponse(
+            "Série introuvable",
+            status_code=404
+        )
 
     return templates.TemplateResponse(
         request=request,
@@ -76,17 +89,24 @@ async def serie_page(request: Request, serie_id: int):
         }
     )
 
+
 @router.delete("/series/{serie_id}")
 async def delete_serie(serie_id: int):
-    supprimer_serie(serie_id)
+    media.supprimer_media(serie_id)
 
     return {
         "success": True
     }
 
-@router.post("/{anime_id}/saisons/vu")
-async def modifier_vue_serie(anime_id: int, saisons_ids: list[int], vu: bool):
-    modifier_saison_vue_serie(saisons_ids, vu)
+
+@router.post("/{serie_id}/saisons/vu")
+async def modifier_vue_serie(
+    serie_id: int,
+    saisons_ids: list[int],
+    vu: bool
+):
+    media.modifier_saison_vue(saisons_ids, vu)
+
     return {
         "success": True
     }
