@@ -1,5 +1,4 @@
-import urllib.error
-
+from app.common.tmdb import recuperer_collection
 from app.common.database import (
     get_connection,
     execute_query,
@@ -595,26 +594,6 @@ class MediaManager:
         )
 
 
-# ----------------------------------------------------------------------
-# Fonctions utilitaires
-# ----------------------------------------------------------------------
-
-# Convertit une liste de valeurs en texte séparé par des virgules.
-def convertir_liste_en_texte(elements):
-    if not elements:
-        return ""
-
-    return ", ".join(str(element) for element in elements)
-
-
-# Détermine si un média TMDB est un anime ou une série.
-def determiner_type_media(media):
-    genre_ids = media.get("genre_ids", [])
-
-    if 16 in genre_ids:
-        return "anime"
-
-    return "serie"
 
 
 # Compare les saisons présentes dans la bibliothèque
@@ -725,119 +704,3 @@ def rechercher_a_voir():
         "animes": rechercher_saisons("anime"),
         "films": rechercher_films_collections(),
     }
-
-
-# ----------------------------------------------------------------------
-# TMDB
-# ----------------------------------------------------------------------
-
-# Récupère les films présents dans une collection TMDB.
-def recuperer_collection(collection_id):
-    from app.common.tmdb import (
-        TMDB_API_URL,
-        preparer_parametres,
-        creer_requete_tmdb,
-        executer_requete_tmdb,
-    )
-
-    parametres = preparer_parametres({
-        "language": "fr-FR",
-    })
-
-    url = (
-        f"{TMDB_API_URL}/collection/"
-        f"{collection_id}?{parametres}"
-    )
-
-    requete = creer_requete_tmdb(url)
-
-    try:
-        collection = executer_requete_tmdb(requete)
-
-        if not collection:
-            return None
-
-        return collection.get("parts", [])
-
-    except urllib.error.HTTPError as error:
-        print(f"Erreur HTTP TMDB : {error.code}")
-        print(error.read().decode("utf-8"))
-        return None
-
-    except urllib.error.URLError as error:
-        print("Erreur de connexion à TMDB :")
-        print(error.reason)
-        return None
-
-    except TimeoutError:
-        print("TMDB a mis trop de temps à répondre.")
-        return None
-
-    except Exception as erreur:
-        print(
-            "Erreur récupération collection TMDB :",
-            repr(erreur),
-        )
-        return None
-
-
-# ----------------------------------------------------------------------
-# Formatage
-# ----------------------------------------------------------------------
-
-def formater_duree(minutes):
-    if not minutes:
-        return None
-
-    heures, minutes_restantes = divmod(minutes, 60)
-
-    if heures and minutes_restantes:
-        return f"{heures}h{minutes_restantes:02d}"
-
-    if heures:
-        return f"{heures}h"
-
-    return f"{minutes_restantes} min"
-
-
-# ----------------------------------------------------------------------
-# Test manuel
-# ----------------------------------------------------------------------
-
-if __name__ == "__main__":
-    resultats = rechercher_a_voir()
-
-    print("Séries à voir :")
-
-    for serie in resultats["series"]:
-        print(
-            serie["titre"],
-            "→ saisons :",
-            serie["saisons"],
-        )
-
-    print()
-    print("Anime à voir :")
-
-    for anime in resultats["animes"]:
-        print(
-            anime["titre"],
-            "→ saisons :",
-            anime["saisons"],
-        )
-
-    print()
-    print("Films à voir :")
-
-    for collection in resultats["films"]:
-        print(
-            collection["collection"],
-            "→ films :",
-        )
-
-        for film in collection["films"]:
-            print(
-                film["title"],
-                "→ TMDB :",
-                film["id"],
-            )
