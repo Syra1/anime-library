@@ -1,17 +1,5 @@
 
-from app.common.database import (
-    get_connection,
-    execute_query,
-    fetch_all,
-    fetch_one,
-    modifier_saison_vue,
-    creer_suivi_media,
-)
-
-
-# ============================================================
-# CONFIGURATION DES TYPES DE MÉDIAS
-# ============================================================
+from app.common.database import (get_connection, execute_query, fetch_all, fetch_one, modifier_saison_vue as modifier_saison_vue_database, creer_suivi_media,)
 
 MEDIA_CONFIG = {
     "serie": {
@@ -28,9 +16,6 @@ MEDIA_CONFIG = {
 
 
 def _get_config(type_media):
-    """
-    Retourne la configuration correspondant au type de média.
-    """
     if type_media not in MEDIA_CONFIG:
         raise ValueError(
             f"Type de média invalide : {type_media}. "
@@ -39,25 +24,10 @@ def _get_config(type_media):
 
     return MEDIA_CONFIG[type_media]
 
-
-# ============================================================
-# MODIFICATION DU STATUT DES SAISONS
-# ============================================================
-
 def modifier_saison_vue(type_media, saisons_ids, vu):
-    """
-    Modifie le statut vu/non vu des saisons d'un média.
-
-    type_media : "serie" ou "anime"
-    saisons_ids : liste des IDs des saisons
-    vu : 0 ou 1
-    """
     _get_config(type_media)
+    modifier_saison_vue_database(type_media, saisons_ids, vu)
 
-    modifier_saison_vue(type_media, saisons_ids, vu)
-
-
-# Alias conservés pour compatibilité avec l'ancien code
 def modifier_saison_vue_serie(saisons_ids, vu):
     modifier_saison_vue("serie", saisons_ids, vu)
 
@@ -65,18 +35,8 @@ def modifier_saison_vue_serie(saisons_ids, vu):
 def modifier_saison_vue_anime(saisons_ids, vu):
     modifier_saison_vue("anime", saisons_ids, vu)
 
-
-# ============================================================
-# CRÉATION DES TABLES
-# ============================================================
-
 def create_tables():
     connection = get_connection()
-
-    # --------------------------------------------------------
-    # Table série
-    # --------------------------------------------------------
-
     connection.execute(
         """
         CREATE TABLE IF NOT EXISTS serie (
@@ -110,10 +70,6 @@ def create_tables():
         )
         """
     )
-
-    # --------------------------------------------------------
-    # Table anime
-    # --------------------------------------------------------
 
     connection.execute(
         """
@@ -152,33 +108,12 @@ def create_tables():
     connection.commit()
     connection.close()
 
+def ajouter_media(type_media, tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons,):
 
-# ============================================================
-# AJOUT D'UN MÉDIA
-# ============================================================
-
-def ajouter_media(
-    type_media,
-    tmdb_id,
-    titre,
-    titre_original,
-    image,
-    image_secondaire,
-    description,
-    annee,
-    genres,
-    duree,
-    auteur,
-    realisateur,
-    nombre_saisons,
-    saisons,
-):
     config = _get_config(type_media)
-
     table = config["table"]
     table_saison = config["table_saison"]
     id_saison = config["id_saison"]
-
     cursor = execute_query(
         f"""
         INSERT INTO {table} (
@@ -197,21 +132,7 @@ def ajouter_media(
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (
-            tmdb_id,
-            titre,
-            titre_original,
-            image,
-            image_secondaire,
-            description,
-            annee,
-            genres,
-            duree,
-            auteur,
-            realisateur,
-            nombre_saisons,
-        ),
-    )
+        (tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons,),)
 
     media_id = cursor.lastrowid
 
@@ -236,8 +157,6 @@ def ajouter_media(
 
     return media_id
 
-
-# Alias conservés pour compatibilité avec l'ancien code
 def ajouter_serie(
     tmdb_id,
     titre,
@@ -253,66 +172,15 @@ def ajouter_serie(
     nombre_saisons,
     saisons,
 ):
-    return ajouter_media(
-        "serie",
-        tmdb_id,
-        titre,
-        titre_original,
-        image,
-        image_secondaire,
-        description,
-        annee,
-        genres,
-        duree,
-        auteur,
-        realisateur,
-        nombre_saisons,
-        saisons,
-    )
+    return ajouter_media("serie", tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons,)
 
 
-def ajouter_anime(
-    tmdb_id,
-    titre,
-    titre_original,
-    image,
-    image_secondaire,
-    description,
-    annee,
-    genres,
-    duree,
-    auteur,
-    realisateur,
-    nombre_saisons,
-    saisons,
-):
-    return ajouter_media(
-        "anime",
-        tmdb_id,
-        titre,
-        titre_original,
-        image,
-        image_secondaire,
-        description,
-        annee,
-        genres,
-        duree,
-        auteur,
-        realisateur,
-        nombre_saisons,
-        saisons,
-    )
-
-
-# ============================================================
-# LISTE DES MÉDIAS
-# ============================================================
+def ajouter_anime(tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons,):
+    return ajouter_media("anime", tmdb_id, titre, titre_original, image, image_secondaire, description, annee, genres, duree, auteur, realisateur, nombre_saisons, saisons,)
 
 def lister_medias(type_media):
     config = _get_config(type_media)
-
     table = config["table"]
-
     medias = fetch_all(
         f"""
         SELECT
@@ -358,18 +226,11 @@ def lister_medias(type_media):
     ]
 
 
-# Alias conservés pour compatibilité avec l'ancien code
 def lister_series():
     return lister_medias("serie")
 
-
 def lister_animes():
     return lister_medias("anime")
-
-
-# ============================================================
-# SUPPRESSION D'UN MÉDIA
-# ============================================================
 
 def supprimer_media(type_media, media_id):
     config = _get_config(type_media)
@@ -384,27 +245,17 @@ def supprimer_media(type_media, media_id):
         (media_id,),
     )
 
-
-# Alias conservés pour compatibilité avec l'ancien code
 def supprimer_serie(serie_id):
     supprimer_media("serie", serie_id)
-
 
 def supprimer_anime(anime_id):
     supprimer_media("anime", anime_id)
 
-
-# ============================================================
-# RÉCUPÉRATION D'UN MÉDIA
-# ============================================================
-
 def recuperer_media(type_media, media_id):
     config = _get_config(type_media)
-
     table = config["table"]
     table_saison = config["table_saison"]
     id_saison = config["id_saison"]
-
     media = fetch_one(
         f"""
         SELECT
@@ -471,26 +322,16 @@ def recuperer_media(type_media, media_id):
         ],
     }
 
-
-# Alias conservés pour compatibilité avec l'ancien code
 def recuperer_serie(serie_id):
     return recuperer_media("serie", serie_id)
-
 
 def recuperer_anime(anime_id):
     return recuperer_media("anime", anime_id)
 
-
-# ============================================================
-# COMPTAGE DES SAISONS VUES
-# ============================================================
-
 def compter_saisons_vues(type_media, media_id):
     config = _get_config(type_media)
-
     table_saison = config["table_saison"]
     id_saison = config["id_saison"]
-
     saisons = fetch_all(
         f"""
         SELECT vu
