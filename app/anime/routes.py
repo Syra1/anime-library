@@ -8,7 +8,7 @@ from app.anime.api import (
     recuperer_anime,
 )
 from app.common.media import rechercher_a_voir
-from app.anime.database import (
+from app.common.database_serie_anime import (
     lister_animes,
     ajouter_anime,
     supprimer_anime,

@@ -36,8 +36,8 @@ def comparer_films_collection(films_locaux, films_tmdb):
 
 # Recherche les saisons à voir pour toutes les séries.
 def rechercher_saisons_series():
-    from app.serie.database import lister_series
-    from app.serie.database import recuperer_serie
+    from app.common.database_serie_anime import lister_series
+    from app.common.database_serie_anime import recuperer_serie
 
     series = lister_series()
     resultats = []
@@ -66,8 +66,8 @@ def rechercher_saisons_series():
 
 # Recherche les saisons à voir pour tous les anime.
 def rechercher_saisons_animes():
-    from app.anime.database import lister_animes
-    from app.anime.database import recuperer_anime
+    from app.common.database_serie_anime import lister_animes
+    from app.common.database_serie_anime import recuperer_anime
 
     animes = lister_animes()
     resultats = []
