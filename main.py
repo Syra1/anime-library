@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
 from app.config import STATIC_DIR, TEMPLATES_DIR
 from app.home.routes import router as home_router
 from app.anime.routes import router as anime_router
