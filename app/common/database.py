@@ -65,3 +65,106 @@ def creer_suivi_media(vus, total):
         "vus": vus,
         "total": total
     }
+
+def create_tables():
+    connection = get_connection()
+
+    # Table des films.
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS film (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
+            titre TEXT NOT NULL,
+            titre_original TEXT,
+            image TEXT,
+            description TEXT,
+            annee INTEGER,
+            genres TEXT,
+            duree INTEGER,
+            auteur TEXT,
+            realisateur TEXT,
+            collection_id INTEGER,
+            collection_nom TEXT
+        )
+        """
+    )
+
+    # Table des séries.
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS serie (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
+            titre TEXT NOT NULL,
+            titre_original TEXT,
+            image TEXT,
+            image_secondaire TEXT,
+            description TEXT,
+            annee INTEGER,
+            genres TEXT,
+            duree INTEGER,
+            auteur TEXT,
+            realisateur TEXT,
+            nombre_saisons INTEGER
+        )
+        """
+    )
+
+    # Saisons des séries.
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS saison_serie (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            serie_id INTEGER NOT NULL,
+            titre TEXT,
+            numero INTEGER NOT NULL,
+            nombre_episodes INTEGER NOT NULL,
+            vu INTEGER NOT NULL DEFAULT 0,
+            FOREIGN KEY (serie_id)
+                REFERENCES serie(id)
+                ON DELETE CASCADE
+        )
+        """
+    )
+
+    # Table des anime.
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS anime (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
+            titre TEXT NOT NULL,
+            titre_original TEXT,
+            image TEXT,
+            image_secondaire TEXT,
+            description TEXT,
+            annee INTEGER,
+            genres TEXT,
+            duree INTEGER,
+            auteur TEXT,
+            realisateur TEXT,
+            nombre_saisons INTEGER
+        )
+        """
+    )
+
+    # Saisons des anime.
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS saison_anime (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            anime_id INTEGER NOT NULL,
+            titre TEXT,
+            numero INTEGER NOT NULL,
+            nombre_episodes INTEGER NOT NULL,
+            vu INTEGER NOT NULL DEFAULT 0,
+            FOREIGN KEY (anime_id)
+                REFERENCES anime(id)
+                ON DELETE CASCADE
+        )
+        """
+    )
+
+    connection.commit()
+    connection.close()

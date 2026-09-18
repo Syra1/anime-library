@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import STATIC_DIR
 from app.home.routes import router as home_router
 
-from app.common.media import MediaManager
+from app.common.database import create_tables
 from app.common.route_media import (
     anime_router,
     film_router,
@@ -24,7 +24,7 @@ app.mount(
 
 
 # Base de données
-MediaManager.create_tables()
+create_tables()
 
 
 # Routes

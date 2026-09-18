@@ -1,6 +1,5 @@
 from app.common.tmdb import recuperer_collection
 from app.common.database import (
-    get_connection,
     execute_query,
     fetch_all,
     fetch_one,
@@ -17,21 +16,18 @@ MEDIA_CONFIG = {
     "film": {
         "table": "film",
         "avec_saisons": False,
-        "avec_collection": True,
     },
     "serie": {
         "table": "serie",
         "table_saison": "saison_serie",
         "id_saison": "serie_id",
         "avec_saisons": True,
-        "avec_collection": False,
     },
     "anime": {
         "table": "anime",
         "table_saison": "saison_anime",
         "id_saison": "anime_id",
         "avec_saisons": True,
-        "avec_collection": False,
     },
 }
 
@@ -52,114 +48,6 @@ class MediaManager:
     def __init__(self, type_media):
         self.type_media = type_media
         self.config = _get_config(type_media)
-
-    # ------------------------------------------------------------------
-    # Création des tables
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def create_tables():
-        connection = get_connection()
-
-        # Table des films.
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS film (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                tmdb_id INTEGER NOT NULL,
-                titre TEXT NOT NULL,
-                titre_original TEXT,
-                image TEXT,
-                description TEXT,
-                annee INTEGER,
-                genres TEXT,
-                duree INTEGER,
-                auteur TEXT,
-                realisateur TEXT,
-                collection_id INTEGER,
-                collection_nom TEXT
-            )
-            """
-        )
-
-        # Table des séries.
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS serie (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                tmdb_id INTEGER NOT NULL,
-                titre TEXT NOT NULL,
-                titre_original TEXT,
-                image TEXT,
-                image_secondaire TEXT,
-                description TEXT,
-                annee INTEGER,
-                genres TEXT,
-                duree INTEGER,
-                auteur TEXT,
-                realisateur TEXT,
-                nombre_saisons INTEGER
-            )
-            """
-        )
-
-        # Saisons des séries.
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS saison_serie (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                serie_id INTEGER NOT NULL,
-                titre TEXT,
-                numero INTEGER NOT NULL,
-                nombre_episodes INTEGER NOT NULL,
-                vu INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (serie_id)
-                    REFERENCES serie(id)
-                    ON DELETE CASCADE
-            )
-            """
-        )
-
-        # Table des anime.
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS anime (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                tmdb_id INTEGER NOT NULL,
-                titre TEXT NOT NULL,
-                titre_original TEXT,
-                image TEXT,
-                image_secondaire TEXT,
-                description TEXT,
-                annee INTEGER,
-                genres TEXT,
-                duree INTEGER,
-                auteur TEXT,
-                realisateur TEXT,
-                nombre_saisons INTEGER
-            )
-            """
-        )
-
-        # Saisons des anime.
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS saison_anime (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                anime_id INTEGER NOT NULL,
-                titre TEXT,
-                numero INTEGER NOT NULL,
-                nombre_episodes INTEGER NOT NULL,
-                vu INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (anime_id)
-                    REFERENCES anime(id)
-                    ON DELETE CASCADE
-            )
-            """
-        )
-
-        connection.commit()
-        connection.close()
 
     # ------------------------------------------------------------------
     # Ajout d'un média
@@ -592,115 +480,3 @@ class MediaManager:
             saisons_ids,
             vu,
         )
-
-
-
-
-# Compare les saisons présentes dans la bibliothèque
-# avec celles présentes sur TMDB.
-def comparer_saisons(saisons_locales, saisons_tmdb):
-    return [
-        saison
-        for saison in saisons_tmdb
-        if saison not in saisons_locales
-    ]
-
-
-# Compare les films présents dans la bibliothèque
-# avec ceux présents dans une collection TMDB.
-def comparer_films_collection(films_locaux, films_tmdb):
-    return [
-        film
-        for film in films_tmdb
-        if film["id"] not in films_locaux
-    ]
-
-
-# ----------------------------------------------------------------------
-# Recherche des contenus à voir
-# ----------------------------------------------------------------------
-
-# Recherche les saisons à voir pour un type de média.
-def rechercher_saisons(type_media):
-    media_manager = MediaManager(type_media)
-
-    medias = media_manager.lister_medias()
-    resultats = []
-
-    for media in medias:
-        media = media_manager.recuperer_media(media["id"])
-
-        if media is None:
-            continue
-
-        saisons_a_voir = [
-            saison["numero"]
-            for saison in media["saisons"]
-            if not saison["vu"]
-        ]
-
-        if saisons_a_voir:
-            resultats.append({
-                "type": type_media,
-                "titre": media["titre"],
-                "image": media["image"],
-                "image_secondaire": media["image_secondaire"],
-                "saisons": saisons_a_voir,
-            })
-
-    return resultats
-
-
-# Recherche les films à voir dans toutes les collections.
-def rechercher_films_collections():
-    media_manager = MediaManager("film")
-
-    films = media_manager.lister_medias()
-
-    resultats = []
-    collections_deja_traitees = []
-
-    for film in films:
-        collection_id = film["collection_id"]
-
-        if collection_id is None:
-            continue
-
-        if collection_id in collections_deja_traitees:
-            continue
-
-        collections_deja_traitees.append(collection_id)
-
-        films_tmdb = recuperer_collection(collection_id)
-
-        if films_tmdb is None:
-            continue
-
-        films_locaux = [
-            film_local["tmdb_id"]
-            for film_local in films
-            if film_local["collection_id"] == collection_id
-        ]
-
-        films_a_voir = comparer_films_collection(
-            films_locaux,
-            films_tmdb,
-        )
-
-        if films_a_voir:
-            resultats.append({
-                "type": "film",
-                "collection": film["collection_nom"],
-                "films": films_a_voir,
-            })
-
-    return resultats
-
-
-# Recherche tous les contenus à voir.
-def rechercher_a_voir():
-    return {
-        "series": rechercher_saisons("serie"),
-        "animes": rechercher_saisons("anime"),
-        "films": rechercher_films_collections(),
-    }

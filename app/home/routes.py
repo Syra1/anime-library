@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from starlette.requests import Request
 from app.common.database import compter_contenus
 from app.config import templates
-from app.common.media import rechercher_a_voir
+from app.common.media_a_voir import rechercher_a_voir
 
 # Routeur dédié à la page d'accueil
 router = APIRouter()

@@ -3,11 +3,8 @@ from fastapi.responses import HTMLResponse
 from starlette.requests import Request
 
 from app.config import templates
-from app.common.media import (
-    MediaManager,
-    rechercher_a_voir,
-)
-
+from app.common.media import MediaManager
+from app.common.media_a_voir import rechercher_a_voir
 from app.anime.api import (
     rechercher_animes,
     recuperer_anime,
