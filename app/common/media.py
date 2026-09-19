@@ -4,7 +4,6 @@ from app.common.database import (
     fetch_all,
     fetch_one,
     modifier_saison_vue as modifier_saison_vue_database,
-    creer_suivi_media,
 )
 
 
@@ -476,3 +475,11 @@ class MediaManager:
             saisons_ids,
             vu,
         )
+
+
+
+def creer_suivi_media(vus, total):
+    return {
+        "vus": vus,
+        "total": total
+    }

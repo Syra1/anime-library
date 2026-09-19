@@ -60,11 +60,6 @@ def modifier_saison_vue(nom_media, saisons_ids, vu):
         (vu, *saisons_ids)
     )
 
-def creer_suivi_media(vus, total):
-    return {
-        "vus": vus,
-        "total": total
-    }
 
 def create_tables():
     connection = get_connection()
