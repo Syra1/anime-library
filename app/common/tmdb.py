@@ -3,7 +3,7 @@ import urllib.parse
 import urllib.request
 
 from app.config import TMDB_ACCESS_TOKEN
-
+from app.config import (TMDB_API_URL, TMDB_HEADERS, TMDB_TIMEOUT, MAX_SEARCH_RESULTS, IMAGE_BASE_URL)
 from app.common.gestion_erreur import gerer_erreur
 
 from app.common.utils import (
@@ -11,21 +11,6 @@ from app.common.utils import (
     determiner_type_media,
     formater_duree,
 )
-
-
-TMDB_API_URL = "https://api.themoviedb.org/3"
-
-TMDB_HEADERS = {
-    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
-    "Accept": "application/json"
-}
-
-TMDB_TIMEOUT = 10
-
-MAX_SEARCH_RESULTS = 20
-
-IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
-
 
 def preparer_parametres(parametres):
     return urllib.parse.urlencode(parametres)

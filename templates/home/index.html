@@ -27,13 +27,11 @@
             </div>
         {% endfor %}
 
-        {% for collection in a_voir.films %}
-            {% for film in collection.films %}
-                <div class="watch-item">
-                    <img src="{{ film.image }}" alt="{{ film.titre }}">
-                    <strong>{{ film.titre }}</strong>
-                </div>
-            {% endfor %}
+        {% for film in a_voir.films %}
+            <div class="watch-item" style="background-image: url('{{ film.image_secondaire or film.image }}');">
+                <img src="{{ film.image }}" alt="{{ film.titre }}">
+                <strong>{{ film.titre }}</strong>
+            </div>
         {% endfor %}
     </div>
     {% endif %}

@@ -61,17 +61,10 @@ def creer_router_media(
     async def index(request: Request):
         a_voir = rechercher_a_voir()
 
-        if type_media == "film":
-            noms_a_voir = [
-                film["title"]
-                for collection in a_voir["films"]
-                for film in collection["films"]
-            ]
-        else:
-            noms_a_voir = [
-                contenu["titre"]
-                for contenu in a_voir[cle_a_voir]
-            ]
+        noms_a_voir = [
+            contenu["titre"]
+            for contenu in a_voir[cle_a_voir]
+        ]
 
         return templates.TemplateResponse(
             request=request,

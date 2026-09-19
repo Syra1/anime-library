@@ -1,5 +1,5 @@
 from app.common.media import MediaManager
-from app.common.tmdb import recuperer_collection
+from app.common.tmdb import recuperer_collection, recuperer_media
 
 # ----------------------------------------------------------------------
 # Recherche des contenus à voir
@@ -39,10 +39,10 @@ def rechercher_saisons(type_media):
 # Recherche les films à voir dans toutes les collections.
 def rechercher_films_collections():
     media_manager = MediaManager("film")
-
     films = media_manager.lister_medias()
 
     resultats = []
+
     collections_deja_traitees = set()
 
     for film in films:
@@ -67,21 +67,29 @@ def rechercher_films_collections():
             if film_local["collection_id"] == collection_id
         }
 
-        films_a_voir = [
-            film
-            for film in films_tmdb
-            if film["id"] not in films_locaux
-        ]
+        for film_tmdb in films_tmdb:
+            if film_tmdb["id"] in films_locaux:
+                continue
 
-        if films_a_voir:
             resultats.append({
                 "type": "film",
+                "titre": film_tmdb.get("title"),
+                "titre_original": film_tmdb.get("original_title"),
+                "image": (
+                    f"https://image.tmdb.org/t/p/w500{film_tmdb['poster_path']}"
+                    if film_tmdb.get("poster_path")
+                    else None
+                ),
+                "annee": (
+                    int(film_tmdb["release_date"][:4])
+                    if film_tmdb.get("release_date")
+                    else None
+                ),
                 "collection": film["collection_nom"],
-                "films": films_a_voir,
+                "tmdb_id": film_tmdb["id"],
             })
 
     return resultats
-
 
 # Recherche tous les contenus à voir.
 def rechercher_a_voir():

@@ -20,3 +20,17 @@ TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
 # Définit le dossier contenant les templates HTML.
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
+
+
+
+
+
+TMDB_API_URL = "https://api.themoviedb.org/3"
+TMDB_HEADERS = {
+    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
+    "Accept": "application/json"
+}
+
+TMDB_TIMEOUT = 10
+MAX_SEARCH_RESULTS = 20
+IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
