@@ -13,11 +13,11 @@ html,
 body {
     width: 100%;
     min-height: 100%;
-    margin: 0;
-    padding: 0;
 }
 
-.home-page {
+body {
+    margin: 0;
+    padding: 0;
     background-color: var(--couleur_fond);
 }
 
@@ -34,7 +34,7 @@ body {
     align-items: center;
 }
 
-.site-title {
+.navbar-title {
     display: flex;
     align-items: center;
 }
@@ -44,7 +44,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    gap: 1em;
+    gap: 2rem;
     margin: 0;
     padding: 0;
     color: var(--couleur_barre);
