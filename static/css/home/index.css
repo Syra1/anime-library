@@ -36,6 +36,7 @@
 
 .watch-category {
     display: flex;
+    justify-content: center;
     overflow-x: auto;
     gap: 1rem;
     padding: 1rem;

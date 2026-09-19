@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const INTERVALLE_CARROUSEL = 5; // temps du defilement en secondes
+    const INTERVALLE_CARROUSEL = 2; // temps du defilement en secondes
     const carrousel = document.querySelector(".watch-category");
 
     if (!carrousel) return;
@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cards.length <= 6) return;
 
     const nombreCards = cards.length;
+
+    carrousel.style.setProperty("justify-content", "flex-start");
 
     /*
      * On crée 2 copies :
