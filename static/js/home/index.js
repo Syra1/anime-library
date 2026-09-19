@@ -1,7 +1,7 @@
 const carrousel = document.querySelector(".watch-category");
 const cards = [...document.querySelectorAll(".watch-item")];
 
-if (cards.length > 0) {
+if (cards.length > 6) {
 
     const nombreCards = cards.length;
 
