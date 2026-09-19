@@ -312,7 +312,42 @@ def recuperer_collection(collection_id):
         if not collection:
             return None
 
-        return collection.get("parts", [])
+        parts = collection.get("parts", [])
+
+        # Les "parts" renvoyées par TMDB utilisent les noms de champs
+        # bruts de l'API (title, poster_path...). On les normalise ici
+        # avec les mêmes noms que le reste de l'application (titre,
+        # image en URL complète...) pour que les templates puissent
+        # les afficher sans traitement particulier.
+        #
+        # Contrairement à recuperer_media(), TMDB ne fournit pas ici
+        # de posters alternatifs par film sans un appel API dédié par
+        # film (ce qui serait coûteux pour toute une collection). On
+        # utilise donc directement le backdrop_path fourni gratuitement
+        # dans cette même réponse pour servir d'image de fond.
+        return [
+            {
+                "id": film["id"],
+                "titre": film.get("title"),
+                "titre_original": film.get("original_title"),
+                "image": (
+                    f"{IMAGE_BASE_URL}{film['poster_path']}"
+                    if film.get("poster_path")
+                    else None
+                ),
+                "image_secondaire": (
+                    f"{IMAGE_BASE_URL}{film['backdrop_path']}"
+                    if film.get("backdrop_path")
+                    else None
+                ),
+                "annee": (
+                    film["release_date"][:4]
+                    if film.get("release_date")
+                    else None
+                ),
+            }
+            for film in parts
+        ]
 
     except Exception as erreur:
         return gerer_erreur(

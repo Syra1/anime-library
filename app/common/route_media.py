@@ -61,17 +61,13 @@ def creer_router_media(
     async def index(request: Request):
         a_voir = rechercher_a_voir()
 
-        if type_media == "film":
-            noms_a_voir = [
-                film["title"]
-                for collection in a_voir["films"]
-                for film in collection["films"]
-            ]
-        else:
-            noms_a_voir = [
-                contenu["titre"]
-                for contenu in a_voir[cle_a_voir]
-            ]
+        # "films", "series" et "animes" partagent désormais tous le
+        # même format plat (une entrée par contenu, avec une clé
+        # "titre"), donc un seul traitement suffit pour les trois.
+        noms_a_voir = [
+            contenu["titre"]
+            for contenu in a_voir[cle_a_voir]
+        ]
 
         return templates.TemplateResponse(
             request=request,
@@ -164,6 +160,7 @@ def donnees_film(film):
         "titre": film["titre"],
         "titre_original": film["titre_original"],
         "image": film["image"],
+        "image_secondaire": film["image_secondaire"],
         "description": film["description"],
         "annee": film["annee"],
         "genres": film["genres"],
