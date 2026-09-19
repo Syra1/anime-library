@@ -267,10 +267,6 @@ class MediaManager:
             for media in medias
         ]
 
-    # ------------------------------------------------------------------
-    # Collections de films
-    # ------------------------------------------------------------------
-
     def _creer_suivis_collections(self, films):
         suivis = {}
         collections_deja_traitees = []

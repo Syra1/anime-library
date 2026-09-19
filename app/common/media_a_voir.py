@@ -1,26 +1,6 @@
 from app.common.media import MediaManager
 from app.common.tmdb import recuperer_collection
 
-# Compare les saisons présentes dans la bibliothèque
-# avec celles présentes sur TMDB.
-def comparer_saisons(saisons_locales, saisons_tmdb):
-    return [
-        saison
-        for saison in saisons_tmdb
-        if saison not in saisons_locales
-    ]
-
-
-# Compare les films présents dans la bibliothèque
-# avec ceux présents dans une collection TMDB.
-def comparer_films_collection(films_locaux, films_tmdb):
-    return [
-        film
-        for film in films_tmdb
-        if film["id"] not in films_locaux
-    ]
-
-
 # ----------------------------------------------------------------------
 # Recherche des contenus à voir
 # ----------------------------------------------------------------------
@@ -63,7 +43,7 @@ def rechercher_films_collections():
     films = media_manager.lister_medias()
 
     resultats = []
-    collections_deja_traitees = []
+    collections_deja_traitees = set()
 
     for film in films:
         collection_id = film["collection_id"]
@@ -74,23 +54,24 @@ def rechercher_films_collections():
         if collection_id in collections_deja_traitees:
             continue
 
-        collections_deja_traitees.append(collection_id)
+        collections_deja_traitees.add(collection_id)
 
         films_tmdb = recuperer_collection(collection_id)
 
         if films_tmdb is None:
             continue
 
-        films_locaux = [
+        films_locaux = {
             film_local["tmdb_id"]
             for film_local in films
             if film_local["collection_id"] == collection_id
-        ]
+        }
 
-        films_a_voir = comparer_films_collection(
-            films_locaux,
-            films_tmdb,
-        )
+        films_a_voir = [
+            film
+            for film in films_tmdb
+            if film["id"] not in films_locaux
+        ]
 
         if films_a_voir:
             resultats.append({
