@@ -1,62 +1,104 @@
-const carrousel = document.querySelector(".watch-category");
-const cards = [...document.querySelectorAll(".watch-item")];
+document.addEventListener("DOMContentLoaded", () => {
 
-if (cards.length > 6) {
+    const INTERVALLE_CARROUSEL = 5; // temps du defilement en secondes
+    const carrousel = document.querySelector(".watch-category");
+
+    if (!carrousel) return;
+
+    const cards = [...carrousel.querySelectorAll(".watch-item")];
+
+    if (cards.length <= 6) return;
 
     const nombreCards = cards.length;
 
-    // Copie des cards à la fin
+    /*
+     * On crée 2 copies :
+     *
+     * [ ORIGINAL ][ COPIE ][ COPIE ]
+     *
+     * On démarre dans la copie du milieu.
+     */
     cards.forEach(card => {
         carrousel.appendChild(card.cloneNode(true));
     });
 
-    // Copie des cards à la fin une deuxième fois
     cards.forEach(card => {
         carrousel.appendChild(card.cloneNode(true));
     });
 
-    const toutesLesCards =
-        [...carrousel.querySelectorAll(".watch-item")];
+    let toutesLesCards = [
+        ...carrousel.querySelectorAll(".watch-item")
+    ];
 
-    // On commence au milieu
+    /*
+     * Fonction permettant de centrer une card.
+     */
+    function centrerCard(card, smooth = false) {
+
+        const position =
+            card.offsetLeft
+            - (carrousel.clientWidth - card.offsetWidth) / 2;
+
+        carrousel.scrollTo({
+            left: position,
+            behavior: smooth ? "smooth" : "auto"
+        });
+    }
+
+    /*
+     * On commence dans le groupe du milieu.
+     *
+     * +3 permet de ne pas commencer exactement
+     * au bord du groupe.
+     */
     let index = nombreCards + 3;
 
-    toutesLesCards[index].scrollIntoView({
-        behavior: "instant",
-        block: "nearest",
-        inline: "center"
-    });
+    centrerCard(toutesLesCards[index]);
 
+    /*
+     * Déplacement automatique.
+     */
     function prochaineCard() {
 
         index++;
 
-        toutesLesCards[index].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
-        });
+        /*
+         * On déplace normalement.
+         */
+        centrerCard(toutesLesCards[index], true);
 
+        /*
+         * Lorsque l'on arrive dans le troisième groupe,
+         * on revient dans le deuxième groupe.
+         */
         if (index >= nombreCards * 2) {
 
-            carrousel.addEventListener("scrollend", function repositionner() {
+            setTimeout(() => {
 
                 index -= nombreCards;
 
-                const card = toutesLesCards[index];
+                /*
+                 * On désactive temporairement le scroll smooth.
+                 */
+                carrousel.style.scrollBehavior = "auto";
 
-                carrousel.scrollLeft =
-                    card.offsetLeft -
-                    (carrousel.clientWidth - card.offsetWidth) / 2;
+                centrerCard(toutesLesCards[index], false);
 
-                carrousel.removeEventListener(
-                    "scrollend",
-                    repositionner
-                );
+                /*
+                 * On force le navigateur à appliquer
+                 * immédiatement la nouvelle position.
+                 */
+                carrousel.offsetHeight;
 
-            });
+                /*
+                 * On remet le comportement smooth.
+                 */
+                carrousel.style.scrollBehavior = "smooth";
+
+            }, 700);
         }
     }
 
-    setInterval(prochaineCard, 5000);
-}
+    setInterval(prochaineCard, INTERVALLE_CARROUSEL * 1000);
+
+});
