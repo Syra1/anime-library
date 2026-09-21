@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const INTERVALLE_CARROUSEL = 5; // en secondes
-    const DELAI_EFFET = 1000;
+    const INTERVALLE_CARROUSEL = 6; // en secondes
 
     const carrousel = document.querySelector(".watch-category");
 
@@ -50,56 +49,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function prochaineCard() {
+function prochaineCard() {
 
-        // Retire l'effet de la card précédente
-        enleverEffet();
+    enleverEffet();
 
-        index++;
+    index++;
 
-        // Déplacement du carrousel
-        centrerCard(toutesLesCards[index], true);
+    centrerCard(toutesLesCards[index], true);
 
-        // Après 1 seconde, active l'effet
+    if (index >= nombreCards * 2) {
+
+        setTimeout(() => {
+
+            index -= nombreCards;
+
+            carrousel.style.scrollBehavior = "auto";
+
+            centrerCard(toutesLesCards[index], false);
+
+            carrousel.offsetHeight;
+
+            carrousel.style.scrollBehavior = "smooth";
+
+            toutesLesCards[index].classList.add("active");
+
+        }, 1000);
+
+    } else {
+
         setTimeout(() => {
 
             toutesLesCards[index].classList.add("active");
 
-        }, DELAI_EFFET);
+        }, 1000);
 
-        // Repositionnement invisible dans les copies
-        // Repositionnement invisible dans les copies
-        if (index >= nombreCards * 2) {
-
-            setTimeout(() => {
-
-                index -= nombreCards;
-
-                carrousel.style.scrollBehavior = "auto";
-
-                centrerCard(toutesLesCards[index], false);
-
-                carrousel.offsetHeight;
-
-                carrousel.style.scrollBehavior = "smooth";
-
-                toutesLesCards[index].classList.add("active");
-
-
-
-            }, DELAI_EFFET);
-
-        } else {
-
-            // Après 1 seconde, active l'effet
-            setTimeout(() => {
-
-                toutesLesCards[index].classList.add("active");
-
-            }, DELAI_EFFET);
-
-        }
     }
+}
 
     setInterval(
         prochaineCard,

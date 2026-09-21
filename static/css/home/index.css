@@ -47,7 +47,7 @@
 }
 
 .watch-item.active img {
-    transform: translateY(85%);
+    animation: animation_image 5s ease forwards;
 }
 
 .watch-item::before {
@@ -65,4 +65,27 @@
 }
 
 
+
+
+@keyframes animation_image {
+
+    /* 0 → 1 s : rien */
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    /* 1 → 2 s : translation vers le bas */
+    20% {
+        transform: translateY(85%) scale(1.50);
+    }
+
+    80% {
+        transform: translateY(85%) scale(1.50);
+    }
+
+    /* 4 → 5 s : translation vers le haut */
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
 
