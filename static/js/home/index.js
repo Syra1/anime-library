@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const INTERVALLE_CARROUSEL = 2;
+    const INTERVALLE_CARROUSEL = 5; // en secondes
     const DELAI_EFFET = 1000;
 
     const carrousel = document.querySelector(".watch-category");
@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 carrousel.style.scrollBehavior = "smooth";
 
                 toutesLesCards[index].classList.add("active");
+
+
 
             }, DELAI_EFFET);
 
