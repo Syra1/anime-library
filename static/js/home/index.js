@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const INTERVALLE_CARROUSEL = 2; // temps du defilement en secondes
+    const INTERVALLE_CARROUSEL = 2;
+    const DELAI_EFFET = 1000;
+
     const carrousel = document.querySelector(".watch-category");
 
     if (!carrousel) return;
@@ -13,13 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     carrousel.style.setProperty("justify-content", "flex-start");
 
-    /*
-     * On crée 2 copies :
-     *
-     * [ ORIGINAL ][ COPIE ][ COPIE ]
-     *
-     * On démarre dans la copie du milieu.
-     */
     cards.forEach(card => {
         carrousel.appendChild(card.cloneNode(true));
     });
@@ -28,13 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
         carrousel.appendChild(card.cloneNode(true));
     });
 
-    let toutesLesCards = [
+    const toutesLesCards = [
         ...carrousel.querySelectorAll(".watch-item")
     ];
 
-    /*
-     * Fonction permettant de centrer une card.
-     */
     function centrerCard(card, smooth = false) {
 
         const position =
@@ -47,60 +39,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /*
-     * On commence dans le groupe du milieu.
-     *
-     * +3 permet de ne pas commencer exactement
-     * au bord du groupe.
-     */
     let index = nombreCards + 3;
 
     centrerCard(toutesLesCards[index]);
 
-    /*
-     * Déplacement automatique.
-     */
+    function enleverEffet() {
+
+        toutesLesCards.forEach(card => {
+            card.classList.remove("active");
+        });
+    }
+
     function prochaineCard() {
+
+        // Retire l'effet de la card précédente
+        enleverEffet();
 
         index++;
 
-        /*
-         * On déplace normalement.
-         */
+        // Déplacement du carrousel
         centrerCard(toutesLesCards[index], true);
 
-        /*
-         * Lorsque l'on arrive dans le troisième groupe,
-         * on revient dans le deuxième groupe.
-         */
+        // Après 1 seconde, active l'effet
+        setTimeout(() => {
+
+            toutesLesCards[index].classList.add("active");
+
+        }, DELAI_EFFET);
+
+        // Repositionnement invisible dans les copies
         if (index >= nombreCards * 2) {
 
             setTimeout(() => {
 
                 index -= nombreCards;
 
-                /*
-                 * On désactive temporairement le scroll smooth.
-                 */
                 carrousel.style.scrollBehavior = "auto";
 
                 centrerCard(toutesLesCards[index], false);
 
-                /*
-                 * On force le navigateur à appliquer
-                 * immédiatement la nouvelle position.
-                 */
                 carrousel.offsetHeight;
 
-                /*
-                 * On remet le comportement smooth.
-                 */
                 carrousel.style.scrollBehavior = "smooth";
 
-            }, 700);
+            }, DELAI_EFFET + 500);
         }
     }
 
-    setInterval(prochaineCard, INTERVALLE_CARROUSEL * 1000);
+    setInterval(
+        prochaineCard,
+        INTERVALLE_CARROUSEL * 1000
+    );
 
 });
