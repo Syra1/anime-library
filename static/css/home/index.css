@@ -37,6 +37,10 @@
 
 }
 
+.watch-item img {
+    border: 2px solid var(--couleur_bordure);
+}
+
 .watch-item::before {
 
     content: "";
