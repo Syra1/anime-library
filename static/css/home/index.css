@@ -9,7 +9,7 @@
     gap: 1rem;
     padding: 1rem;
     scroll-snap-type: x proximity;
-    padding-bottom: calc(15em * 0.85);
+    padding-bottom: calc(15em * 0.65);
 }
 
 .watch-category::-webkit-scrollbar {
@@ -76,11 +76,11 @@
 
     /* 1 → 2 s : translation vers le bas */
     20% {
-        transform: translateY(85%) scale(1.50);
+        transform: translateY(65%) scale(1.40);
     }
 
     80% {
-        transform: translateY(85%) scale(1.50);
+        transform: translateY(65%) scale(1.40);
     }
 
     /* 4 → 5 s : translation vers le haut */
@@ -89,3 +89,26 @@
     }
 }
 
+
+.watch-item.active {
+    animation: animation_card 5s ease forwards;
+}
+
+@keyframes animation_card {
+
+    0% {
+        flex-basis: calc((100% - 5rem) / 6);
+    }
+
+    20% {
+        flex-basis: calc((100% - 5rem) / 6 * 1.65);
+    }
+
+    80% {
+        flex-basis: calc((100% - 5rem) / 6 * 1.65);
+    }
+
+    100% {
+        flex-basis: calc((100% - 5rem) / 6);
+    }
+}
