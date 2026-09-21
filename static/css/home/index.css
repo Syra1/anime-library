@@ -38,7 +38,15 @@
 }
 
 .watch-item img {
+    height: 15em;
+    position: relative;
+    z-index: 1;
     border: 2px solid var(--couleur_bordure);
+    transition: transform 0.5s ease;
+}
+
+.watch-item.active img {
+    transform: translateY(30px) scale(1.15);
 }
 
 .watch-item::before {
@@ -55,9 +63,5 @@
     filter: grayscale(100%) brightness(2.5) contrast(0.3);
 }
 
-.watch-item img {
-    height: 15em;
-    position: relative;
-    z-index: 1;
-}
+
 
