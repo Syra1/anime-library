@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, DELAI_EFFET);
 
         // Repositionnement invisible dans les copies
+        // Repositionnement invisible dans les copies
         if (index >= nombreCards * 2) {
 
             setTimeout(() => {
@@ -82,7 +83,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 carrousel.style.scrollBehavior = "smooth";
 
-            }, DELAI_EFFET + 500);
+                toutesLesCards[index].classList.add("active");
+
+            }, DELAI_EFFET);
+
+        } else {
+
+            // Après 1 seconde, active l'effet
+            setTimeout(() => {
+
+                toutesLesCards[index].classList.add("active");
+
+            }, DELAI_EFFET);
+
         }
     }
 
