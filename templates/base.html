@@ -14,7 +14,8 @@
     <body>
         <header class="header-bar">
             <div class="navbar-title">
-                Ma Bibliothèque
+                <span>Bibliothèque</span>
+                <span>de média</span>
             </div>
             <nav class="navbar-button">
                 <ul class="link_list">
@@ -30,21 +31,34 @@
                     <li><button type="button" id="close-button"> <img src="/static/icons/Close.svg" alt="Close"></button></li>
                 </ul>
             </nav>
+            {% from "side_menu.html" import side_menu %}
+
             <aside id="side-menu">
+
                 <ul class="category-side-menu">
                     <li><button>Animés</button></li>
                     <li><button>Films</button></li>
                     <li><button>Séries</button></li>
                 </ul>
-                <section id="anime-menu" class="page-menu">
-                    <h1>Menu Animés</h1>
-                </section>
-                <section id="film-menu" class="page-menu">
-                    <h1>Menu Films</h1>
-                </section>
-                <section id="serie-menu" class="page-menu">
-                    <h1>Menu Séries</h1>
-                </section>
+
+                {{ side_menu(
+                    "anime",
+                    "anime-side-search",
+                    "Ex : One Piece"
+                ) }}
+
+                {{ side_menu(
+                    "film",
+                    "film-side-search",
+                    "Ex : OSS 117"
+                ) }}
+
+                {{ side_menu(
+                    "serie",
+                    "serie-side-search",
+                    "Ex : Game of Thrones"
+                ) }}
+
             </aside>
         </header>
         <main>

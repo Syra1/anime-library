@@ -41,7 +41,7 @@ html {
 
 .navbar-title {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 
 .link_list, .link_icons {
@@ -76,7 +76,7 @@ html {
     border-left: 2px solid var(--couleur_bordure);
     top: 100%;
     right: 0;
-    width: 300px;
+    width: 420px;
     height: calc(100vh - 100%);
     background-color: var(--couleur_barre);
     z-index: 1000;
@@ -117,8 +117,32 @@ html {
 
 .page-menu {
     display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 #anime-menu {
-    display: block;
+    display: flex;
+}
+
+.page-menu p {
+    margin: 0;
+}
+
+.search-input {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.media-search {
+    padding-left: 35px;
 }

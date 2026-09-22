@@ -24,6 +24,6 @@ categoryButtons.forEach((button, index) => {
             page.style.display = "none";
         });
 
-        menuPages[index].style.display = "block";
+        menuPages[index].style.display = "flex";
     });
 });
