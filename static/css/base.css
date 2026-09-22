@@ -124,6 +124,7 @@ html {
     padding-right: 1rem;
 }
 
+
 #anime-menu {
     display: flex;
 }
@@ -132,17 +133,19 @@ html {
     margin: 0;
 }
 
-.search-input {
-    position: relative;
-}
-
-.search-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
 
 .media-search {
-    padding-left: 35px;
+    padding-left: 1rem;
+    width: 100%;
+    height: 50px;
+    border: 2px solid var(--couleur_bordure);
+}
+
+.media-search:focus {
+    outline: none;
+}
+
+.search-input {
+    position: relative;
+    width: 100%;
 }
