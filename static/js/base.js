@@ -13,3 +13,17 @@ closeButton.addEventListener("click", () => {
     closeButton.style.display = "none";
     searchButton.style.display = "block";
 });
+
+
+const categoryButtons = document.querySelectorAll(".category-side-menu button");
+const menuPages = document.querySelectorAll(".page-menu");
+
+categoryButtons.forEach((button, index) => {
+    button.addEventListener("click", () => {
+        menuPages.forEach(page => {
+            page.style.display = "none";
+        });
+
+        menuPages[index].style.display = "block";
+    });
+});

@@ -114,3 +114,11 @@ html {
     all: unset;
     cursor: pointer;
 }
+
+.page-menu {
+    display: none;
+}
+
+#anime-menu {
+    display: block;
+}
