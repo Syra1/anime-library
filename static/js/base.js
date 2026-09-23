@@ -70,6 +70,7 @@ categoryButtons.forEach((button, index) => {
             button.classList.remove("active");
         });
 
+        menuPages[index].querySelector(".media-search").value = "";
         menuPages[index].style.display = "flex";
         button.classList.add("active");
     });

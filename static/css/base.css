@@ -185,6 +185,7 @@ a {
 .search-result {
     display: flex;
     gap: 1rem;
+    border: 2px solid var(--couleur_bordure);
 }
 
 .search-result-image {
