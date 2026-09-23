@@ -76,68 +76,72 @@ categoryButtons.forEach((button, index) => {
 });
 
 // recherche anime
-const animeSideSearch = document.querySelector("#anime-side-search");
+function rechercherMediaSideMenu(mediaType) {
 
-let animes = [];
+    const mediaSideSearch = document.querySelector(
+        `#${mediaType.toLowerCase()}-side-search`
+    );
 
-fetch("/anime/api")
-    .then(response => response.json())
-    .then(resultats => {
-        animes = resultats;
+    const searchResults = document.querySelector(
+        `#${mediaType}-search-results`
+    );
+
+    let medias = [];
+
+    fetch(`/${mediaType.toLowerCase()}/api`)
+        .then(response => response.json())
+        .then(resultats => {
+            medias = resultats;
+        });
+
+    mediaSideSearch.addEventListener("input", () => {
+
+        const recherche = mediaSideSearch.value.trim();
+
+        if (recherche.length < 3) {
+            searchResults.innerHTML = "";
+            return;
+        }
+
+        const rechercheNormalisee = normalizeText(recherche);
+
+        const resultats = medias.filter(media => {
+
+            const titre = normalizeText(media.titre);
+            const titreOriginal = normalizeText(media.titre_original);
+
+            return (
+                titre.includes(rechercheNormalisee) ||
+                titreOriginal.includes(rechercheNormalisee)
+            );
+        });
+
+        searchResults.innerHTML = resultats.map(media => `
+
+            <a href="/${mediaType.toLowerCase()}/${media.id}" class="search-result">
+
+                <img
+                    class="search-result-image"
+                    src="${media.image || ""}"
+                    alt="${media.titre}"
+                >
+
+                <div class="search-result-info">
+
+                    <p>${media.titre || "Titre inconnu"}</p>
+
+                    <p>${media.titre_original || "Titre original inconnu"}</p>
+
+                    ${media.annee ? `<p>${media.annee}</p>` : ""}
+
+                </div>
+
+            </a>
+
+        `).join("");
     });
+}
 
-animeSideSearch.addEventListener("input", () => {
-    const recherche = animeSideSearch.value.trim();
-
-    if (recherche.length < 3) {
-        return;
-    }
-
-    const rechercheNormalisee = recherche
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-
-    const resultats = animes.filter(anime => {
-        const titre = anime.titre
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
-
-        const titreOriginal = anime.titre_original
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
-
-        return (
-            titre.includes(rechercheNormalisee) ||
-            titreOriginal.includes(rechercheNormalisee)
-        );
-    });
-
-const searchResults = document.querySelector("#anime-search-results");
-
-searchResults.innerHTML = resultats.map(anime => `
-    <a href="/anime/${anime.id}" class="search-result">
-
-        <img
-            class="search-result-image"
-            src="${anime.image || ""}"
-            alt="${anime.titre}"
-        >
-
-        <div class="search-result-info">
-
-            <p>${anime.titre || "Titre inconnu"}</p>
-
-            <p>${anime.titre_original || "Titre original inconnu"}</p>
-
-            ${anime.annee ? `<p>${anime.annee}</p>` : ""}
-
-        </div>
-
-    </a>
-`).join("");
-
-});
+rechercherMediaSideMenu("Anime");
+rechercherMediaSideMenu("Film");
+rechercherMediaSideMenu("Serie");
