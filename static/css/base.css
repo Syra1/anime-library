@@ -70,6 +70,18 @@ html {
     size: 32px;
 }
 
+#side-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 500;
+    display: none;
+}
+
+#side-menu-overlay.visible {
+    display: block;
+}
+
 #side-menu {
     position: absolute;
     border-top: 2px solid var(--couleur_bordure);
@@ -82,6 +94,7 @@ html {
     z-index: 1000;
     transform: translateX(100%);
     transition: transform 0.3s ease;
+    overflow-y: auto;
 }
 
 #side-menu.visible {

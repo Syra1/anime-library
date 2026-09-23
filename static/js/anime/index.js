@@ -1,5 +1,4 @@
 
-let animes = [];
 const animeList = document.getElementById("anime-list");
 const librarySearch = document.getElementById("search");
 const animeSearch = document.getElementById("anime-search");

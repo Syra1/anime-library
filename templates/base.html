@@ -32,7 +32,9 @@
                 </ul>
             </nav>
             {% from "side_menu.html" import side_menu %}
-
+            <div id="side-menu-overlay">
+            
+            </div>
             <aside id="side-menu">
 
                 <ul class="category-side-menu">
@@ -58,7 +60,6 @@
                     "serie-side-search",
                     "Ex : Game of Thrones"
                 ) }}
-
             </aside>
         </header>
         <main>
@@ -66,7 +67,7 @@
             {% endblock %}
         </main>
         {% block scripts %}
-            <script src="/static/js/base.js"></script>
+            <script  src="/static/js/base.js"></script>
         {% endblock %}
     </body>
 </html>
