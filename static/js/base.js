@@ -42,13 +42,36 @@ document.addEventListener("click", (event) => {
 const categoryButtons = document.querySelectorAll(".category-side-menu button");
 const menuPages = document.querySelectorAll(".page-menu");
 
+const chemin = window.location.pathname;
+
+let pageActive = 0;
+
+if (chemin.startsWith("/film")) {
+    pageActive = 1;
+} else if (chemin.startsWith("/serie")) {
+    pageActive = 2;
+} else if (chemin.startsWith("/anime")) {
+    pageActive = 0;
+}
+
+menuPages.forEach((page, index) => {
+    page.style.display = index === pageActive ? "flex" : "none";
+});
+
+categoryButtons[pageActive].classList.add("active");
+
 categoryButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
         menuPages.forEach(page => {
             page.style.display = "none";
         });
 
+        categoryButtons.forEach(button => {
+            button.classList.remove("active");
+        });
+
         menuPages[index].style.display = "flex";
+        button.classList.add("active");
     });
 });
 

@@ -150,6 +150,12 @@ a {
 .page-menu p {
     margin: 0;
 }
+
+.category-side-menu button.active {
+    border-bottom: 3px solid var(--couleur_bordure);
+    font-weight: bold;
+}
+
 .media-search {
     padding-left: 1rem;
     width: 100%;
