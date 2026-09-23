@@ -49,27 +49,6 @@
     color: var(--couleur_bordure);
 }
 
-.search-results-list {
-    color: var(--couleur_bordure);
-    height: 380px;
-    overflow-y: auto;
-    margin-top: 15px;
-    padding-right: 10px;
-    scrollbar-color: var(--couleur_media) transparent;
-}
-
-.search-result-info {
-    flex: 1;
-}
-
-.search-result h3 {
-    margin: 0 0 5px 0;
-}
-
-.search-result p {
-    margin: 5px 0;
-}
-
 .add-media-button {
     border: none;
     background-color: var(--couleur_barre);
@@ -185,13 +164,6 @@
     line-clamp: 1;
     -webkit-line-clamp: 1;
     overflow: hidden;
-}
-
-.search-result-image {
-    width: 70px;
-    height: 90px;
-    object-fit: cover;
-    margin-right: 15px;
 }
 
 .search-result-info {

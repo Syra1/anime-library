@@ -93,10 +93,11 @@ animeSideSearch.addEventListener("input", () => {
         );
     });
 
-    const searchResults = document.querySelector("#anime-search-results");
+const searchResults = document.querySelector("#anime-search-results");
 
-    searchResults.innerHTML = resultats.map(anime => `
+searchResults.innerHTML = resultats.map(anime => `
     <a href="/anime/${anime.id}" class="search-result">
+
         <img
             class="search-result-image"
             src="${anime.image || ""}"
@@ -104,16 +105,16 @@ animeSideSearch.addEventListener("input", () => {
         >
 
         <div class="search-result-info">
-            <h3>${anime.titre || "Titre inconnu"}</h3>
+
+            <p>${anime.titre || "Titre inconnu"}</p>
 
             <p>${anime.titre_original || "Titre original inconnu"}</p>
 
             ${anime.annee ? `<p>${anime.annee}</p>` : ""}
+
         </div>
+
     </a>
 `).join("");
-
-
-
 
 });
