@@ -162,3 +162,10 @@ html {
     position: relative;
     width: 100%;
 }
+
+.search-result-image {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+    margin-right: 15px;
+}
