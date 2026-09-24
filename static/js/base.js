@@ -1,6 +1,7 @@
 
 const searchButton = document.querySelector("#search-button");
 const closeButton = document.querySelector("#close-button");
+const addButton = document.querySelector("#add-button");
 const sideMenu = document.querySelector("#side-menu");
 const sideMenuOverlay = document.querySelector("#side-menu-overlay");
 
@@ -15,15 +16,17 @@ function normalizeText(text) {
 searchButton.addEventListener("click", () => {
     sideMenu.classList.add("visible");
     sideMenuOverlay.classList.add("visible");
-    searchButton.style.display = "none";
-    closeButton.style.display = "block";
+    addButton.style.visibility = "hidden";
+    searchButton.style.visibility = "hidden";
+    closeButton.style.visibility = "visible";
 });
 
 closeButton.addEventListener("click", () => {
     sideMenu.classList.remove("visible");
     sideMenuOverlay.classList.remove("visible");
-    closeButton.style.display = "none";
-    searchButton.style.display = "block";
+    addButton.style.visibility = "visible";
+    searchButton.style.visibility = "visible";
+    closeButton.style.visibility = "hidden";
 });
 
 document.addEventListener("click", (event) => {
@@ -33,8 +36,10 @@ document.addEventListener("click", (event) => {
     if (!clicDansMenu && !clicSurBoutonOuverture) {
         sideMenu.classList.remove("visible");
         sideMenuOverlay.classList.remove("visible");
-        closeButton.style.display = "none";
-        searchButton.style.display = "block";
+        addButton.style.visibility = "visible";
+        searchButton.style.visibility = "visible";
+        closeButton.style.visibility = "hidden";
+
     }
 });
 
