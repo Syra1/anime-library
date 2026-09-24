@@ -1,8 +1,4 @@
-let searchTimeout = null;
-const minimumSearchLength = 3;
 const mediaAnimationDelay = 100;
-
-
 
 async function searchTMDB(recherche, url, searchResults, displaySearchResults) {
     searchResults.innerHTML = `<p>Recherche en cours...</p>`;

@@ -35,7 +35,8 @@
             <div id="side-menu-overlay">
 
             </div>
-            {% from "side_menu.html" import side_menu %}
+            {% from "side_menu.html" import side_menu_add %}
+            {% from "side_menu.html" import side_menu_search %}
             <aside id="side-menu">
                 <div class="add-content">
                     <ul class="category-side-menu">
@@ -43,9 +44,9 @@
                         <li><button>Films</button></li>
                         <li><button>Séries</button></li>
                     </ul>
-                    {{ side_menu("Anime", "anime-side-search", "Ex : One Piece") }}
-                    {{ side_menu("Film", "film-side-search", "Ex : OSS 117") }}
-                    {{ side_menu("Serie", "serie-side-search", "Ex : Game of Thrones") }}
+                    {{ side_menu_add("Anime", "anime-side-search", "Ex : One Piece") }}
+                    {{ side_menu_add("Film", "film-side-search", "Ex : OSS 117") }}
+                    {{ side_menu_add("Serie", "serie-side-search", "Ex : Game of Thrones") }}
                 </div>
                 <div class="search-content">
                     <ul class="category-side-menu">
@@ -53,9 +54,9 @@
                         <li><button>Films</button></li>
                         <li><button>Séries</button></li>
                     </ul>
-                    {{ side_menu("Anime", "anime-side-search", "Ex : One Piece") }}
-                    {{ side_menu("Film", "film-side-search", "Ex : OSS 117") }}
-                    {{ side_menu("Serie", "serie-side-search", "Ex : Game of Thrones") }}
+                    {{ side_menu_search("Anime", "anime-side-search", "Ex : One Piece") }}
+                    {{ side_menu_search("Film", "film-side-search", "Ex : OSS 117") }}
+                    {{ side_menu_search("Serie", "serie-side-search", "Ex : Game of Thrones") }}
                 </div>
             </aside>
         </header>

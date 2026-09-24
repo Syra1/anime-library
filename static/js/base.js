@@ -8,6 +8,9 @@ const sideMenuOverlay = document.querySelector("#side-menu-overlay");
 const searchContent = document.querySelector(".search-content");
 const addContent = document.querySelector(".add-content");
 
+let searchTimeout = null;
+const minimumSearchLength = 3;
+
 function normalizeText(text) {
     return (text || "")
         .normalize("NFD")
@@ -36,6 +39,14 @@ addButton.addEventListener("click", () => {
 
     addButton.style.visibility = "hidden";
     searchButton.style.visibility = "hidden";
+});
+
+const mediaSearchInputs = document.querySelectorAll(".media-search");
+
+mediaSearchInputs.forEach((input) => {
+    input.addEventListener("focus", () => {
+        input.select();
+    });
 });
 
 document.addEventListener("click", (event) => {
@@ -121,11 +132,11 @@ addCategoryButtons.forEach((button, index) => {
 function rechercherMediaSideMenu(mediaType) {
 
     const mediaSideSearch = document.querySelector(
-        `#${mediaType.toLowerCase()}-side-search`
+        `#search-${mediaType.toLowerCase()}-side-search`
     );
 
     const searchResults = document.querySelector(
-        `#${mediaType}-search-results`
+        `#search-${mediaType}-search-results`
     );
 
     let medias = [];
@@ -187,3 +198,102 @@ function rechercherMediaSideMenu(mediaType) {
 rechercherMediaSideMenu("Anime");
 rechercherMediaSideMenu("Film");
 rechercherMediaSideMenu("Serie");
+
+// Recherche un media sur TMDB (barre de recherche side-bar)
+async function searchTMDB(recherche, url, searchResults, displaySearchResults) {
+    searchResults.innerHTML = `<p>Recherche en cours...</p>`;
+
+    try {
+        const encodedRecherche = encodeURIComponent(recherche);
+        const response = await fetch(`${url}?q=${encodedRecherche}`);
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la recherche");
+        }
+
+        const resultats = await response.json();
+
+        displaySearchResults(resultats);
+
+    } catch (error) {
+        console.error("Erreur recherche TMDB :", error);
+        searchResults.innerHTML = `<p>Impossible d'effectuer la recherche.</p>`;
+    }
+}
+
+function handleMediaSearch(
+    searchInput,
+    searchResults,
+    searchUrl,
+    displaySearchResults,
+    searchDelay
+) {
+    const recherche = searchInput.value.trim();
+
+    clearTimeout(searchTimeout);
+
+    if (recherche.length < minimumSearchLength) {
+        searchResults.innerHTML = "";
+        return;
+    }
+
+    searchTimeout = setTimeout(() => {
+        searchTMDB(
+            recherche,
+            searchUrl,
+            searchResults,
+            displaySearchResults
+        );
+    }, searchDelay);
+}
+
+function displaySearchResultsMedia(resultats, searchResults, typeMedia, unknownOriginalTitle, addMedia) {
+    const aucunResultat = !Array.isArray(resultats) || resultats.length === 0;
+
+    if (aucunResultat) {
+        searchResults.innerHTML = `<p>Aucun ${typeMedia} trouvé.</p>`;
+        return;
+    }
+
+    const searchResultsList = resultats.map(media => {
+        const titre = media.title || "Titre inconnu";
+        const titreOriginal = media.original_title || unknownOriginalTitle;
+        const image = media.image;
+        const annee = media.annee;
+        const tmdbId = media.id;
+
+        return `
+            <article class="search-result">
+                <img class="search-result-image" src="${image || ""}" alt="${titre}">
+                <div class="search-result-info">
+                    <h3>${titre}</h3>
+                    <p>${titreOriginal}</p>
+                    ${annee ? `<p>${annee}</p>` : ""}
+                </div>
+            </article>
+        `;
+    }).join("");
+
+    searchResults.innerHTML = searchResultsList;
+}
+
+const addAnimeSearch = document.querySelector("#add-anime-side-search");
+const addAnimeResults = document.querySelector("#add-Anime-search-results");
+
+addAnimeSearch.addEventListener("input", () => {
+    handleMediaSearch(
+        addAnimeSearch,
+        addAnimeResults,
+        "/anime/search-anime",
+        (resultats) => {
+            displaySearchResultsMedia(
+                resultats,
+                addAnimeResults,
+                "anime",
+                "Titre original inconnu",
+                () => {}
+            );
+        },
+        300
+    );
+});

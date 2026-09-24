@@ -1,28 +1,31 @@
-{% macro side_menu(
-    media_type,
-    search_id,
-    search_placeholder
-) %}
+{% macro side_menu_add(media_type, search_id, search_placeholder) %}
 
-<section id="{{ media_type }}-menu" class="page-menu">
-
-    <p class=""><strong>Rechercher {{ media_type }}</strong></p>
-
+<section id="add-{{ media_type }}-menu" class="page-menu">
+    <p class=""><strong>Ajouter {{ media_type }}</strong></p>
     <section class="add-media">
-
         <div class="search-input">
-            <input type="text" id="{{ search_id }}" class="media-search" autocomplete="off" placeholder="{{ search_placeholder }}">
+            <input type="text" id="add-{{ search_id }}" class="media-search" autocomplete="off" placeholder="{{ search_placeholder }}">
         </div>
-
-        <section
-            id="{{ media_type }}-search-results"
-            class="media-results"
-        >
+        <section id="add-{{ media_type }}-search-results" class="media-results">
             <!-- Les résultats apparaîtront ici -->
         </section>
-
     </section>
+</section>
 
+{% endmacro %}
+
+{% macro side_menu_search(media_type, search_id, search_placeholder) %}
+
+<section id="search-{{ media_type }}-menu" class="page-menu">
+    <p class=""><strong>Rechercher {{ media_type }}</strong></p>
+    <section class="add-media">
+        <div class="search-input">
+            <input type="text" id="search-{{ search_id }}" class="media-search" autocomplete="off" placeholder="{{ search_placeholder }}">
+        </div>
+        <section id="search-{{ media_type }}-search-results" class="media-results">
+            <!-- Les résultats apparaîtront ici -->
+        </section>
+    </section>
 </section>
 
 {% endmacro %}
