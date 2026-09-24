@@ -52,8 +52,11 @@ document.addEventListener("click", (event) => {
 });
 
 
-const categoryButtons = document.querySelectorAll(".category-side-menu button");
-const menuPages = document.querySelectorAll(".page-menu");
+const searchCategoryButtons = searchContent.querySelectorAll(".category-side-menu button");
+const searchMenuPages = searchContent.querySelectorAll(".page-menu");
+
+const addCategoryButtons = addContent.querySelectorAll(".category-side-menu button");
+const addMenuPages = addContent.querySelectorAll(".page-menu");
 
 const chemin = window.location.pathname;
 
@@ -67,27 +70,53 @@ if (chemin.startsWith("/film")) {
     pageActive = 0;
 }
 
-menuPages.forEach((page, index) => {
+searchMenuPages.forEach((page, index) => {
     page.style.display = index === pageActive ? "flex" : "none";
 });
 
-categoryButtons[pageActive].classList.add("active");
+searchCategoryButtons[pageActive].classList.add("active");
 
-categoryButtons.forEach((button, index) => {
+searchCategoryButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
-        menuPages.forEach(page => {
+        searchMenuPages.forEach(page => {
             page.style.display = "none";
         });
 
-        categoryButtons.forEach(button => {
+        searchCategoryButtons.forEach(button => {
             button.classList.remove("active");
         });
 
-        menuPages[index].querySelector(".media-search").value = "";
-        menuPages[index].style.display = "flex";
+        searchMenuPages[index].querySelector(".media-search").value = "";
+        searchMenuPages[index].style.display = "flex";
         button.classList.add("active");
     });
 });
+
+
+
+
+addMenuPages.forEach((page, index) => {
+    page.style.display = index === pageActive ? "flex" : "none";
+});
+
+addCategoryButtons[pageActive].classList.add("active");
+
+addCategoryButtons.forEach((button, index) => {
+    button.addEventListener("click", () => {
+        addMenuPages.forEach(page => {
+            page.style.display = "none";
+        });
+
+        addCategoryButtons.forEach(button => {
+            button.classList.remove("active");
+        });
+
+        addMenuPages[index].querySelector(".media-search").value = "";
+        addMenuPages[index].style.display = "flex";
+        button.classList.add("active");
+    });
+});
+
 
 // recherche Media
 function rechercherMediaSideMenu(mediaType) {
