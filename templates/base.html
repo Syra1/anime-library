@@ -28,8 +28,8 @@
             </nav>
             <nav class="navbar-icons">
                 <ul class="link_icons">
-                    <li><button type="button" id="add-button"> <img src="/static/icons/Add.svg" alt="Ajouter"></button></li>
-                    <li><button type="button" id="search-button"> <img src="/static/icons/Search.svg" alt="Search"></button></li>
+                    <li><button type="button" id="add-button" title="Ajouter un média"> <img src="/static/icons/Add.svg" alt="Ajouter"></button></li>
+                    <li><button type="button" id="search-button" title="Rechercher un média"> <img src="/static/icons/Search.svg" alt="Search"></button></li>
                 </ul>
             </nav>
             <div id="side-menu-overlay">
@@ -37,7 +37,7 @@
             </div>
             {% from "side_menu.html" import side_menu %}
             <aside id="side-menu">
-                <div class="search-content">
+                <div class="add-content">
                     <ul class="category-side-menu">
                         <li><button>Animés</button></li>
                         <li><button>Films</button></li>
@@ -47,7 +47,7 @@
                     {{ side_menu("Film", "film-side-search", "Ex : OSS 117") }}
                     {{ side_menu("Serie", "serie-side-search", "Ex : Game of Thrones") }}
                 </div>
-                <div class="add-content">
+                <div class="search-content">
                     <ul class="category-side-menu">
                         <li><button>Animés</button></li>
                         <li><button>Films</button></li>

@@ -70,6 +70,7 @@ if (chemin.startsWith("/film")) {
     pageActive = 0;
 }
 
+// Bouton Search
 searchMenuPages.forEach((page, index) => {
     page.style.display = index === pageActive ? "flex" : "none";
 });
@@ -92,9 +93,7 @@ searchCategoryButtons.forEach((button, index) => {
     });
 });
 
-
-
-
+// Bouton Add
 addMenuPages.forEach((page, index) => {
     page.style.display = index === pageActive ? "flex" : "none";
 });
