@@ -30,38 +30,33 @@
                 <ul class="link_icons">
                     <li><button type="button" id="add-button"> <img src="/static/icons/Add.svg" alt="Ajouter"></button></li>
                     <li><button type="button" id="search-button"> <img src="/static/icons/Search.svg" alt="Search"></button></li>
-                    <li><button type="button" id="close-button"> <img src="/static/icons/Close.svg" alt="Close"></button></li>
                 </ul>
             </nav>
-            {% from "side_menu.html" import side_menu %}
             <div id="side-menu-overlay">
 
             </div>
+            {% from "side_menu.html" import side_menu %}
             <aside id="side-menu">
-
-                <ul class="category-side-menu">
-                    <li><button>Animés</button></li>
-                    <li><button>Films</button></li>
-                    <li><button>Séries</button></li>
-                </ul>
-
-                {{ side_menu(
-                    "Anime",
-                    "anime-side-search",
-                    "Ex : One Piece"
-                ) }}
-
-                {{ side_menu(
-                    "Film",
-                    "film-side-search",
-                    "Ex : OSS 117"
-                ) }}
-
-                {{ side_menu(
-                    "Serie",
-                    "serie-side-search",
-                    "Ex : Game of Thrones"
-                ) }}
+                <div class="search-content">
+                    <ul class="category-side-menu">
+                        <li><button>Animés</button></li>
+                        <li><button>Films</button></li>
+                        <li><button>Séries</button></li>
+                    </ul>
+                    {{ side_menu("Anime", "anime-side-search", "Ex : One Piece") }}
+                    {{ side_menu("Film", "film-side-search", "Ex : OSS 117") }}
+                    {{ side_menu("Serie", "serie-side-search", "Ex : Game of Thrones") }}
+                </div>
+                <div class="add-content">
+                    <ul class="category-side-menu">
+                        <li><button>Animés</button></li>
+                        <li><button>Films</button></li>
+                        <li><button>Séries</button></li>
+                    </ul>
+                    {{ side_menu("Anime", "anime-side-search", "Ex : One Piece") }}
+                    {{ side_menu("Film", "film-side-search", "Ex : OSS 117") }}
+                    {{ side_menu("Serie", "serie-side-search", "Ex : Game of Thrones") }}
+                </div>
             </aside>
         </header>
         <main>

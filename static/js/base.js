@@ -5,6 +5,9 @@ const addButton = document.querySelector("#add-button");
 const sideMenu = document.querySelector("#side-menu");
 const sideMenuOverlay = document.querySelector("#side-menu-overlay");
 
+const searchContent = document.querySelector(".search-content");
+const addContent = document.querySelector(".add-content");
+
 function normalizeText(text) {
     return (text || "")
         .normalize("NFD")
@@ -16,30 +19,35 @@ function normalizeText(text) {
 searchButton.addEventListener("click", () => {
     sideMenu.classList.add("visible");
     sideMenuOverlay.classList.add("visible");
+
+    searchContent.style.display = "block";
+    addContent.style.display = "none";
+
     addButton.style.visibility = "hidden";
     searchButton.style.visibility = "hidden";
-    closeButton.style.visibility = "visible";
 });
 
-closeButton.addEventListener("click", () => {
-    sideMenu.classList.remove("visible");
-    sideMenuOverlay.classList.remove("visible");
-    addButton.style.visibility = "visible";
-    searchButton.style.visibility = "visible";
-    closeButton.style.visibility = "hidden";
+addButton.addEventListener("click", () => {
+    sideMenu.classList.add("visible");
+    sideMenuOverlay.classList.add("visible");
+
+    searchContent.style.display = "none";
+    addContent.style.display = "block";
+
+    addButton.style.visibility = "hidden";
+    searchButton.style.visibility = "hidden";
 });
 
 document.addEventListener("click", (event) => {
     const clicDansMenu = sideMenu.contains(event.target);
-    const clicSurBoutonOuverture = searchButton.contains(event.target);
+    const clicSurBoutonOuverture = searchButton.contains(event.target) || addButton.contains(event.target);
 
     if (!clicDansMenu && !clicSurBoutonOuverture) {
         sideMenu.classList.remove("visible");
         sideMenuOverlay.classList.remove("visible");
+
         addButton.style.visibility = "visible";
         searchButton.style.visibility = "visible";
-        closeButton.style.visibility = "hidden";
-
     }
 });
 
@@ -81,7 +89,7 @@ categoryButtons.forEach((button, index) => {
     });
 });
 
-// recherche anime
+// recherche Media
 function rechercherMediaSideMenu(mediaType) {
 
     const mediaSideSearch = document.querySelector(
