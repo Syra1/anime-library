@@ -37,11 +37,16 @@ a {
     padding: 1em;
     justify-content: space-between;
     background-color: var(--couleur_barre);
+    z-index: 600;
 }
 
 .navbar-button {
     display: flex;
     align-items: center;
+}
+
+#close-button {
+    visibility: hidden;
 }
 
 .navbar-title {

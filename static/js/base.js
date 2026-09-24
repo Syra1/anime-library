@@ -26,8 +26,9 @@ searchButton.addEventListener("click", () => {
     searchContent.style.display = "block";
     addContent.style.display = "none";
 
-    addButton.style.visibility = "hidden";
+    addButton.style.visibility = "visible";
     searchButton.style.visibility = "hidden";
+    closeButton.style.visibility = "visible"
 });
 
 addButton.addEventListener("click", () => {
@@ -38,9 +39,23 @@ addButton.addEventListener("click", () => {
     addContent.style.display = "block";
 
     addButton.style.visibility = "hidden";
-    searchButton.style.visibility = "hidden";
+    searchButton.style.visibility = "visible";
+    closeButton.style.visibility = "visible"
 });
 
+closeButton.addEventListener("click", () => {
+    sideMenu.classList.add("visible");
+    sideMenuOverlay.classList.add("visible");
+
+    searchContent.style.display = "none";
+    addContent.style.display = "block";
+
+    addButton.style.visibility = "visible";
+    searchButton.style.visibility = "visible";
+    closeButton.style.visibility = "hidden"
+});
+
+// Seelctionne le contenu d'une barre de recherch si il y a deja du contenu
 const mediaSearchInputs = document.querySelectorAll(".media-search");
 
 mediaSearchInputs.forEach((input) => {
@@ -49,6 +64,8 @@ mediaSearchInputs.forEach((input) => {
     });
 });
 
+// Ferme le side-menu si il y a un clique en dehors du side-menu
+/*
 document.addEventListener("click", (event) => {
     const clicDansMenu = sideMenu.contains(event.target);
     const clicSurBoutonOuverture = searchButton.contains(event.target) || addButton.contains(event.target);
@@ -61,7 +78,7 @@ document.addEventListener("click", (event) => {
         searchButton.style.visibility = "visible";
     }
 });
-
+*/
 
 const searchCategoryButtons = searchContent.querySelectorAll(".category-side-menu button");
 const searchMenuPages = searchContent.querySelectorAll(".page-menu");
@@ -221,13 +238,7 @@ async function searchTMDB(recherche, url, searchResults, displaySearchResults) {
     }
 }
 
-function handleMediaSearch(
-    searchInput,
-    searchResults,
-    searchUrl,
-    displaySearchResults,
-    searchDelay
-) {
+function handleMediaSearch(searchInput, searchResults, searchUrl, displaySearchResults, searchDelay) {
     const recherche = searchInput.value.trim();
 
     clearTimeout(searchTimeout);

@@ -29,12 +29,10 @@
             <nav class="navbar-icons">
                 <ul class="link_icons">
                     <li><button type="button" id="add-button" title="Ajouter un média"> <img src="/static/icons/Add.svg" alt="Ajouter"></button></li>
-                    <li><button type="button" id="search-button" title="Rechercher un média"> <img src="/static/icons/Search.svg" alt="Search"></button></li>
+                    <li><button type="button" id="search-button" title="Rechercher un média"> <img src="/static/icons/Search.svg" alt="Rechercher"></button></li>
+                    <li><button type="button" id="close-button" title="Fermer le menu"> <img src="/static/icons/Close.svg" alt="Fermer"></button></li>
                 </ul>
             </nav>
-            <div id="side-menu-overlay">
-
-            </div>
             {% from "side_menu.html" import side_menu_add %}
             {% from "side_menu.html" import side_menu_search %}
             <aside id="side-menu">
@@ -60,6 +58,9 @@
                 </div>
             </aside>
         </header>
+        <div id="side-menu-overlay">
+
+        </div>
         <main>
             {% block content %}
             {% endblock %}
