@@ -19,18 +19,7 @@ function normalizeText(text) {
         .trim();
 }
 
-searchButton.addEventListener("click", () => {
-    sideMenu.classList.add("visible");
-    sideMenuOverlay.classList.add("visible");
-
-    searchContent.style.display = "block";
-    addContent.style.display = "none";
-
-    addButton.style.visibility = "visible";
-    searchButton.style.visibility = "hidden";
-    closeButton.style.visibility = "visible"
-});
-
+// Bouton Ajouter side-menu de header-bar
 addButton.addEventListener("click", () => {
     sideMenu.classList.add("visible");
     sideMenuOverlay.classList.add("visible");
@@ -43,6 +32,20 @@ addButton.addEventListener("click", () => {
     closeButton.style.visibility = "visible"
 });
 
+// Bouton Rechercher side-menu de header-bar
+searchButton.addEventListener("click", () => {
+    sideMenu.classList.add("visible");
+    sideMenuOverlay.classList.add("visible");
+
+    searchContent.style.display = "block";
+    addContent.style.display = "none";
+
+    addButton.style.visibility = "visible";
+    searchButton.style.visibility = "hidden";
+    closeButton.style.visibility = "visible"
+});
+
+// Bouton Fermer side-menu de header-bar
 closeButton.addEventListener("click", () => {
     sideMenu.classList.add("visible");
     sideMenuOverlay.classList.add("visible");
@@ -65,7 +68,6 @@ mediaSearchInputs.forEach((input) => {
 });
 
 // Ferme le side-menu si il y a un clique en dehors du side-menu
-/*
 document.addEventListener("click", (event) => {
     const clicDansMenu = sideMenu.contains(event.target);
     const clicSurBoutonOuverture = searchButton.contains(event.target) || addButton.contains(event.target);
@@ -78,8 +80,9 @@ document.addEventListener("click", (event) => {
         searchButton.style.visibility = "visible";
     }
 });
-*/
 
+
+// Ouvre le sous-menu de side-menu qui correspond a la page actuel
 const searchCategoryButtons = searchContent.querySelectorAll(".category-side-menu button");
 const searchMenuPages = searchContent.querySelectorAll(".page-menu");
 
