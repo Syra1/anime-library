@@ -67,6 +67,19 @@
 
 .genre-media-detail {
     display: flex;
+    gap: 0.5rem;
+}
+
+.genre-media-detail li,
+.annee-media-detail,
+.duree-media-detail {
+    width: fit-content;
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border: 2px solid #666666;
+    border-radius: 1rem;
+    background-color: var(--couleur_barre);
 }
 
 .season-list-media-detail {
@@ -84,13 +97,12 @@
 }
 
 .description-media-detail {
-    background: var(--couleur_barre);
-    border: 2px solid var(--couleur_bordure);
     text-align: justify;
     padding: 1rem;
 }
 
 .delete-button-media-detail {
+    width: fit-content;
     padding: 0.5rem;
     border: 2px solid var(--couleur_bordure);
     background-color: var(--couleur_barre);

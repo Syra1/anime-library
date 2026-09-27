@@ -20,7 +20,7 @@
                     {{ media.titre }}
                     {% if media.titre_original and media.titre_original != media.titre %}
                         <span class="titre-original-media-detail">
-                            ( {{ media.titre_original }} )
+                            ({{ media.titre_original }})
                         </span>
                     {% endif %}
                 {% endif %}
@@ -30,19 +30,23 @@
                     <p class="auteur-media-detail"> {{ media.auteur }} </p>
                 {% endif %}
                 {% if media.genres %}
-                    <p class="genre-media-detail"> {{ media.genres }} </p>
+                    <ul class="genre-media-detail">
+                        {% for genre in media.genres.split(", ") %}
+                            <li>{{ genre }}</li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
                 {% if media.annee %}
-                    <p> {{ media.annee }} </p>
+                    <p class="annee-media-detail"> {{ media.annee }} </p>
                 {% endif %}
                 {% if media.realisateur %}
-                    <p> {{ media.realisateur }} </p>
+                    <p class="realisateur-media-detail"> {{ media.realisateur }} </p>
                 {% endif %}
                 {% if media.duree %}
-                    <p> {{ media.duree }} </p>
+                    <p class="duree-media-detail"> {{ media.duree }} </p>
                 {% endif %}
                 {% if media.studios %}
-                    <p>
+                    <p studio-media-detail>
                         <strong>Studio :</strong>
                         {{ media.studios }}
                     </p>
