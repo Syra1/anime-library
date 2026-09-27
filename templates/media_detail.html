@@ -10,7 +10,7 @@
 <div class="page-{{ type_media }}-detail page-media-detail">
     <div class="header-media-detail">
         <div class="cover-media-detail">
-            <img src="{{ media.image }}" alt="{{ media.titre }}"/>
+            <img src="{{ media.image }}" alt="{{ media.titre }}" class="image-media-detail"/>
 
             <button type="button" class="delete-{{ type_media }}-button delete-button-media-detail" data-{{ type_media }}-id="{{ media.id }}">
                 Supprimer
@@ -78,6 +78,7 @@
                                     data-media-id="{{ media.id }}"
                                     data-saison-id="{{ saison.id }}"
                                 >
+
                             </label>
 
                             <div class="season-text">

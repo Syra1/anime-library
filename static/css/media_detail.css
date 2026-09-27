@@ -8,14 +8,17 @@
 .header-media-detail {
     position: relative;
     display: flex;
-    justify-content: space-evenly;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--couleur_barre);
+    border: 2px solid var(--couleur_bordure);
 }
 
 .cover-media-detail {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-evenly;
 }
 
 .details-media-detail {
@@ -24,32 +27,24 @@
     flex-direction: column;
 }
 
-.cover-media-detail img {
+.image-media-detail {
     object-fit: cover;
-}
-
-.description-media-detail {
-    position: relative;
-    background: var(--couleur_barre);
-    border: 2px solid var(--couleur_bordure);
-    line-height: 1.7;
-    text-align: justify;
-    color: black;
+    width: 250px;
+    height: auto;
 }
 
 .delete-button-media-detail {
-    border: 2px solid var(--couleur_media);
+    padding: 0.5rem;
+    border: 2px solid var(--couleur_bordure);
     background-color: var(--couleur_barre);
     color: var(--couleur_bordure);
     cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
+
 }
 
 .info-media-detail {
     display: flex;
+    flex-direction: column;
     width: fit-content;
     gap: 1rem;
     color: var(--couleur_bordure);
@@ -63,9 +58,15 @@
     color: var(--couleur_bordure);
 }
 
-
 .season-item-media-detail {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.description-media-detail {
+    background: var(--couleur_barre);
+    border: 2px solid var(--couleur_bordure);
+    text-align: justify;
+    padding: 1rem;
 }
