@@ -78,16 +78,15 @@
                                     data-media-id="{{ media.id }}"
                                     data-saison-id="{{ saison.id }}"
                                 >
-                                <span class="season-checkbox-mark">✓</span>
                             </label>
 
                             <div class="season-text">
                                 {% if saison.titre and saison.titre != "Saison " ~ saison.numero %}
-                                <strong class="numero_saison">
+                                <strong>
                                     Saison {{ saison.numero }} : {{ saison.titre }}
                                 </strong>
                                 {% else %}
-                                <strong class="numero_saison">
+                                <strong>
                                     Saison {{ saison.numero }}
                                 </strong>
                                 {% endif %}

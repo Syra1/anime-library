@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin: 1rem;
 }
 
 .header-media-detail {
@@ -47,17 +48,7 @@
         transform 0.1s ease;
 }
 
-.delete-button-media-detail:hover {
-    background: var(--couleur_media);
-    color: var(--couleur_barre);
-}
-
-.delete-button-media-detail:active {
-    transform: scale(0.97);
-}
-
-.info-media-detail,
-.season-list-media-detail {
+.info-media-detail {
     display: flex;
     width: fit-content;
     gap: 1rem;
@@ -65,103 +56,16 @@
 }
 
 .season-list-media-detail {
+    display: flex;
     flex-direction: column;
-    width: 100%;
-    gap: 5px;
+    width: fit-content;
+    gap: 1rem;
+    color: var(--couleur_bordure);
 }
 
 
 .season-item-media-detail {
     display: flex;
     align-items: center;
-    gap: 8px;
-    width: fit-content;
-    padding: 5px 10px;
-}
-
-.season-text,
-.nombre-episodes-media-detail {
-    padding: 5px 10px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_media);
-    border-right: 3px solid var(--couleur_media);
-    color: black
-}
-
-.season-text {
-    display: flex;
-    justify-content: center;
-    color: black;
-}
-
-.numero_saison {
-    color: black;
-}
-
-.nombre-episodes-media-detail {
-    font-weight: bold;
-}
-
-.nombre-episodes-media-detail {
-    display: none;
-    font-weight: bold;
-}
-
-/* Affiche le nombre d'épisodes au survol de la saison */
-.season-text:hover + .nombre-episodes-media-detail {
-    display: inline;
-}
-
-/* Change la bordure quand le texte est survolé */
-.season-item-media-detail:has(.season-text:hover) {
-    border-left-color: var(--couleur_fond);
-    border-right-color: var(--couleur_fond);
-}
-
-.season-item-media-detail:has(.season-text:hover) .season-checkbox {
-    border-color: var(--couleur_fond);
-}
-
-.season-item-media-detail:has(.season-text:hover) .season-checkbox:checked {
-    background-color: var(--couleur_fond);
-    border-color: var(--couleur_fond);
-}
-
-.season-checkbox-container {
-    position: relative;
-    display: flex;
-    width: 18px;
-    height: 18px;
-}
-
-.season-checkbox {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    border: 2px solid var(--couleur_media);
-    border-radius: 5px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.season-checkbox:checked {
-    background-color: var(--couleur_media);
-    border-color: var(--couleur_media);
-}
-
-.season-checkbox-mark {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--couleur_barre);
-    font-size: 13px;
-    font-weight: bold;
-    pointer-events: none;
-}
-
-.season-checkbox:checked + .season-checkbox-mark {
-    display: block;
+    gap: 1rem;
 }
