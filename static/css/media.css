@@ -1,14 +1,3 @@
-.add-media,
-.toolbar {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto 30px auto;
-    background-color: var(--couleur_barre);
-    padding: 20px;
-    border-radius: 16px;
-}
-
 .add-media h2 {
     margin-bottom: 15px;
 }

@@ -1,15 +1,8 @@
-{% macro media_index(
-    media_type,
-    search_id,
-    search_placeholder,
-    list_id,
-    loading_text,
-    a_voir
-) %}
-
 {% block styles %}
     <link rel="stylesheet" href="/static/css/media.css">
 {% endblock %}
+
+{% macro media_index(media_type, list_id, loading_text, a_voir) %}
 
 <div class="page-{{ media_type }}-index">
     <div class="watch-container">
@@ -27,28 +20,6 @@
         </section>
         {% endif %}
     </div>
-
-    <section class="add-media">
-        <div class="search-input">
-            <span class="search-icon">
-                <img src="/static/icons/Search.svg" alt="">
-            </span>
-            <input type="text" id="{{ search_id }}" class="media-search" placeholder="{{ search_placeholder }}">
-        </div>
-        <section id="search-results" class="media-results">
-            <!-- Les résultats TMDB apparaîtront ici -->
-        </section>
-    </section>
-
-    <section class="toolbar">
-        <div class="search-input">
-            <span class="search-icon">
-                <img src="/static/icons/Search.svg" alt="">
-            </span>
-            <input type="text" id="search" class="API-search" placeholder="Rechercher dans ma bibliothèque...">
-        </div>
-    </section>
-
     <section id="{{ list_id }}" class="media-list">
         <p>
             {{ loading_text }}
