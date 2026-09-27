@@ -19,11 +19,13 @@
 
 .cover-media-detail {
     position: relative;
+    width: 25rem;
+    height: 37.5rem;
 }
 
 .image-background-media-detail {
     width: 25rem;
-    height: auto;
+    height: 37.5rem;
     object-fit: cover;
     filter: blur(1rem);
     border-radius: 1rem;
@@ -32,10 +34,10 @@
 .image-media-detail {
     position: absolute;
     width: 20rem;
-    height: auto;
+    height: 30rem;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -20%);
     border-radius: 0.5rem;
 }
 
@@ -45,6 +47,7 @@
     width: fit-content;
     gap: 1rem;
     color: var(--couleur_bordure);
+    margin-bottom: 2rem;
 }
 
 .titre-media-detail {
