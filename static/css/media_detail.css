@@ -96,15 +96,33 @@
     gap: 1rem;
 }
 
+.image-description-media-detail {
+    display: flex;
+    gap: 1rem;
+    padding-left: 1rem;
+}
+
+.image-description-media-detail p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+
+.image-description-media-detail img {
+    width: 40px;
+    height: auto;
+}
+
 .description-media-detail {
     text-align: justify;
-    padding: 1rem;
+    padding-left: 1rem;
 }
 
 .delete-button-media-detail {
     width: fit-content;
     padding: 0.5rem;
     border: 2px solid var(--couleur_bordure);
+    border-radius: 1rem;
     background-color: var(--couleur_barre);
     color: var(--couleur_bordure);
     cursor: pointer;

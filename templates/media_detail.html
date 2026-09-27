@@ -90,6 +90,11 @@
         </div>
     </div>
     {% if media.description %}
+        <div class="image-description-media-detail">
+            <img src="/static/icons/Description.svg" alt="Image-Description">
+            <p> Résumé </p>
+        </div>
+        
         <p class="description-media-detail">
             {{ media.description | safe }}
         </p>
