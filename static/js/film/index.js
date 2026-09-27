@@ -37,10 +37,6 @@ filmSearch.addEventListener("input", () => {
     }, filmSearchDelay);
 });
 
-document.addEventListener("click", (event) => {
-        handleDocumentClick(event, filmSearch, searchResults, librarySearch, displayFilms);
-});
-
 function animerFilmAjoute(filmId) {
     const selector = `.film-card[data-film-id="${filmId}"]`;
     const card = document.querySelector(selector);

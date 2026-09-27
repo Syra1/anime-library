@@ -58,15 +58,6 @@ closeButton.addEventListener("click", () => {
     closeButton.style.visibility = "hidden"
 });
 
-// Seelctionne le contenu d'une barre de recherch si il y a deja du contenu
-const mediaSearchInputs = document.querySelectorAll(".media-search");
-
-mediaSearchInputs.forEach((input) => {
-    input.addEventListener("focus", () => {
-        input.select();
-    });
-});
-
 // Ferme le side-menu si il y a un clique en dehors du side-menu
 document.addEventListener("click", (event) => {
     const clicDansMenu = sideMenu.contains(event.target);
@@ -78,9 +69,18 @@ document.addEventListener("click", (event) => {
 
         addButton.style.visibility = "visible";
         searchButton.style.visibility = "visible";
+        closeButton.style.visibility = "hidden"
     }
 });
 
+// Seelctionne le contenu d'une barre de recherche si il y a deja du contenu
+const mediaSearchInputs = document.querySelectorAll(".media-search");
+
+mediaSearchInputs.forEach((input) => {
+    input.addEventListener("focus", () => {
+        input.select();
+    });
+});
 
 // Ouvre le sous-menu de side-menu qui correspond a la page actuel
 const searchCategoryButtons = searchContent.querySelectorAll(".category-side-menu button");

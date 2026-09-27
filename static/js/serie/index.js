@@ -37,10 +37,6 @@ serieSearch.addEventListener("input", () => {
     }, serieSearchDelay);
 });
 
-document.addEventListener("click", (event) => {
-        handleDocumentClick(event, serieSearch, searchResults, librarySearch, displaySeries);
-});
-
 function animerSerieAjoute(serieId) {
     const selector = `.serie-card[data-serie-id="${serieId}"]`;
     const card = document.querySelector(selector);

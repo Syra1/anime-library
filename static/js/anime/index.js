@@ -36,9 +36,6 @@ animeSearch.addEventListener("input", () => {
     }, animeSearchDelay);
 });
 
-document.addEventListener("click", (event) => {
-        handleDocumentClick(event, animeSearch, searchResults, librarySearch, displayAnimes);
-});
 
 function animerAnimeAjoute(animeId) {
     const selector = `.anime-card[data-anime-id="${animeId}"]`;
