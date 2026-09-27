@@ -171,7 +171,7 @@ function rechercherMediaSideMenu(mediaType) {
 
         const recherche = mediaSideSearch.value.trim();
 
-        if (recherche.length < 3) {
+        if (recherche.length < minimumSearchLength) {
             searchResults.innerHTML = "";
             return;
         }
@@ -261,8 +261,15 @@ function handleMediaSearch(searchInput, searchResults, searchUrl, displaySearchR
     }, searchDelay);
 }
 
-function displaySearchResultsMedia(resultats, searchResults, typeMedia, unknownOriginalTitle, addMedia) {
-    const aucunResultat = !Array.isArray(resultats) || resultats.length === 0;
+function displaySearchResultsMedia(
+    resultats,
+    searchResults,
+    typeMedia,
+    unknownOriginalTitle,
+    addMedia
+) {
+    const aucunResultat =
+        !Array.isArray(resultats) || resultats.length === 0;
 
     if (aucunResultat) {
         searchResults.innerHTML = `<p>Aucun ${typeMedia} trouvé.</p>`;
@@ -271,43 +278,155 @@ function displaySearchResultsMedia(resultats, searchResults, typeMedia, unknownO
 
     const searchResultsList = resultats.map(media => {
         const titre = media.title || "Titre inconnu";
-        const titreOriginal = media.original_title || unknownOriginalTitle;
+        const titreOriginal =
+            media.original_title || unknownOriginalTitle;
         const image = media.image;
         const annee = media.annee;
         const tmdbId = media.id;
 
         return `
             <article class="search-result">
-                <img class="search-result-image" src="${image || ""}" alt="${titre}">
+
+                <img
+                    class="search-result-image"
+                    src="${image || ""}"
+                    alt="${titre}"
+                >
+
                 <div class="search-result-info">
                     <h3>${titre}</h3>
                     <p>${titreOriginal}</p>
                     ${annee ? `<p>${annee}</p>` : ""}
                 </div>
+
+                <button
+                    type="button"
+                    class="add-${typeMedia}-button add-media-button"
+                    data-tmdb-id="${tmdbId}"
+                >
+                    Ajouter
+                </button>
+
             </article>
         `;
     }).join("");
 
     searchResults.innerHTML = searchResultsList;
+
+    const addMediaButtons = searchResults.querySelectorAll(
+        `.add-${typeMedia}-button`
+    );
+
+    addMediaButtons.forEach(button => {
+        button.addEventListener("click", addMedia);
+    });
 }
 
-const addAnimeSearch = document.querySelector("#add-anime-side-search");
-const addAnimeResults = document.querySelector("#add-Anime-search-results");
+// Ajouter un media
+async function handleAddMedia(event, addUrl, loadUrl, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle, animateMedia) {
+    const button = event.currentTarget;
+    const tmdbId = Number(button.dataset.tmdbId);
+    if (!tmdbId) {
+        return;
+    }
+    button.disabled = true;
+    button.textContent = "Ajout...";
+    try {
+        const response = await fetch(`${addUrl}/${tmdbId}`, {
+            method: "POST"
+        });
+        if (!response.ok) {
+            throw new Error("Erreur HTTP lors de l'ajout");
+        }
+        const resultat = await response.json();
+        if (!resultat.success) {
+            throw new Error(`L'ajout du ${mediaName} a échoué`);
+        }
+        if (mediaList) {
+            await loadMedia(loadUrl, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle);
+        }
+        const mediaId = resultat[`${typeMedia}_id`];
+        setTimeout(() => {
+            animateMedia(mediaId);
+        }, mediaAnimationDelay);
+        button.textContent = "Ajouté";
+        button.disabled = true;
+    } catch (error) {
+        console.error(`Erreur ajout ${mediaName} :`, error);
+        alert(`Erreur pendant l'ajout du ${mediaName}.`);
+        button.disabled = false;
+        button.textContent = "Ajouter";
+    }
+}
 
-addAnimeSearch.addEventListener("input", () => {
-    handleMediaSearch(
-        addAnimeSearch,
-        addAnimeResults,
-        "/anime/search-anime",
-        (resultats) => {
-            displaySearchResultsMedia(
-                resultats,
-                addAnimeResults,
-                "anime",
-                "Titre original inconnu",
-                () => {}
-            );
-        },
-        300
+
+
+
+const addMediaTypes = [
+    {
+        type: "anime",
+        name: "animes",
+        searchUrl: "/anime/search-anime",
+        addUrl: "/anime/add-anime"
+    },
+    {
+        type: "film",
+        name: "films",
+        searchUrl: "/film/search-film",
+        addUrl: "/film/add-film"
+    },
+    {
+        type: "serie",
+        name: "series",
+        searchUrl: "/serie/search-serie",
+        addUrl: "/serie/add-serie"
+    }
+];
+
+addMediaTypes.forEach((media) => {
+
+    const searchInput = document.querySelector(
+        `#add-${media.type}-side-search`
     );
+
+    const searchResults = document.querySelector(
+        `#add-${media.type.charAt(0).toUpperCase() + media.type.slice(1)}-search-results`
+    );
+
+    searchInput.addEventListener("input", () => {
+
+        handleMediaSearch(
+            searchInput,
+            searchResults,
+            media.searchUrl,
+            (resultats) => {
+
+                displaySearchResultsMedia(
+                    resultats,
+                    searchResults,
+                    media.type,
+                    "Titre original inconnu",
+                    (event) => {
+
+                        handleAddMedia(
+                            event,
+                            media.addUrl,
+                            `/${media.type}/api`,
+                            () => {},
+                            null,
+                            media.type,
+                            media.name,
+                            "Titre original inconnu",
+                            () => {}
+                        );
+
+                    }
+                );
+
+            },
+            300
+        );
+
+    });
+
 });
