@@ -1,5 +1,3 @@
-const mediaAnimationDelay = 100;
-
 async function loadMedia(url, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle) {
     try {
         const response = await fetch(url);
@@ -50,10 +48,13 @@ function createMediaCard(media, typeMedia, unknownOriginalTitle) {
                         </p>
                     ` : ""}
                     ${media.suivi ? `
-                        <p class="saisons-media">
+                        <div class="saisons-media">
                             <img src="/static/icons/Eye.svg" alt="Vu">
-                            ${media.suivi.vus}/${media.suivi.total} saisons
-                        </p>
+                            ${media.suivi.total} saisons
+                            <div class="suivis-media">
+                                (${media.suivi.vus}/${media.suivi.total})
+                            </div>
+                        </div>
                     ` : ""}
                 </div>
             </a>

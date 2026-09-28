@@ -9,7 +9,7 @@
     position: relative;
     display: flex;
     gap: 3rem;
-    padding: 1rem;
+    margin: 1rem;
 }
 
 .details-media-detail {
@@ -102,7 +102,7 @@
 .image-description-media-detail {
     display: flex;
     gap: 1rem;
-    padding-left: 1rem;
+    margin-left: 1rem;
 }
 
 .image-description-media-detail p {
@@ -118,12 +118,13 @@
 
 .description-media-detail {
     text-align: justify;
-    padding-left: 1rem;
+    margin-left: 1rem;
 }
 
 .delete-button-media-detail {
     width: fit-content;
     padding: 0.5rem;
+    margin-left: 1rem;
     border: 2px solid var(--couleur_bordure);
     border-radius: 1rem;
     background-color: var(--couleur_barre);

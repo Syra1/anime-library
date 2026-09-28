@@ -1,3 +1,4 @@
+const mediaAnimationDelay = 100;
 
 const searchButton = document.querySelector("#search-button");
 const closeButton = document.querySelector("#close-button");
