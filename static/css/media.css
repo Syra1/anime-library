@@ -22,8 +22,9 @@
 }
 
 .list-media {
+    flex: 1;
     display: grid;
-    grid-template-columns: repeat(2, max-content);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     justify-content: center;
     align-items: start;
@@ -35,11 +36,51 @@
     row-gap: 1.5rem;
     background-color: var(--couleur_barre);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+.media-info {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.titres-media {
+    display: flex;
+    flex-direction: column;
+}
+
+.titres-media h1 {
+    font-size: 1.25rem;
+}
+
+.titres-media h2 {
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.auteur-media {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #666666;
+}
+
+.saisons-media {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .media-image img {
     height: 9em;
     width: auto;
+    transform: translateY(-10%);
+    border-radius: 0.25rem;
+    border: 2px solid var(--couleur_bordure);
 }
 
 .search-result-info {

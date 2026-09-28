@@ -36,12 +36,25 @@ function createMediaCard(media, typeMedia, unknownOriginalTitle) {
                     ${suivi}
                 </div>
                 <div class="media-info">
-                    <h2>
-                        ${titre}
-                    </h2>
-                    <p class="original-title">
-                        ${titreOriginal}
-                    </p>
+                    <div class="titres-media">
+                        <h1>
+                            ${titre}
+                        </h1>
+                        <h2>
+                            (${titreOriginal})
+                        </h2>
+                    </div>
+                    ${media.auteur ? `
+                        <p class="auteur-media">
+                            ${media.auteur}
+                        </p>
+                    ` : ""}
+                    ${media.suivi ? `
+                        <p class="saisons-media">
+                            <img src="/static/icons/Eye.svg" alt="Vu">
+                            ${media.suivi.vus}/${media.suivi.total} saisons
+                        </p>
+                    ` : ""}
                 </div>
             </a>
         </div>
