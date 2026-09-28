@@ -112,10 +112,9 @@
     z-index: 1;
 }
 
-.media-card-background:hover {
-    text-decoration: none;
-    color: inherit;
-    transform: scale(1.03);
+.media-image img {
+    height: 15em;
+    width: auto;
 }
 
 .media-info {
@@ -125,21 +124,6 @@
     align-items: flex-start;
     text-align: left;
     order: 2;
-}
-
-.media-image {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    order: 1;
-    width: 100%;
-}
-
-.media-image img {
-    width: 150px;
-    height: 225px;
-    object-fit: cover;
-    border-radius: 16px;
 }
 
 .original-title {
@@ -200,11 +184,12 @@
 .watch-container {
     position: relative;
     width: fit-content;
+    background-color: red;
 }
 
 .watch-list {
     display: none;
-    color: var(--couleur_barre);
+    color: var(--couleur_bordure);
     position: absolute;
     top: 100%;
     left: 0;
@@ -215,6 +200,7 @@
 
 .watch-list.visible {
     display: block;
+    color: var(--couleur_bordure);
 }
 
 .watch-button {
