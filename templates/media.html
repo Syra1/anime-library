@@ -4,8 +4,9 @@
     <link rel="stylesheet" href="/static/css/media.css">
 {% endblock %}
 
-<div class="page-{{ media_type }}-index">
-    <div class="watch-container">
+<div class="page-{{ type_media }} page-media"">
+    <div class="menu-container-media">
+        <h1>Liste de {{ media_type }}</h1>
         <button type="button" id="watch-button-{{ media_type }}" class="watch-button">
             A voir
         </button>
@@ -14,13 +15,13 @@
         <section id="watch-list-{{ media_type }}" class="watch-list">
             {% for media in a_voir %}
                 <div class="watch-item">
-                    <strong>{{ media }}</strong>
+                    {{ media }}
                 </div>
             {% endfor %}
         </section>
         {% endif %}
     </div>
-    <section id="{{ list_id }}" class="media-list">
+    <section id="{{ list_id }}" class="list-media">
         <p>
             {{ loading_text }}
             <!-- Les cards apparaissent ici -->

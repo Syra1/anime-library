@@ -11,9 +11,7 @@ from app.common.route_media import (
     serie_router,
 )
 
-
 app = FastAPI()
-
 
 # Fichiers statiques
 app.mount(
@@ -22,10 +20,8 @@ app.mount(
     name="static"
 )
 
-
 # Base de données
 create_tables()
-
 
 # Routes
 app.include_router(home_router)
