@@ -61,20 +61,3 @@ function displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle) {
 
     mediaList.innerHTML = mediaCards;
 }
-
-const watchButtons = document.querySelectorAll(".watch-button");
-
-watchButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        const mediaType = button.id.replace("watch-button-", "");
-        const watchList = document.querySelector(
-            `#watch-list-${mediaType}`
-        );
-
-        if (!watchList) {
-            return;
-        }
-
-        watchList.classList.toggle("visible");
-    });
-});

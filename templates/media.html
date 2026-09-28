@@ -1,15 +1,24 @@
-{% macro media_index(media_type, list_id, loading_text, a_voir) %}
+{% macro media_index(media_type, list_id, loading_text, a_voir, contenus) %}
 
 {% block styles %}
     <link rel="stylesheet" href="/static/css/media.css">
 {% endblock %}
 
-<div class="page-{{ type_media }} page-media"">
+<div class="page-{{ media_type }} page-media">
     <div class="menu-container-media">
-        <h1>Liste de {{ media_type }}</h1>
-        <button type="button" id="watch-button-{{ media_type }}" class="watch-button">
+        <h1>Liste de {{ media_type }}s</h1>
+        <div class="nombre-oeuvre-media">
+            {% if media_type == "anime" %}
+                <p>{{ contenus.animes }} œuvres</p>
+            {% elif media_type == "film" %}
+                <p>{{ contenus.films }} œuvres</p>
+            {% elif media_type == "serie" %}
+                <p>{{ contenus.series }} œuvres</p>
+            {% endif %}
+        </div>
+        <p>
             A voir
-        </button>
+        </p>
 
         {% if a_voir %}
         <section id="watch-list-{{ media_type }}" class="watch-list">

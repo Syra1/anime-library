@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 from starlette.requests import Request
-
+from app.common.database import compter_contenus
 from app.config import templates
 from app.common.media import MediaManager
 from app.common.media_a_voir import rechercher_a_voir
@@ -66,11 +66,14 @@ def creer_router_media(
             for contenu in a_voir[cle_a_voir]
         ]
 
+        contenus = compter_contenus()
+
         return templates.TemplateResponse(
             request=request,
             name=f"{template}/index.html",
             context={
-                "a_voir": noms_a_voir
+                "a_voir": noms_a_voir,
+                "contenus": contenus
             }
         )
 

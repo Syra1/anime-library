@@ -1,50 +1,50 @@
 .page-media {
     display: flex;
-    gap: 20rem;
+    gap: 3rem;
+    margin: 3rem;
 
 }
 
 .menu-container-media {
-    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.media-search::placeholder,
-.API-search::placeholder {
-    color: var(--couleur_bordure);
+.menu-container-media h1 {
+    font-size: 2.625rem;
+    text-transform: uppercase;
+}
+
+.nombre-oeuvre-media {
+    font-weight: bold;
+    font-size: 1.25rem;
 }
 
 .list-media {
     display: grid;
-    grid-template-columns: repeat(7, max-content);
+    grid-template-columns: repeat(2, max-content);
     gap: 1rem;
     justify-content: center;
     align-items: start;
 }
 
 .media-card {
-    width: fit-content;
-    background-color: var(--couleur_barre);
-    padding: 10px;
-    border-radius: 16px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    column-gap: 1rem;
+    row-gap: 1.5rem;
+    background-color: var(--couleur_barre);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .media-image img {
-    height: 15em;
+    height: 9em;
     width: auto;
 }
 
 .search-result-info {
     flex: 1;
 }
-
 
 .magic-card {
     position: relative;
@@ -62,38 +62,4 @@
     color: var(--couleur_barre);
     font-size: 0.9rem;
     text-shadow: 2px 2px 6px var(--couleur_bordure);
-}
-
-.watch-container {
-    position: relative;
-    width: fit-content;
-    background-color: red;
-}
-
-.watch-list {
-    display: none;
-    color: var(--couleur_bordure);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 10px;
-    z-index: 100;
-    background-color: var(--couleur_barre);
-}
-
-.watch-list.visible {
-    display: block;
-    color: var(--couleur_bordure);
-}
-
-.watch-button {
-    border: none;
-    font-size: 20px;
-    color: var(--couleur_barre);
-    background-color: var(--couleur_bordure);
-    padding: 5px 10px;
-    border-radius: 16px;
-    border-left: 3px solid var(--couleur_barre);
-    border-right: 3px solid var(--couleur_barre);
-    cursor: pointer;
 }
