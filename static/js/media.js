@@ -1,3 +1,9 @@
+const menuDeroulant = document.querySelector(".menu-deroulant-media");
+const boutonMenu = document.querySelector(".menu-deroulant-bouton");
+const optionsMenu = document.querySelectorAll(
+    ".menu-deroulant-options li"
+);
+
 async function loadMedia(url, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle) {
     try {
         const response = await fetch(url);
@@ -8,6 +14,19 @@ async function loadMedia(url, setMedia, mediaList, typeMedia, mediaName, unknown
         const medias = Array.isArray(resultats) ? resultats : [];
         setMedia(medias);
         displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle);
+        optionsMenu.forEach((option) => {
+            option.addEventListener("click", () => {
+                const filtre = option.dataset.value;
+                const mediasFiltres = filtrerMedias(medias, filtre);
+
+                displayMedia(
+                    mediasFiltres,
+                    mediaList,
+                    typeMedia,
+                    unknownOriginalTitle
+                );
+            });
+        });
     } catch (error) {
         console.error(`Erreur chargement ${mediaName} :`, error);
         mediaList.innerHTML = `<p> Impossible de charger les ${mediaName}. </p>`;
@@ -77,11 +96,6 @@ function displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle) {
 }
 
 // Menu déroulant
-
-const menuDeroulant = document.querySelector(".menu-deroulant-media");
-const boutonMenu = document.querySelector(".menu-deroulant-bouton");
-const optionsMenu = document.querySelectorAll(".menu-deroulant-options li");
-
 boutonMenu.addEventListener("click", () => {
     menuDeroulant.classList.toggle("ouvert");
 });
@@ -92,27 +106,23 @@ document.addEventListener("click", (event) => {
     }
 });
 
-optionsMenu.forEach((option) => {
-    option.addEventListener("click", () => {
-        const filtre = option.dataset.value;
-
-        console.log(filtre);
-    });
-});
-
 // Filtre menu déroulant 
 function filtrerMedias(medias, filtre) {
     let mediasFiltres = [...medias];
 
     if (filtre === "vu") {
         mediasFiltres = mediasFiltres.filter(
-            (media) => media.suivi.vus === media.suivi.total
+            (media) =>
+                media.suivi &&
+                media.suivi.vus === media.suivi.total
         );
     }
 
     if (filtre === "non-vu") {
         mediasFiltres = mediasFiltres.filter(
-            (media) => media.suivi.vus !== media.suivi.total
+            (media) =>
+                media.suivi &&
+                media.suivi.vus !== media.suivi.total
         );
     }
 
