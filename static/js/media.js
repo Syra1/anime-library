@@ -75,3 +75,18 @@ function displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle) {
 
     mediaList.innerHTML = mediaCards;
 }
+
+// Menu déroulant
+
+const menuDeroulant = document.querySelector(".menu-deroulant-media");
+const boutonMenu = document.querySelector(".menu-deroulant-bouton");
+
+boutonMenu.addEventListener("click", () => {
+    menuDeroulant.classList.toggle("ouvert");
+});
+
+document.addEventListener("click", (event) => {
+    if (!menuDeroulant.contains(event.target)) {
+        menuDeroulant.classList.remove("ouvert");
+    }
+});
