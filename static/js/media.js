@@ -1,8 +1,8 @@
 const menuDeroulant = document.querySelector(".menu-deroulant-media");
 const boutonMenu = document.querySelector(".menu-deroulant-bouton");
-const optionsMenu = document.querySelectorAll(
-    ".menu-deroulant-options li"
-);
+const optionsMenu = document.querySelectorAll(".menu-deroulant-options li");
+
+optionsMenu[0].style.display = "none";
 
 async function loadMedia(url, setMedia, mediaList, typeMedia, mediaName, unknownOriginalTitle) {
     try {
@@ -19,12 +19,16 @@ async function loadMedia(url, setMedia, mediaList, typeMedia, mediaName, unknown
                 const filtre = option.dataset.value;
                 const mediasFiltres = filtrerMedias(medias, filtre);
 
-                displayMedia(
-                    mediasFiltres,
-                    mediaList,
-                    typeMedia,
-                    unknownOriginalTitle
-                );
+                boutonMenu.querySelector("button").textContent = option.textContent;
+                menuDeroulant.classList.remove("ouvert");
+
+                optionsMenu.forEach((autreOption) => {
+                    autreOption.style.display = "block";
+                });
+
+                option.style.display = "none";
+
+                displayMedia(mediasFiltres, mediaList, typeMedia, unknownOriginalTitle);
             });
         });
     } catch (error) {
