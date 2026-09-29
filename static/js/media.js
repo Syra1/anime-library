@@ -117,7 +117,7 @@ function filtrerMedias(medias, filtre) {
     if (filtre === "vu") {
         mediasFiltres = mediasFiltres.filter(
             (media) =>
-                media.suivi &&
+                !media.suivi ||
                 media.suivi.vus === media.suivi.total
         );
     }
