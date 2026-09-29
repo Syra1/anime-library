@@ -18,9 +18,7 @@
         </div>
 
         <div class="menu-filtrer-media">
-
             <p>Trier par</p>
-
             <div class="menu-deroulant-media">
                 <div class="menu-deroulant-bouton">
                     <button type="button">
@@ -28,23 +26,16 @@
                     </button>
                     <img src="/static/icons/Fleche_bas.svg" alt="Fleche_bas">
                 </div>
-
-
                 <ul class="menu-deroulant-options">
                     <li data-value="">Tous</li>
-                    <li data-value="genre">Genre</li>
-                    <li data-value="annee">Année</li>
-                    <li data-value="note">Note</li>
+                    <li data-value="non-vu">Non vu</li>
+                    <li data-value="vu">Vus</li>
                 </ul>
-
             </div>
-
         </div>
-
         <p>
             A voir
         </p>
-
         {% if a_voir %}
         <section id="watch-list-{{ media_type }}" class="watch-list">
             {% for media in a_voir %}

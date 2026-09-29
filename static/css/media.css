@@ -149,7 +149,7 @@
 .media-image img {
     height: 9em;
     width: auto;
-    transform: translateY(-10%);
+    transform: translateY(-12%);
     border-radius: 0.25rem;
     border: 2px solid var(--couleur_bordure);
 }

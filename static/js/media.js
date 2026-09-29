@@ -80,6 +80,7 @@ function displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle) {
 
 const menuDeroulant = document.querySelector(".menu-deroulant-media");
 const boutonMenu = document.querySelector(".menu-deroulant-bouton");
+const optionsMenu = document.querySelectorAll(".menu-deroulant-options li");
 
 boutonMenu.addEventListener("click", () => {
     menuDeroulant.classList.toggle("ouvert");
@@ -90,3 +91,38 @@ document.addEventListener("click", (event) => {
         menuDeroulant.classList.remove("ouvert");
     }
 });
+
+optionsMenu.forEach((option) => {
+    option.addEventListener("click", () => {
+        const filtre = option.dataset.value;
+
+        console.log(filtre);
+    });
+});
+
+// Filtre menu déroulant 
+function filtrerMedias(medias, filtre) {
+    let mediasFiltres = [...medias];
+
+    if (filtre === "vu") {
+        mediasFiltres = mediasFiltres.filter(
+            (media) => media.suivi.vus === media.suivi.total
+        );
+    }
+
+    if (filtre === "non-vu") {
+        mediasFiltres = mediasFiltres.filter(
+            (media) => media.suivi.vus !== media.suivi.total
+        );
+    }
+
+    mediasFiltres.sort((a, b) =>
+        a.titre.localeCompare(
+            b.titre,
+            "fr",
+            { sensitivity: "base" }
+        )
+    );
+
+    return mediasFiltres;
+}
