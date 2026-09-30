@@ -87,16 +87,16 @@
 .list-media {
     flex: 1;
     display: grid;
+    column-gap: 1rem;
+    row-gap: 1.5rem;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
     justify-content: center;
     align-items: start;
 }
 
 .media-card {
     display: flex;
-    column-gap: 1rem;
-    row-gap: 1.5rem;
+    gap: 1rem;
     background-color: var(--couleur_barre);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 0.25rem;

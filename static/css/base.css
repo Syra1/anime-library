@@ -5,6 +5,11 @@
     --couleur_bordure: #000000;
 }
 
+::selection {
+    background-color: var(--couleur_bordure);
+    color: var(--couleur_fond);
+}
+
  /* Reset CSS */
 * {
     box-sizing: border-box;
