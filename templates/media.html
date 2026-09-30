@@ -9,11 +9,11 @@
         <h1>Liste de {{ media_type }}s</h1>
         <div class="nombre-oeuvre-media">
             {% if media_type == "anime" %}
-                <p>{{ contenus.animes }} œuvres</p>
+                <p id="nombre-oeuvre">{{ contenus.animes }} œuvres</p>
             {% elif media_type == "film" %}
-                <p>{{ contenus.films }} œuvres</p>
+                <p id="nombre-oeuvre">{{ contenus.films }} œuvres</p>
             {% elif media_type == "serie" %}
-                <p>{{ contenus.series }} œuvres</p>
+                <p id="nombre-oeuvre">{{ contenus.series }} œuvres</p>
             {% endif %}
         </div>
 

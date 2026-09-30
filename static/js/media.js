@@ -87,6 +87,17 @@ function createMediaCard(media, typeMedia, unknownOriginalTitle) {
 
 function displayMedia(medias, mediaList, typeMedia, unknownOriginalTitle) {
 
+    const nombreOeuvre = document.querySelector("#nombre-oeuvre");
+
+    if (nombreOeuvre) {
+        nombreOeuvre.textContent = `${medias.length} œuvres`;
+    }
+
+    if (medias.length === 0) {
+        mediaList.innerHTML = `<p>Aucun média trouvé.</p>`;
+        return;
+    }
+
     if (medias.length === 0) {
         mediaList.innerHTML = `<p>Aucun média trouvé.</p>`;
         return;
