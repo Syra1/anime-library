@@ -21,7 +21,7 @@
     font-size: 1.25rem;
 }
 
-.menu-filtrer-media p {
+.menu-trier-media p {
     font-size: 1rem;
     color: #666666;
     font-weight: bold;
@@ -83,6 +83,64 @@
 .menu-deroulant-media.ouvert .menu-deroulant-options {
     display: block;
 }
+
+.menu-filtrer-media {
+    border: 2px solid var(--couleur_bordure);
+    background-color: var(--couleur_barre);
+}
+
+.menu-filter-options {
+    display: flex;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    justify-content: space-around;
+    border-bottom: 2px solid var(--couleur_bordure);
+    background-color: var(--couleur_barre);
+}
+
+.menu-filter-options button {
+    cursor: pointer;
+}
+
+.menu-filtrer-icon {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.menu-filtrer-icon img {
+    align-self: flex-start;
+    transform: translate(25%, 25%);
+}
+
+.menu-filtrer-description {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-filtrer-description h1 {
+    font-size: 1.25rem;
+    text-transform: none;
+}
+
+.menu-filtrer-description p {
+    font-size: 0.8rem;
+    color: #666666;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .list-media {
     flex: 1;

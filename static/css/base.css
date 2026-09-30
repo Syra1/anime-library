@@ -153,8 +153,8 @@ html {
 .category-side-menu {
     list-style: none;
     display: flex;
-    margin-top: 1em;
-    padding: 1em;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
     border-bottom: 2px solid var(--couleur_bordure);
     justify-content: space-around;
     background-color: var(--couleur_barre);
