@@ -86,6 +86,10 @@ html {
     align-items: center;
 }
 
+.navbar-title span {
+    color: var(--couleur_noir);
+}
+
 .navbar-icons {
     display: flex;
     align-items: center;
