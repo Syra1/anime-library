@@ -46,7 +46,7 @@
     flex-direction: column;
     width: fit-content;
     gap: 1rem;
-    color: var(--couleur_bordure);
+    color: var(--couleur_noir);
     margin-bottom: 2rem;
 }
 
@@ -82,7 +82,7 @@
     padding: 0.25rem 0.5rem;
     border: 2px solid #666666;
     border-radius: 1rem;
-    background-color: var(--couleur_barre);
+    background-color: var(--couleur_blanc);
 }
 
 .season-list-media-detail {
@@ -90,7 +90,7 @@
     flex-direction: column;
     width: fit-content;
     gap: 1rem;
-    color: var(--couleur_bordure);
+    color: var(--couleur_noir);
 }
 
 .season-item-media-detail {
@@ -125,9 +125,9 @@
     width: fit-content;
     padding: 0.5rem;
     margin-left: 1rem;
-    border: 2px solid var(--couleur_bordure);
+    border: 2px solid var(--couleur_noir);
     border-radius: 1rem;
-    background-color: var(--couleur_barre);
-    color: var(--couleur_bordure);
+    background-color: var(--couleur_blanc);
+    color: var(--couleur_noir);
     cursor: pointer;
 }

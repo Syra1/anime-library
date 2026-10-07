@@ -27,11 +27,11 @@
 
     scroll-snap-align: center;
 
-    background-color: var(--couleur_barre);
+    background-color: var(--couleur_blanc);
     background-size: cover;
     background-position: center;
 
-    border: 2px solid var(--couleur_bordure);
+    border: 2px solid var(--couleur_noir);
 
     position: relative;
     overflow: visible;
@@ -43,7 +43,7 @@
     width: auto;
     position: relative;
     z-index: 1;
-    border: 2px solid var(--couleur_bordure);
+    border: 2px solid var(--couleur_noir);
     transition: transform 0.5s ease;
 }
 

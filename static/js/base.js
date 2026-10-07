@@ -431,3 +431,23 @@ addMediaTypes.forEach((media) => {
     });
 
 });
+
+
+// Bouton qui gere le mode jour/nuit pour les couleurs
+const couleurButton = document.querySelector("#couleur-button");
+const theme = localStorage.getItem("theme");
+
+if (theme) {
+    document.documentElement.dataset.theme = theme;
+}
+
+couleurButton.addEventListener("click", () => {
+    const themeActuel = document.documentElement.dataset.theme;
+
+    const nouveauTheme = themeActuel === "nuit"
+        ? "jour"
+        : "nuit";
+
+    document.documentElement.dataset.theme = nouveauTheme;
+    localStorage.setItem("theme", nouveauTheme);
+});
